@@ -1,0 +1,49 @@
+:root {
+    background-color: #f2f2f2;
+    --dynamic-color: linear-gradient(to right, #96f2d7, #63e6be) no-repeat left bottom;
+    --hover-background-color: #c3fae8;
+    --active-background-color: #96f2d7;
+
+
+    --border-color: #d2d0d0;
+    --card-border-shadow: 0px 0px 3px #ccc;
+    --dash-border-color: #eaeaea;
+    --fill-color: #f2f2f2;
+    --link-color: #636b91;
+    --code-bg--color: #e8dfdf;
+    --second-text-color: #343434;
+
+    --ant-primary-color: #439b79;
+    --colorBgContainer: #ffffff; /*主要容器背景色*/
+    --colorTextQuaternary: #777777; /*表单提示文字颜色  例如 placeholder  也可用于次要文字颜色*/
+    --colorPrimaryHover: #439b79; /*主色梯度下的悬浮态，使用频率很高  当鼠标移入textarea、input等元素时，会变色 */
+
+}
+
+html[data-theme="dark"] {
+    background-color: #151d1a;
+    color: #eaeaea;
+    --text-color: #fdfdfd;
+    --hover-color: #7fe1c4;
+
+
+    --hover-background-color: var(--bg-color);
+    --active-background-color: var(--bg-color);
+    --active-color: #63e6be;
+
+
+    --border-color: #4f4f4f;
+    --card-border-shadow: 0px 0px 5px #6b6868;
+    --dash-border-color: #464545;
+    --fill-color: #2d2d2d;
+    --link-color: #b2ecd9;
+    --code-bg--color: #2a2a2a;
+    --primary-color: #212121;
+    --second-text-color: #d5d4d4;
+
+    --ant-primary-color: #232323;
+
+    --colorBgContainer: #232323;
+    --colorTextQuaternary: #727070;
+    --colorPrimaryHover: #4ab793;
+}

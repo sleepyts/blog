@@ -1,0 +1,19 @@
+@import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+@media (max-width: 768px) {
+    *{
+        font-size: 14px;
+    }
+    .mobile-hidden{
+        display: none;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat','LXGW WenKai Screen',sans-serif;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+}

@@ -1,0 +1,40 @@
+server.port:
+  8080
+spring:
+  application:
+    name: 未月拾叁
+  datasource:
+    url: jdbc:mysql://localhost:3306/blog?useSSL=false
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  task:
+    execution:
+      pool:
+        core-size: 10          # 核心线程数
+        max-size: 50           # 最大线程数
+        queue-capacity: 2500    # 队列容量
+        keep-alive: 10s        # 线程空闲时间
+      thread-name-prefix: AsyncExecutor-  # 线程名称前缀
+
+  jackson:
+      default-property-inclusion: non_null # JSON处理时忽略非空字段
+  data:
+    redis:
+        host: 127.0.0.1
+        port: 6379
+        lettuce:
+          pool:
+            max-active: 10
+            max-idle: 10
+            min-idle: 1
+            time-between-eviction-runs: 10s
+
+# 自定义配置
+config:
+  redis:
+    redisDeleteDelay: 100
+  ipXbd:
+    path: D:\beifen\Redis\blog-server\ip2region.xdb
+
