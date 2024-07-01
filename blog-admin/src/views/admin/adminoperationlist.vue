@@ -1,21 +1,56 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import {message} from "ant-design-vue";
-import {deleteException, getException} from "@/api/exception.js";
 import {deleteOperation, getOperation} from "@/api/operation.js";
+import dayjs from "dayjs";
 const data = ref([]);
-const columns = [
+const rangePresets = ref([
   {
-    title: 'Id',
-    dataIndex: 'id',
+    label: '最近7天',
+    value: [dayjs().add(-7, 'd'), dayjs()],
   },
   {
-    title: '操作用户',
+    label: '最近14天',
+    value: [dayjs().add(-14, 'd'), dayjs()],
+  },
+  {
+    label: '最近30天',
+    value: [dayjs().add(-30, 'd'), dayjs()],
+  },
+  {
+    label: '最近90天',
+    value: [dayjs().add(-90, 'd'), dayjs()],
+  },
+]);
+const onRangeChange = (dates, dateStrings) => {
+  if (dates) {
+    const start=new Date(dateStrings[0])
+    const end=new Date(dateStrings[1])
+    start.setHours(0,0,0,0)
+    end.setHours(23,59,59,999)
+    getOperation(start, end).then(res => {
+      if(res.data.code === 200)
+        data.value = res.data.data;
+      else message.error(res.data.message);
+    })
+  }else{
+    getOperation().then(res => {
+      if(res.data.code === 200)
+        data.value = res.data.data;
+      else message.error(res.data.message);
+    })
+  }
+};
+const columns = [
+  {
+    title: '用户',
     dataIndex: 'username',
+    width: 80,
   },
   {
     title: '操作方式',
     dataIndex: 'operationName',
+    width: 100,
   },
   {
     title: 'ip',
@@ -32,6 +67,7 @@ const columns = [
   {
     title: '操作时间',
     dataIndex: 'operationTime',
+    width: 180,
   },
   {
     title: '操作',
@@ -60,11 +96,17 @@ const handleDelete = (id) => {
 </script>
 
 <template>
+  <a-space direction="vertical" :size="12">
+    <a-range-picker :presets="rangePresets" @change="onRangeChange" />
+  </a-space>
   <a-table
       :columns="columns"
       :data-source="data"
   >
     <template #bodyCell="{column, record}">
+      <template v-if="column.title === '操作时间'">
+        <span>{{new Date(record.operationTime).toLocaleString()}}</span>
+      </template>
       <template v-if="column.key === 'action'">
           <span>
             <a-divider type="vertical" />

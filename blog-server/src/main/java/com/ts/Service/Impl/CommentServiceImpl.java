@@ -124,6 +124,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @param id: Long
      * @return: Result<String>
      */
+    @RequestLog
     public Result deleteCommentById(Long id) {
         // id of comment
         Long blogId = query().eq("id", id).one().getBlogId();
@@ -144,6 +145,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @param blogId: Long
      * @return: Result<String>
      */
+
     public Result deleteCommentByBlogId(Long blogId) {
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("blog_id", blogId);

@@ -85,14 +85,14 @@ const routes = [
                 ,breadcrumbName: '应用管理'
             },
             {
-                path: 'setting/about'
+                path: 'setting'
 
-                ,name: 'AdminSettingAbout'
-                ,component: () => import('../views/admin/adminsettingabout.vue')
+                ,name: 'AdminSetting'
+                ,component: () => import('../views/admin/adminsetting.vue')
                 ,meta: {
-                    title: '关于页面设置'
+                    title: '页面设置'
                 }
-                ,breadcrumbName: '关于页面设置'
+                ,breadcrumbName: '页面设置'
             },
             {
                 path: 'dashboard'
@@ -103,6 +103,15 @@ const routes = [
                     title: '仪表盘'
                 }
                 ,breadcrumbName: '仪表盘'
+            },
+            {
+                path: 'visitor/list'
+                ,name: 'AdminVisitorList'
+                ,component: () => import('../views/admin/VisitorList.vue')
+                ,meta: {
+                    title: '访客列表'
+                }
+                ,breadcrumbName: '访客列表'
             }
         ],
     },

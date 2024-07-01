@@ -3,8 +3,10 @@ package com.ts.Service.Impl;
 import com.ts.Entity.ExceptionLog;
 import com.ts.Entity.OperationLog;
 import com.ts.Entity.Result;
+import com.ts.Entity.Visitor;
 import com.ts.Mapper.ExceptionLogMapper;
 import com.ts.Mapper.OperationLogMapper;
+import com.ts.Mapper.VisitorMapper;
 import com.ts.Service.IExceptionLogService;
 import com.ts.Service.IOperationLogService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +17,14 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 
 import static com.ts.Constants.RedisConstants.PV_CACHE_KEY;
 import static com.ts.Constants.RedisConstants.UV_CACHE_KEY;
+import static com.ts.Utils.ipAddressUtils.getCityInfo;
 
 @Service
 @Slf4j
@@ -32,6 +37,9 @@ public class LogService implements IOperationLogService, IExceptionLogService {
     private ExceptionLogMapper exceptionLogMapper;
 
     @Autowired
+    private VisitorMapper visitorMapper;
+
+    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
     @Async
@@ -41,7 +49,7 @@ public class LogService implements IOperationLogService, IExceptionLogService {
         if(method!=null&&ip!=null&&!Objects.equals(method, "GET")&&!classMethod.equals("deleteOperationLogById")&&!classMethod.equals("login")){
             logAdminRequest(method, ip, classMethod, joinPoint.getArgs(), adminName, userAgent);
         }
-        //TODO: 记录访问者日志
+        //记录访客日志
         if (ip != null) {
             redisTemplate.opsForSet().add(UV_CACHE_KEY, ip);
             logVisitor(ip, userAgent);
@@ -65,7 +73,21 @@ public class LogService implements IOperationLogService, IExceptionLogService {
     }
 
     private void logVisitor(String ip, String userAgent) {
-
+        Boolean isNewVisitor=!visitorMapper.isContains(ip);
+        if(Boolean.TRUE.equals(isNewVisitor)){
+            Visitor visitor=new Visitor();
+            visitor.setIp(ip);
+            visitor.setUserAgent(userAgent);
+            visitor.setFirstVisitTime(LocalDateTime.now());
+            visitor.setLastVisitTime(LocalDateTime.now());
+            visitor.setAddress(getCityInfo(ip));
+            visitorMapper.insert(visitor);
+        }
+        else{
+            Visitor visitor=visitorMapper.selectByIp(ip);
+            visitor.setLastVisitTime(LocalDateTime.now());
+            visitorMapper.updateLastVisit(visitor);
+        }
     }
 
     private void logAdminRequest(String method, String ip, String classMethod, Object[] args, String adminName, String userAgent) {
@@ -87,8 +109,12 @@ public class LogService implements IOperationLogService, IExceptionLogService {
     }
 
     @Override
-    public Result getExceptionLogList() {
-        return Result.success(exceptionLogMapper.selectList(null));
+    public Result getExceptionLogList(LocalDate startTime, LocalDate endTime) {
+        startTime=startTime==null?LocalDate.of(2005,7,24):startTime;
+        endTime=endTime==null?LocalDate.now():endTime;
+        LocalDateTime start=LocalDateTime.of(startTime,LocalTime.MIN);
+        LocalDateTime end=LocalDateTime.of(endTime,LocalTime.MAX);
+        return Result.success(exceptionLogMapper.selectByTime(start, end));
     }
 
     @Override
@@ -99,10 +125,11 @@ public class LogService implements IOperationLogService, IExceptionLogService {
     }
 
     @Override
-    public Result getOperationLog() {
-        return Result.success(operationLogMapper.selectList(null));
+    public Result getOperationLog(LocalDateTime startTime, LocalDateTime endTime) {
+        startTime=startTime==null?LocalDateTime.of(2005,7,24,0,0):startTime;
+        endTime=endTime==null?LocalDateTime.now():endTime;
+        return Result.success(operationLogMapper.selectByTime(startTime, endTime));
     }
-
     @Override
     public Result deleteOperationLog(Integer id) {
         boolean success=operationLogMapper.deleteById(id)>0;

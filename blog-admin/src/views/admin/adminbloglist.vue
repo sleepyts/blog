@@ -11,7 +11,12 @@
         :columns="columns" `
         :data-source="data"
     >
+
+
       <template #bodyCell="{column, record}">
+        <template v-if="column.title === '发表日期'">
+          <span>{{new Date(record.createTime).toLocaleString()}}</span>
+        </template>
         <template v-if="column.title === '封面'">
           <a-image v-if="record.img" :src="record.img" :width=100 alt="cover"/>
           <span v-else>无</span>
@@ -60,6 +65,7 @@ const columns = [
   {
     title: '发表日期',
     dataIndex: 'createTime',
+    width: 170,
   },
   {
     title: '操作',

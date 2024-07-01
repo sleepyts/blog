@@ -1,6 +1,7 @@
 package com.ts.Service.Impl;
 
 
+import com.ts.Annotation.RequestLog;
 import com.ts.Entity.Result;
 import com.ts.Entity.Settings;
 import com.ts.Mapper.SettingsMapper;
@@ -24,6 +25,7 @@ public class SettingsServiceImpl implements SettingsService {
     @Autowired
     private RedissonClient redissonClient;
     @Override
+    @RequestLog
     public Result getSettings() {
         String key=SETTINGS_CACHE_KEY;
         String lockKey=SETTINGS_CACHE_LOCK;
@@ -43,6 +45,7 @@ public class SettingsServiceImpl implements SettingsService {
     }
 
     @Override
+    @RequestLog
     public Result updateSettings(Settings settings) {
         String key=SETTINGS_CACHE_KEY;
         settingsMapper.updateSettings(settings);

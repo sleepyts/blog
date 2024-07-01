@@ -7,6 +7,7 @@ import com.ts.Service.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,7 +22,7 @@ public class SettingsController {
     }
 
     @PutMapping("/admin/settings")
-    public Result updateSettings(Settings settings) {
+    public Result updateSettings(@RequestBody Settings settings) {
         return settingsService.updateSettings(settings);
     }
 }

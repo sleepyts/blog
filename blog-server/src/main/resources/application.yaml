@@ -30,11 +30,13 @@ spring:
             max-idle: 10
             min-idle: 1
             time-between-eviction-runs: 10s
-
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # 自定义配置
 config:
   redis:
     redisDeleteDelay: 100
   ipXbd:
-    path: D:\beifen\Redis\blog-server\ip2region.xdb
+    path: D:\IdeaProjects\blog\blog-server\ip2region.xdb
 

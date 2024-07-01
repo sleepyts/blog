@@ -58,12 +58,18 @@
         <a-menu-item key="4" @click="$router.push('/app')">
           <span>应用管理</span>
         </a-menu-item>
-        <a-sub-menu key="5">
-          <template #title>
+        <a-menu-item key="5" @click="$router.push('/setting')">
             <span>页面设置</span>
+        </a-menu-item>
+        <a-sub-menu key="6">
+          <template #title>
+            <span>
+              <span>访客管理</span>
+            </span>
           </template>
-          <a-menu-item key="5-1" @click="$router.push('/setting/about')">
-            <span>关于我</span>
+          <a-menu-item key="6-1" @click="$router.push('/visitor/list')">
+            <ReadOutlined/>
+            <span>访客列表</span>
           </a-menu-item>
         </a-sub-menu>
       </a-menu>

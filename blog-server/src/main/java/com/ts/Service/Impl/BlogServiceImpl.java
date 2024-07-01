@@ -134,6 +134,7 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
      */
     @Override
     @Transactional
+    @RequestLog
     public Result addBlog(Blog blog) {
         blog.setCreateTime(LocalDateTime.now());
         blog.setUpdateTime(LocalDateTime.now());
@@ -149,6 +150,7 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
      */
     @Override
     @Transactional
+    @RequestLog
     public Result updateBlog(Blog blog) {
         blog.setUpdateTime(LocalDateTime.now());
         updateById(blog);
@@ -164,6 +166,7 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
      */
     @Override
     @Transactional
+    @RequestLog
     public Result deleteBlog(Long id) {
         // To delete the file from OSS
         //It has been abandoned because the files are uploaded to other place.

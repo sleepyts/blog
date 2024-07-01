@@ -12,6 +12,9 @@
       :data-source="data"
   >
     <template #bodyCell="{column, record}">
+      <template v-if="column.title === '创建时间'">
+        <span>{{new Date(record.createTime).toLocaleString()}}</span>
+      </template>
       <template v-if="column.key === 'action'">
           <span>
             <a-divider type="vertical" />
@@ -58,6 +61,7 @@ const columns = [
   {
     title: '昵称',
     dataIndex: 'name',
+    width: 120,
   },
   {
     title: '内容',
@@ -74,6 +78,7 @@ const columns = [
   {
     title: '创建时间',
     dataIndex: 'createTime',
+    width: 180,
   },
   {
     title: '操作',

@@ -93,6 +93,7 @@ export default {
         })
     },
     async getBlogList({commit, rootState}) {
+        if(state.blogList.length !== 0) return
         await getBlogList().then(res => {
             if (res.data.code === 200) {
                 commit('SET_BLOG_LIST', res.data.data)

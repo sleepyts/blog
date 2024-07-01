@@ -86,6 +86,7 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
      * @return Result
      */
     @Override
+    @RequestLog
     public Result addRecord(Blog blog) {
         Record record = new Record();
         record.setTitle(blog.getTitle());
@@ -104,6 +105,7 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
      * @return Result
      */
     @Override
+    @RequestLog
     public Result deleteRecordByBlogId(Long blogId) {
         this.remove(new QueryWrapper<Record>().eq("blog_id", blogId));
         redisService.delayDeleteTwice(RECORD_CACHE_KEY);
@@ -116,6 +118,7 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
      * @return Result
      */
     @Override
+    @RequestLog
     public Result updateRecord(Blog blog) {
         Record record = new Record();
         record.setBlogId(blog.getId());

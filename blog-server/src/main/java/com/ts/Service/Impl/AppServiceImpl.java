@@ -54,6 +54,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements IAppS
     }
 
     @Override
+    @RequestLog
     public Result addApp(App app) {
         this.save(app);
         redisService.delayDeleteTwice(APP_CACHE_KEY);
@@ -61,6 +62,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements IAppS
     }
 
     @Override
+    @RequestLog
     public Result deleteApp(Long id) {
         this.removeById(id);
         redisService.delayDeleteTwice(APP_CACHE_KEY);
@@ -68,6 +70,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements IAppS
     }
 
     @Override
+    @RequestLog
     public Result updateApp(App app) {
         this.updateById(app);
         redisService.delayDeleteTwice(APP_CACHE_KEY);

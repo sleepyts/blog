@@ -6,7 +6,11 @@ import com.ts.Service.IOperationLogService;
 import com.ts.Service.Impl.LogService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/admin/operation")
@@ -16,8 +20,12 @@ public class OperationController {
     private LogService logService;
 
     @GetMapping("")
-    public Result getOperationLog() {
-        return logService.getOperationLog();
+    public Result getOperationLog(@RequestParam(value = "start", required = false)
+                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                  LocalDateTime start,
+                                  @RequestParam(value = "end", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                  LocalDateTime end) {
+        return logService.getOperationLog(start, end);
     }
 
     @DeleteMapping("/{id}")

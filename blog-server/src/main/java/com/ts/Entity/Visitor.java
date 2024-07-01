@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName
+@TableName("tb_visitor")
 public class Visitor implements java.io.Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -23,10 +23,8 @@ public class Visitor implements java.io.Serializable {
     private Integer id;
     private String ip;
     private String address;
-    private String browser;
-    private String os;
+    private String userAgent;
     private LocalDateTime firstVisitTime;
     private LocalDateTime lastVisitTime;
-    private Integer visitCount;
-    private String userAgent;
+
 }
