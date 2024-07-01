@@ -6,3 +6,10 @@ export function getVisitor() {
         method: 'GET'
     })
 }
+
+export function deleteVisitor(id) {
+    return MyAxios({
+        url: `/api/admin/visitor/${id}`,
+        method: 'DELETE'
+    })
+}

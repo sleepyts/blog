@@ -20,7 +20,7 @@ const commentForm=computed(()=>{
 const props = defineProps({
   blogId: {
     type:Number,
-    required: true
+    required: false
   },
 })
 provide("containImg",containImg);
@@ -38,21 +38,7 @@ const submitComment =  () => {
   <div class="comments" >
     <div class="guestbook mt-5"  >
       <div class="commentsInputs">
-        <a-config-provider
-            :theme="{
-          token: {
-            colorText: 'var(--text-color)',
-            colorBgContainer: 'var(--colorBgContainer)',
-            colorBgElevated:'var(--colorBgContainer)',
-            colorTextQuaternary: 'var(--colorTextQuaternary)',
-            colorPrimaryHover: 'var(--colorPrimaryHover)',
-            borderRadius:'3px',
-            fontFamily: '\'Montserrat \',\'LXGW WenKai Screen\', sans-serif;'
-          }
-        }"
-        >
-        </a-config-provider>
-        <MdEditor  v-model="commentForm.content" :preview-theme="'vuepress'" :toolbars="['bold','italic','strike','heading','link','codeRow','code','fullscreen','quote']" :maxLength=500  style="margin-top: 10px;height: 200px;" />
+        <MdEditor  v-model="commentForm.content" :preview-theme="'vuepress'" :toolbars="[]" :maxLength=500  style="margin-top: 10px;height: 200px;" :preview=false />
       </div>
       <div class="infoInputs">
         <div class="info">

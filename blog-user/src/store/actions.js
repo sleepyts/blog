@@ -5,7 +5,6 @@ import {getVerify} from "@/api/verify.js";
 import {message} from "ant-design-vue";
 import '../assets/message.css'
 import store from "@/store/index.js";
-import {onRequestPost} from "@/api/upload-2.0.js";
 
 export default {
     changeTheme() {

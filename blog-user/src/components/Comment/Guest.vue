@@ -65,9 +65,11 @@ onMounted(() => {
     <div class="guestbook mt-5">
       <div class="commentsInputs">
         <MdEditor v-model="commentForm.content" :preview-theme="'vuepress'"
-                  :toolbars="['bold','italic','strike','heading','link','codeRow','code','fullscreen','quote']"
+                  :toolbars="[]"
                   :maxLength=500 style="margin-top: 10px;height: 200px;"
-                  ref="mdEditor"/>
+                  ref="mdEditor"
+                  :preview=false
+        />
       </div>
       <div class="infoInputs">
         <div class="info">

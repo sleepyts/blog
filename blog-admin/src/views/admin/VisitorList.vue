@@ -1,6 +1,7 @@
 <script setup>
 import {onMounted, ref} from 'vue';
-import {getVisitor} from "@/api/visitor.js";
+import {deleteVisitor, getVisitor} from "@/api/visitor.js";
+import {message} from "ant-design-vue";
 
 const data = ref([]);
 const columns = [
@@ -16,6 +17,7 @@ const columns = [
   {
     title: 'user-Agent',
     dataIndex: 'userAgent',
+    ellipsis: true,
   },
   {
     title: '首次访问',
@@ -30,6 +32,7 @@ const columns = [
   {
     title: '操作',
     key: 'action',
+    width: 100,
   }
 ];
 onMounted(async () => {
@@ -38,6 +41,14 @@ onMounted(async () => {
 const getData = () => {
   getVisitor().then(res => {
     if(res.data.code === 200) data.value = res.data.data;
+  })
+}
+const handleDelete = (id) => {
+  deleteVisitor(id).then(res => {
+    if(res.data.code === 200) {
+      getData();
+      message.success('删除成功');
+    }
   })
 }
 </script>

@@ -32,8 +32,10 @@ const columns = [
 ];
 onMounted(() => {
   getException().then(res => {
-    if(res.data.code === 200)
+    if(res.data.code === 200){
       data.value = res.data.data;
+    }
+
     else message.error(res.data.message);
   })
 })
@@ -54,7 +56,7 @@ const handleDelete = (id) => {
 <template>
   <a-table
       :columns="columns"
-      :data-source="data"
+      :data-source=data
   >
     <template #bodyCell="{column, record}">
       <template v-if="column.key === 'action'">

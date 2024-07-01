@@ -91,9 +91,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 //        RLock lock=redissonClient.getLock(COMMENT_CACHE_LOCK+id);
 //        Boolean isLockable=lock.tryLock();
         List<Comment> commentList = query().eq("blog_id", id).list();
-        for (Comment comment : commentList) {
-            fromEntToVO(commentVOList, comment);
-        }
+        commentVOList=fromEntToVo(commentList);
         commentVOList.sort((o1, o2) -> {
             LocalDateTime createTime1 = o2.getCreateTime();
             LocalDateTime createTime2 = o1.getCreateTime();
@@ -199,11 +197,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                     .eq("reply_id", -1)
                     .orderByDesc("create_time"));
 
-            // 将查询结果转换为VO对象
-            for (Comment comment : comments.getRecords()) {
-                if(comment.getUrl()==null) comment.setUrl("");
-                fromEntToVO(commentVOList, comment);
-            }
+            commentVOList=fromEntToVo(comments.getRecords());
 
             // 构建返回的PageVO对象
             pageEntity = new PageVO();
@@ -223,29 +217,16 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return Result.success(pageEntity);
     }
 
-    /**
-     * transform entity to vo
-     * @param commentVOList the list of vo
-     * @param comment the entity of comment
-     */
-    private void fromEntToVO(List<CommentVO> commentVOList, Comment comment) {
-        CommentVO commentVO = new CommentVO();
-        BeanUtils.copyProperties(comment, commentVO);
-        List<Comment> replyList = query().eq("reply_id", comment.getId()).list();
-        List<CommentVO> replyVOList = new ArrayList<>();
-        for (Comment reply : replyList) {
-            CommentVO replyVO = new CommentVO();
-            BeanUtils.copyProperties(reply, replyVO);
-            replyVO.setReplyList(null);
-            replyVOList.add(replyVO);
+    private List<CommentVO> fromEntToVo(List<Comment> comments){
+        List<CommentVO> commentVOList=new ArrayList<>();
+        for(Comment comment:comments){
+            CommentVO commentVO=new CommentVO();
+            BeanUtils.copyProperties(comment,commentVO);
+            List<Comment> replyList=query().eq("reply_id",comment.getId()).list();
+            commentVO.setReplyList(fromEntToVo(replyList));
+            commentVOList.add(commentVO);
         }
-        replyVOList.sort((o1, o2) -> {
-            LocalDateTime replyCreateTime1 = o2.getCreateTime();
-            LocalDateTime replyCreateTime2 = o1.getCreateTime();
-            return replyCreateTime1.compareTo(replyCreateTime2);
-        });
-        commentVO.setReplyList(replyVOList);
-        commentVOList.add(commentVO);
+        return commentVOList;
     }
 
     /**

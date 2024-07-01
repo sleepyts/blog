@@ -15,7 +15,6 @@
           <svg
               xml:space="preserve"
               viewBox="0 0 189.929 189.929"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
               xmlns="http://www.w3.org/2000/svg"
               version="1.1"
               class="curve_svg"

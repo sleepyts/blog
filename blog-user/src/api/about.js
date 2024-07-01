@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 export function getAboutData(){
     return axios({
         method: 'get',

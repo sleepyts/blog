@@ -108,12 +108,10 @@ public class LogService implements IOperationLogService, IExceptionLogService {
     }
 
     @Override
-    public Result getExceptionLogList(LocalDate startTime, LocalDate endTime) {
-        startTime=startTime==null?LocalDate.of(2005,7,24):startTime;
-        endTime=endTime==null?LocalDate.now():endTime;
-        LocalDateTime start=LocalDateTime.of(startTime,LocalTime.MIN);
-        LocalDateTime end=LocalDateTime.of(endTime,LocalTime.MAX);
-        return Result.success(exceptionLogMapper.selectByTime(start, end));
+    public Result getExceptionLogList(LocalDateTime startTime, LocalDateTime endTime) {
+        startTime=startTime==null?LocalDateTime.of(2005,7,24,0,0):startTime;
+        endTime=endTime==null?LocalDateTime.now():endTime;
+        return Result.success(exceptionLogMapper.selectByTime(startTime, endTime));
     }
 
     @Override

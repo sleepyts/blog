@@ -15,4 +15,5 @@ public interface ICommentService extends IService<Comment> {
     Result deleteCommentByBlogId(Long blogId);
 
     Result getCommentByPage(Long id, Integer page, Integer size);
+
 }

@@ -39,7 +39,7 @@ onMounted(async () => {
         <a v-if="props.comment.url&&props.comment.url!==''" :href=props.comment.url target="_blank" class="name link"
            id="randomColorLink" >{{ props.comment.name }}</a>
         <span v-else class="name" >{{ props.comment.name }}</span>
-        <span class="date" style="font-weight: 400;font-size:1em">{{ time }}</span>
+        <span class="date" style="font-weight: 400;font-size:0.7em;color: var(--second-text-color);">{{ time }}</span>
         <svg viewBox="0 0 1024 1024" class="icon-reply" @click="handleReply">
           <path
               d="M810.667 213.333a64 64 0 0 1 64 64V704a64 64 0 0 1-64 64H478.336l-146.645 96.107a21.333 21.333 0 0 1-33.024-17.856V768h-85.334a64 64 0 0 1-64-64V277.333a64 64 0 0 1 64-64h597.334zm0 64H213.333V704h149.334v63.296L459.243 704h351.424V277.333zm-271.36 213.334v64h-176.64v-64h176.64zm122.026-128v64H362.667v-64h298.666z"></path>
@@ -52,9 +52,6 @@ onMounted(async () => {
         <Reply :blog-id="-1"></Reply>
       </div>
       <div class="line"></div>
-      <div v-if="props.comment.replyList.length > 0">
-        <span style="font-size:14px;font-weight:600">{{ props.comment.replyList.length }}条回复</span>
-      </div>
       <div class="replylist"
            style="display: flex;flex-direction: row;position: relative;height:auto;margin-left: 10px;">
         <div style=" position: absolute;
@@ -64,9 +61,9 @@ onMounted(async () => {
   height: 90%;
   border-left:2px dashed var(--dash-border-color); ">
         </div>
-        <div style="width: 90%;">
+        <div style="width: 100%;">
           <div v-for="reply in props.comment.replyList" class="reply-item">
-            <ReplyCard :comment="reply"></ReplyCard>
+            <ReplyCard :is-first=true :reply-name="props.comment.name" :comment="reply"></ReplyCard>
           </div>
         </div>
       </div>
@@ -153,6 +150,7 @@ onMounted(async () => {
 
 .reply-item {
   margin-top: 10px;
+  margin-left: 10px;
 }
 
 

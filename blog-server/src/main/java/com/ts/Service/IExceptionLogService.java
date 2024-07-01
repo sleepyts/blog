@@ -4,11 +4,12 @@ import com.ts.Entity.ExceptionLog;
 import com.ts.Entity.Result;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface IExceptionLogService{
     Result saveExceptionLog(ExceptionLog exceptionLog);
 
-    Result getExceptionLogList(LocalDate startDate, LocalDate endDate);
+    Result getExceptionLogList(LocalDateTime startDate, LocalDateTime endDate);
 
     Result deleteExceptionLog(Integer id);
 }
