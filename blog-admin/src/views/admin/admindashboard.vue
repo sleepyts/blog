@@ -33,9 +33,10 @@
   </div>
 </template>
 <script setup>
-import {ref, onMounted} from 'vue'
+import {onMounted, ref} from 'vue'
 import {getPV, getTotalArticle, getTotalComment, getUV} from "@/api/dashboard.js";
 import {PieChartOutlined, UserOutlined} from '@ant-design/icons-vue'
+
 const uv = ref()
 const pv = ref()
 const totalArticle = ref()

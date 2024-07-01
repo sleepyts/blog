@@ -45,9 +45,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { createApp, deleteApp, getApps, updateApp } from "@/api/app";
-import { message } from "ant-design-vue";
+import {onMounted, ref} from "vue";
+import {createApp, deleteApp, getApps, updateApp} from "@/api/app";
+import {message} from "ant-design-vue";
+
 const data = ref([]);
 const newOpen = ref(false);
 const editOpen = ref(false);

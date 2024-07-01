@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import {onMounted, ref, watch} from 'vue';
 import {message} from "ant-design-vue";
 import {deleteComment, getComment} from "@/api/comment.js";
 import {getBlogThumbnail} from "@/api/blog.js";

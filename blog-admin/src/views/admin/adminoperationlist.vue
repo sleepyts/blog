@@ -1,8 +1,9 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import {onMounted, ref} from 'vue';
 import {message} from "ant-design-vue";
 import {deleteOperation, getOperation} from "@/api/operation.js";
 import dayjs from "dayjs";
+
 const data = ref([]);
 const rangePresets = ref([
   {

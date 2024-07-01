@@ -3,7 +3,6 @@ package com.ts.Mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ts.Entity.Blog;
 import com.ts.Entity.VO.BlogVO;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;

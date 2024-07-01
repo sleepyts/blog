@@ -84,13 +84,8 @@
   </a-layout>
 </template>
 <script setup>
-import {onMounted, ref} from 'vue';
-import {
-  SwitcherOutlined,
-  ReadOutlined,
-  EditOutlined,
-  FormOutlined
-} from '@ant-design/icons-vue';
+import {ref} from 'vue';
+import {EditOutlined, FormOutlined, ReadOutlined, SwitcherOutlined} from '@ant-design/icons-vue';
 
 const selectedKeys = ref(['1']);
 </script>

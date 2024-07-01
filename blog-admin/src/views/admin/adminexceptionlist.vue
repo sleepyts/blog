@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import {onMounted, ref} from 'vue';
 import {message} from "ant-design-vue";
 import {deleteException, getException} from "@/api/exception.js";
+
 const data = ref([]);
 const columns = [
   {

@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue';
+import {onMounted, ref} from 'vue';
 import {addCategory, deleteCategory, getCategories, updateCategory} from "@/api/category.js";
 import {message} from "ant-design-vue";
 

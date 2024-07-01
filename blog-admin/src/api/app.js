@@ -1,4 +1,3 @@
-import axios from "axios";
 import myAxios from "@/utils/myAxios.js";
 
 export function getApps(){

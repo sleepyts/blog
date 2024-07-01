@@ -35,7 +35,7 @@
   </div>
 </template>
 <script setup>
-import { provide, onMounted, ref} from 'vue';
+import {onMounted, provide, ref} from 'vue';
 import {message} from "ant-design-vue";
 import {deleteBlog, getBlog} from "@/api/blog.js";
 import Adminblogedit from "@/views/admin/adminblogedit.vue";

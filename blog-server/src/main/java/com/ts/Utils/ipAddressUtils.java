@@ -2,14 +2,12 @@ package com.ts.Utils;
 
 
 import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpServletRequest;
 import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.lionsoul.ip2region.xdb.Searcher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 /**

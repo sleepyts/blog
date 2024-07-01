@@ -26,11 +26,11 @@
 <script setup>
 import {onMounted, ref, toRaw, watch} from 'vue';
 import {message} from "ant-design-vue";
-import { MdEditor } from 'md-editor-v3';
+import {MdEditor} from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import {getCategories} from "@/api/category.js";
 import {onRequestPost} from "@/api/upload-2.0.js";
-import {addBlog, getBlogContent, updateBlog} from "@/api/blog.js";
+import {getBlogContent, updateBlog} from "@/api/blog.js";
 
 const onUploadImg = async (files, callback) => {
   const res = await Promise.all(

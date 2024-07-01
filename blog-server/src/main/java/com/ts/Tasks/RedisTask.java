@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 import static com.ts.Constants.RedisConstants.PV_CACHE_KEY;
 import static com.ts.Constants.RedisConstants.UV_CACHE_KEY;
