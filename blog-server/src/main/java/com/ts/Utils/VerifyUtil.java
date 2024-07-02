@@ -1,7 +1,7 @@
 package com.ts.Utils;
 
-import com.ts.Entity.DTO.VerifyDTO;
-import com.ts.Entity.VO.VerifyVO;
+import com.ts.DTO.VerifyDTO;
+import com.ts.VO.VerifyVO;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.Random;

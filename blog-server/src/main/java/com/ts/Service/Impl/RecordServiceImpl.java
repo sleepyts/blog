@@ -6,7 +6,7 @@ import com.ts.Annotation.RequestLog;
 import com.ts.Entity.Blog;
 import com.ts.Entity.Record;
 import com.ts.Entity.Result;
-import com.ts.Entity.VO.RecordVO;
+import com.ts.VO.RecordVO;
 import com.ts.Mapper.RecordMapper;
 import com.ts.Service.IRecordService;
 import com.ts.Service.RedisService;

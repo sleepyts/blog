@@ -51,6 +51,12 @@ const routes = [
         meta: { title: 'Apps' }
     },
     {
+        path:'/Friends',
+        name: 'Friends',
+        component: () => import('../views/friends.vue'),
+        meta: { title: 'Friends' }
+    },
+    {
         path: "/Blog/:id",
         name: "BlogDetail",
         component: () => import("../views/blogdetail.vue"),

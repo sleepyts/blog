@@ -21,7 +21,7 @@ import { useRouter } from 'vue-router'
 import BlackAndWhiteButton from "@/components/Common/BlackAndWhiteButton.vue";
 
 const router = useRouter()
-const menuItems = ref(['Home', 'Blog','Records','Guestbook' ,'About','Apps'])
+const menuItems = ref(['Home', 'Blog','Records','Friends','Guestbook' ,'About','Apps'])
 const activeIndex = ref(0)
 
 function handleClick(name,index) {

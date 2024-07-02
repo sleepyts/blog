@@ -2,7 +2,7 @@
 import {computed, nextTick, onMounted, ref, watch} from "vue";
 import store from "@/store/index.js";
 import CardTitle from "@/components/Common/CardTitle.vue";
-import { MdPreview, MdCatalog } from 'md-editor-v3';
+import {MdPreview, MdCatalog, MdEditor} from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 import {getBlogContent} from "@/api/blog.js";
 import {HighlightOutlined, EditOutlined,BookOutlined} from "@ant-design/icons-vue";
@@ -11,6 +11,10 @@ const blog=ref({
 });
 const id = 'preview-only';
 const text = ref('');
+const catalogList = ref([])
+const onGetCatalog = (list) => {
+  catalogList.value = list
+}
 const scrollElement = document.documentElement;
 onMounted(async () => {
   const blogList = store().state.blogList;
@@ -38,14 +42,14 @@ onMounted(async () => {
     <span style="margin-left: 10px;margin-right: 10px">{{blog.categoryName}}</span>
   </div>
   <div class="line"></div>
+
   <div class="main-content" style="display: flex;flex-direction: column;">
     <div style="display: flex;flex-direction: row;">
       <MdPreview :editorId="id" :modelValue="text" class="md-editor-preview" :previewTheme="'vuepress'"
       />
       <div class="toc mobile-hidden">
-        <h3>Table of Content</h3>
-        <MdCatalog :editorId="id" :scrollElement="scrollElement" :scrollElementOffsetTop=90 :offsetTop="200"/>
-
+      <h3>Table of Content</h3>
+        <MdCatalog :editorId="id" :scrollElement="scrollElement" :scrollElementOffsetTop=90 :offsetTop="200"></MdCatalog>
       </div>
     </div>
   </div>
@@ -56,7 +60,9 @@ onMounted(async () => {
 .short-info:hover .dynamic-line {
   background-size: 100% 2px;
 }
-
+.toc *{
+  font-size: 13px;
+}
 @media (min-width: 768px) {
   .toc {
     position: sticky;
@@ -64,7 +70,7 @@ onMounted(async () => {
     height: 100%;
     overflow-y: auto;
     padding: 10px;
-    width: 20em;
+    width: 12em;
   }
 }
 

@@ -1,4 +1,4 @@
-package com.ts.Entity.VO;
+package com.ts.VO;
 
 
 import lombok.AllArgsConstructor;
@@ -6,17 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-
 /*
- * 传输给前端的验证码对象
+ * 博客缩略VO
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VerifyVO implements java.io.Serializable {
+public class BlogThumbnailVO implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
+    
+    //博客ID
+    private Integer value;
+    //博客标题
+    private String label;
 
-    private Integer var1;
-    private Integer var2;
-    private String key;
 }

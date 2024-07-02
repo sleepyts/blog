@@ -1,4 +1,4 @@
-package com.ts.Entity.VO;
+package com.ts.DTO;
 
 
 import lombok.AllArgsConstructor;
@@ -7,17 +7,16 @@ import lombok.NoArgsConstructor;
 
 
 /*
- * 博客缩略VO
+ * 验证DTO
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlogThumbnailVO implements java.io.Serializable {
+public class VerifyDTO implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
-    
-    //博客ID
-    private Integer value;
-    //博客标题
-    private String label;
 
+    private Integer var1;
+    private Integer var2;
+    private String verifyVar;
+    private String key;
 }

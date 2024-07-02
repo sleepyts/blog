@@ -34,7 +34,6 @@ public class refreshTokenInterceptor implements HandlerInterceptor {
         Admin admin=new Admin();
         BeanUtil.fillBeanWithMap(map,admin,false);
         AdminHolder.setAdmin(admin);
-        redisTemplate.expire(ADMIN_LOGIN_KEY + token,ADMIN_LOGIN_EXPIRE_TIME, TimeUnit.SECONDS);
         return true;
     }
 }
