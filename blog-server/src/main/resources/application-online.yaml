@@ -5,8 +5,8 @@ spring:
     name: 未月拾叁
   datasource:
     url: jdbc:mysql://mysql:3306/blog?useSSL=false
-    username: root
-    password: Blog@123
+    username: yourUsername
+    password: yourPassword
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   task:
