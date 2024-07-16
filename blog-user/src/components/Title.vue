@@ -1,6 +1,6 @@
 <script setup>
 import {defineProps} from 'vue';
-import '../../assets/theam.css'
+import '../assets/theam.css'
 
 const props = defineProps({
   title: {

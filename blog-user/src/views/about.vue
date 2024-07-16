@@ -1,5 +1,5 @@
 <script setup>
-import Title from "@/components/Common/Title.vue";
+import Title from "@/components/Title.vue";
 import AboutMe from "@/components/About/AboutMe.vue";
 </script>
 <template>
@@ -12,7 +12,7 @@ import AboutMe from "@/components/About/AboutMe.vue";
 
 
 <script>
-import BlogHeader from '@/components/Common/BlogHeader.vue';
+import BlogHeader from '@/components/BlogHeader.vue';
 export default {
   components: {
     BlogHeader

@@ -1,9 +1,13 @@
 import myAxios from "@/utils/myAxios.js";
 
-export function getException(){
+export function getException(start,end){
     return myAxios({
         url: "/api/admin/exception",
-        method: "GET"
+        method: "GET",
+        params: {
+            start: start,
+            end: end
+        }
     })
 }
 

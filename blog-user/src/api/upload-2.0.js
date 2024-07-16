@@ -1,4 +1,3 @@
-import CryptoJS from 'crypto-js';
 
 // 生成指定长度的随机字符串
 function generateRandomString(length) {
@@ -7,13 +6,22 @@ function generateRandomString(length) {
 }
 
 // 计算 MD5 哈希
-function calculateMD5Hash(nonce, timestamp) {
+async function calculateMD5Hash(nonce, timestamp) {
     const secret = "fuck-your-mother-three-thousand-times-apes-not-kill-apes";
     const data = `nonce=${nonce}&timestamp=${timestamp}${secret}`;
 
-    // 使用 CryptoJS 计算 MD5 哈希
-    const hash = CryptoJS.MD5(data).toString(CryptoJS.enc.Hex);
-    return hash;
+    // 将字符串编码为 ArrayBuffer
+    const encoder = new TextEncoder();
+    const dataBuffer = encoder.encode(data);
+
+    // 使用 Web Crypto API 计算 MD5 哈希
+    const hashBuffer = await crypto.subtle.digest('MD5', dataBuffer);
+
+    // 将 ArrayBuffer 转换为十六进制字符串
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+
+    return hashHex;
 }
 
 export async function onRequestPost(form) {
@@ -32,7 +40,8 @@ export async function onRequestPost(form) {
 
     // 构建请求头
     const imgheaders = {
-        "Accept": "application/json, text/plain, */*",
+        "Accept": "application/json, text/javascript, */*; q=0.01",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "zh-CN,zh;q=0.9",
         "Accept-Locale": acceptLocale,
         "Cache-Control": "no-cache",
@@ -40,16 +49,19 @@ export async function onRequestPost(form) {
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "cross-site",
+        "Origin" : "https://image.tsukiyo.cn",
+        "Referer": "https://image.tsukiyo.cn/tencent"
+
     };
     const formData = new FormData();
     formData.append('nonce', nonce);
     formData.append('timestamp', timestamp);
     formData.append('file', form.get('file'));
 
-    const res_img = await fetch('https://api.weixinyanxuan.com/mall/api/img/upload', {
-        method: 'POST',
-        headers: imgheaders,
-        body: formData,
+    const res_img = fetch('https://telegra.ph/' + url.pathname + url.search, {
+        method: clonedRequest.method,
+        headers: clonedRequest.headers,
+        body: clonedRequest.body,
     });
     const options = {
         timeZone: 'Asia/Shanghai',

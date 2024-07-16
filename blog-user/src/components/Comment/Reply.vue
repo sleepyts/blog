@@ -4,7 +4,7 @@ import {computed, provide, ref,watch,nextTick,defineProps} from "vue";
 import {SyncOutlined} from '@ant-design/icons-vue';
 import OthersInfo from "@/components/Comment/OthersInfo.vue";
 import store from "@/store/index.js";
-import CardTitle from "@/components/Common/CardTitle.vue";
+import CardTitle from "@/components/CardTitle.vue";
 import 'md-editor-v3/lib/style.css';
 import {MdEditor} from "md-editor-v3";
 import {message} from "ant-design-vue";
@@ -130,5 +130,8 @@ const submitComment =  () => {
 .reFresh:hover{
   color: var(--colorPrimaryHover);
   transition: color 0.1s ease;
+}
+.mt-5{
+  animation: none;
 }
 </style>

@@ -1,6 +1,6 @@
 <script setup>
 import HomeContainer from "@/components/Home/HomeContainer.vue";
-import BlogHeader from "@/components/Common/BlogHeader.vue";
+import BlogHeader from "@/components/BlogHeader.vue";
 
 </script>
 <template>

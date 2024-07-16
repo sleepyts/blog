@@ -1,6 +1,6 @@
 <script setup>
-import Title from "@/components/Common/Title.vue";
-import BlogHeader from "@/components/Common/BlogHeader.vue";
+import Title from "@/components/Title.vue";
+import BlogHeader from "@/components/BlogHeader.vue";
 import Guest from "@/components/Comment/Guest.vue";
 import Comments from "@/components/Comment/Comments.vue";
 import { onBeforeMount} from "vue";

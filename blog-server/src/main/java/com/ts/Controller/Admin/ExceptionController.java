@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestController
@@ -26,7 +25,7 @@ public class ExceptionController {
                                @RequestParam(value = "end", required = false)
                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                LocalDateTime end) {
-        return Result.success(logService.getExceptionLogList(start, end));
+        return logService.getExceptionLogList(start, end);
     }
 
     @DeleteMapping("/{id}")

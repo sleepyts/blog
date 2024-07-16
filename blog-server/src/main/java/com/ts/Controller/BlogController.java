@@ -15,15 +15,23 @@ public class BlogController {
     @Autowired
     private IBlogService blogService;
     @GetMapping("/Blog")
-    public Result getBlog() {
-        return blogService.queryBlog();
+    public Result getBlog(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+        return blogService.queryBlog(page);
     }
 
     @GetMapping("/Blog/{id}")
+    public Result getBlogDetail(@PathVariable("id") Integer id) {
+        return blogService.getBlogDetail(id);
+    }
+
+    @GetMapping("/admin/Blog/content/{id}")
     public Result getBlogContent(@PathVariable("id") Integer id) {
         return blogService.getBlogContent(id);
     }
-
+    @GetMapping("/admin/Blog")
+    public Result getBlogList() {
+        return blogService.getBlogList();
+    }
     @PostMapping("/admin/Blog")
     public Result addBlog(@RequestBody Blog blog) {
         return blogService.addBlog(blog);

@@ -6,10 +6,13 @@ import config from "@/api/config.js";
      获取博客列表
 
  */
-export function getBlogList(){
+export function getBlogList(page){
     return axios({
         method: "GET",
-        url: config.url + '/Blog'
+        url: config.url + '/Blog',
+        params:{
+            page: page,
+        }
     })
 }
 
@@ -83,5 +86,15 @@ export function updateBlog(blog) {
             "Content-Type": "application/json",
         },
         data: blog
+    })
+}
+
+export function getBlogDetail(id) {
+    return axios({
+        method: "GET",
+        url: `${config.url}/Blog/${id}`,
+        headers: {
+            "Content-Type": "application/json",
+        },
     })
 }

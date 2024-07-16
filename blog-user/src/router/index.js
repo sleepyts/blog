@@ -33,6 +33,12 @@ const routes = [
         meta: { title: 'Records' }
     },
     {
+        path: '/Moments',
+        name: 'Moments',
+        component: () => import('../views/moments.vue'),
+        meta: { title: 'Moments' }
+    },
+    {
         path: '/About',
         name: 'About',
         component: () => import('../views/about.vue'),
@@ -51,11 +57,17 @@ const routes = [
         meta: { title: 'Apps' }
     },
     {
-        path:'/Friends',
-        name: 'Friends',
-        component: () => import('../views/friends.vue'),
-        meta: { title: 'Friends' }
+        path:'/Links',
+        name: 'Links',
+        component: () => import('../views/links.vue'),
+        meta: { title: 'Links' }
     },
+    // {
+    //     path:'/Moments',
+    //     name: 'Moments',
+    //     component: () => import('../views/moments.vue'),
+    //     meta: { title: 'Moments' }
+    // },
     {
         path: "/Blog/:id",
         name: "BlogDetail",

@@ -14,6 +14,10 @@ public class Settings implements java.io.Serializable {
     private String aboutMe;
     private String ICP;
     private String aboutMePageSongId;
+    private String indexName;
+    private String indexUrl;
+    private String description;
+    private String logoUrl;
 
 }
 

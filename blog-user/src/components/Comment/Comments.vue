@@ -17,6 +17,7 @@ const currentPage=ref(1)
 const pageSize=ref(8)
 const onPageChange= (page,pageSize) => {
   store().dispatch("getCommentsByPage",{page,pageSize})
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 onMounted(async () => {
@@ -40,9 +41,10 @@ onMounted(async () => {
           </div>
         </div>
       <a-pagination  id="pagination"
-              :v-model:current="currentPage" :total="pageEntity.total"
+              v-model:current=currentPage :total="pageEntity.total"
                      v-model:page-size="pageSize"
               @change="onPageChange"
+                     simple
                      style="text-align: center; margin-top: 20px;"
       >
       </a-pagination>

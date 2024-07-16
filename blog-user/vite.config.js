@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
           {
             template:{
               compilerOptions:{
-                isCustomElement: tag=>tag==="meting-js"
+                isCustomElement: tag=>tag==="meting-js",
               }
             }
           }
@@ -56,11 +56,6 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, ''),
         },
-        'https://blog-user-three.vercel.app/api':{
-          target: env.VITE_API_URL,
-          changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, ''),
-        }
 
       },
     },

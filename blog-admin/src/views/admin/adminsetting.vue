@@ -1,5 +1,24 @@
 <template>
   <div style="display: flex; flex-direction: column;">
+    <div  class="settings-container">
+      <span style="font-weight: bold;">站点名称</span>
+      <a-input v-model:value="settings.indexName"></a-input>
+    </div>
+
+    <div  class="settings-container">
+      <span style="font-weight: bold;">站点首页地址</span>
+      <a-input v-model:value="settings.indexUrl"></a-input>
+    </div>
+    <div  class="settings-container">
+      <span style="font-weight: bold;">站点Logo地址</span>
+      <a-input v-model:value="settings.logoUrl"></a-input>
+      <img :src="settings.logoUrl" style="width: 100px; margin-top: 10px;"/>
+    </div>
+
+    <div  class="settings-container">
+      <span style="font-weight: bold;">站点描述</span>
+      <a-input v-model:value="settings.description"></a-input>
+    </div>
     <div style="width: 20%;" class="settings-container">
       <span style="font-weight: bold;">关于页面歌曲网易云ID</span>
       <a-input v-model:value="settings.aboutMePageSongId"></a-input>
@@ -29,7 +48,11 @@ const text = ref("")
 const settings = ref({
   aboutMePageSongId: "",
   icp: "",
-  aboutMe: ""
+  aboutMe: "",
+  indexName: "",
+  indexUrl: "",
+  logoUrl: "",
+  description: "",
 })
 onMounted(async () => {
   await getSettings().then(res => {

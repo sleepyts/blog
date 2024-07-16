@@ -1,5 +1,6 @@
 import './assets/main.css'
 import './assets/theam.css'
+import './assets/myCss.css'
 import {createApp} from 'vue'; // 使用 Vue 3 的 createApp 方法
 import App from './App.vue';
 import router from './router/index.js';

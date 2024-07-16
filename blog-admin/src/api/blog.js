@@ -2,7 +2,7 @@ import myAxios from "@/utils/myAxios.js";
 
 export function getBlog() {
     return myAxios({
-        url: '/api/Blog',
+        url: '/api/admin/Blog',
         method: 'get'
     })
 }
@@ -40,7 +40,7 @@ export function getBlogThumbnail(){
 export function getBlogContent(id) {
     return myAxios({
         method: "GET",
-        url: `/api/Blog/${id}`,
+        url: `/api/admin/Blog/content/${id}`,
         headers: {
             "Content-Type": "application/json",
         },

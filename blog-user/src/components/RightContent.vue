@@ -1,37 +1,39 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-// 定义一个 ref 变量来存储当前时间
-const now = ref(new Date().toLocaleString())
-// 定义一个更新时间的函数
-const updateTime = () => {
-  now.value = new Date().toLocaleString()
-}
-// 在组件挂载时设置一个定时器来更新时间
-onMounted(() => {
-  const interval = setInterval(updateTime, 1000)
-  // 在组件卸载时清除定时器
-  onUnmounted(() => {
-    clearInterval(interval)
-  })
-})
+import {ref, onMounted, onUnmounted} from 'vue'
 
+const url = ref(window.location.pathname.split('/')[1])
 </script>
 
 <template>
   <div class="content">
-   <div class="header">
-     <h2>未月拾叁</h2>
-   </div>
+    <div style="padding: 10px;display: flex;flex-direction: row;align-items: center">
+      <div style="width: 25%">
+        <img src="https://image.tsukiyo.cn/file/a48f9395bd0706e32b8c1.jpg" style="width: 100%;border-radius: 50%">
+      </div>
+      <div style="margin-left: 1em;display: flex;flex-direction: column;">
+        <span style="font-size: 1.5em;font-weight: bold">未月拾叁</span>
+        <span>愿岁并谢，与长友兮</span>
+      </div>
+    </div>
+    <div style="padding: 10px;margin-top: 1em;display: flex;flex-direction: column;">
+      <span>公告</span>
+      <span>目前网站处于测试阶段，功能还在完善中，请多多指教。</span>
+
+    </div>
+    <div style="padding: 10px">
+      <span>最近更新</span>
+    </div>
   </div>
+
 </template>
 
 <style scoped>
-.content{
-  width: 13%;
-  height: 100vh;
-  display : flex;
+.content {
+  width: 17%;
+  display: flex;
   flex-direction: column;
-  padding: 20px;
+  position: fixed;
+  top: 5em;
+  right: 2%;
 }
-
 </style>

@@ -71,7 +71,6 @@ const onSubmit = () => {
       message.success('文章编辑成功！');
     }
   })
-
 };
 const labelCol = {
   style: {

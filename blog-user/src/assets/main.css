@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 @media (max-width: 768px) {
     .mobile-hidden{
         display: none;
@@ -7,7 +7,6 @@
         width: 100%;
     }
     .mt-5 {
-        padding: 10px;
         border-radius: 5px;
         border: 2px solid var(--border-color);
         box-shadow: var(--card-border-shadow);
@@ -31,7 +30,6 @@
     }
     .mt-5 {
         border: 2px solid var(--border-color);
-        padding: 10px;
         border-radius: 5px;
         margin-bottom: 20px;
         box-shadow: var(--card-border-shadow);
@@ -43,6 +41,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'ZFont', sans-serif;
+    font-size: 16px;
     transition: background-color 0.2s ease-in-out;
 }
 
@@ -50,24 +49,20 @@
     cursor: url(../../public/new-tab.png),pointer;
     text-decoration: none;
     background: linear-gradient(to right, #2ee3bf, #23ada2) no-repeat right bottom;
-    background-size:0% 2px;
+    background-size:0% 1px;
     transition: background-size 500ms;
     color: var(--link-color) ;
 }
 .link:hover{
     background: linear-gradient(to right, #2ee3bf, #23ada2) no-repeat left bottom;
-    background-size:100% 2px;
+    background-size:100% 1px;
 }
 .line {
     margin-top: 10px;
     margin-bottom: 10px;
     border-bottom: 2px solid var(--dash-border-color);
 }
-.front-title{
-    width:2px;
-    height: 4em;
-    border: 2px solid black;
-}
+
 .dynamic-line{
     height: 2px;
     width:10%;
@@ -80,9 +75,24 @@
     height: 100%;
     background: var(--dynamic-color);
 }
-
+.mt-5 {
+    animation: slideInFromBottom1 0.4s ease-in-out;
+    padding:10px
+}
 .mt-5:hover .dynamic-line {
     background-size: 100% 2px;
+}
+
+@keyframes slideInFromBottom1 {
+    from {
+        transform: translateY(5%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 @keyframes slideInFromBottom {
     from {

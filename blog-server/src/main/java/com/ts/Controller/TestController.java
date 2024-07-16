@@ -2,6 +2,8 @@ package com.ts.Controller;
 
 
 import com.ts.Entity.Result;
+import com.ts.Service.MomentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,8 @@ import static com.ts.Utils.ipAddressUtils.getCityInfo;
 @CrossOrigin(origins = "*")
 public class TestController {
 
+    @Autowired
+    private MomentService momentService;
 
     @GetMapping("/hello")
     public Result hello() {
@@ -27,7 +31,7 @@ public class TestController {
 
     @GetMapping("")
     public Result test() {
-        System.out.println(getCityInfo("218.199.207.23"));
+        momentService.getMomentByPage(1,10);
         return Result.success("test");
     }
 }

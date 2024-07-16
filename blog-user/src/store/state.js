@@ -1,6 +1,6 @@
 
 export default {
-    siteSettings:JSON.parse(localStorage.getItem('sitSettings')) || {
+    siteSettings:JSON.parse(sessionStorage.getItem('sitSettings')) || {
     },
     siteInfo: '',
     // 是否正在加载

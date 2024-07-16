@@ -35,8 +35,7 @@ public class RedisTask {
      * time : 01:00
      */
     @Scheduled(cron = "0 0 1 * * ?")
-    public void readRedis(){
-        blogService.queryBlog();
+    public void readRedis(){;
         recordService.getRecord();
     }
 

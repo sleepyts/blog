@@ -3,7 +3,6 @@ package com.ts.Utils;
 
 import jakarta.annotation.PostConstruct;
 import jodd.util.StringUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.lionsoul.ip2region.xdb.Searcher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,6 @@ import java.util.concurrent.TimeUnit;
  * @date 2024-06-29
  */
 @Component
-@Slf4j
 public class ipAddressUtils {
     @Value("${config.ipXbd.path}")
     private String ipXbdPath;

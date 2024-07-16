@@ -10,7 +10,7 @@ import java.util.List;
 public interface BlogMapper extends BaseMapper<Blog> {
 
     @Select("select name from tb_category where id = #{id}")
-    String getCategoryName(Long id);
+    String getCategoryName(int id);
 
     //TODO 写SQL 查询返回BLOG VO
     @Select("")

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PageVO implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
-    private Long total;
+    private Integer total;
     private Object rows;
 }

@@ -92,7 +92,6 @@ const getData = async () => {
 const handleEdit = (record) => {
   editBlog.value = record;
   isEdit.value = true;
-
 };
 const handelOk = () => {
   open.value = false;

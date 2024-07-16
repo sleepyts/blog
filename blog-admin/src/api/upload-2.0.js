@@ -46,7 +46,7 @@ export async function onRequestPost(form) {
     formData.append('timestamp', timestamp);
     formData.append('file', form.get('file'));
 
-    const res_img = await fetch('https://api.weixinyanxuan.com/mall/api/img/upload', {
+    const res_img = await fetch('https://image.tsukiyo.cn/upload', {
         method: 'POST',
         headers: imgheaders,
         body: formData,
@@ -86,20 +86,6 @@ export async function onRequestPost(form) {
         code : 500,
     }
 
-
-}
-
-
-
-async function insertImageData(env, src, referer, ip, rating, time) {
-    try {
-        const instdata = await env.prepare(
-            `INSERT INTO imginfo (url, referer, ip, rating, total, time)
-             VALUES ('${src}', '${referer}', '${ip}', ${rating}, 1, '${time}')`
-        ).run();
-    } catch (error) {
-
-    }
 }
 
 

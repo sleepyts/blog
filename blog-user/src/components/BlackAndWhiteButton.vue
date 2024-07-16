@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import '../../assets/theam.css'
+import '../assets/theam.css'
 import store from "@/store/index.js";
 import state from "@/store/state.js";
 

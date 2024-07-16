@@ -9,9 +9,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import static com.ts.Constants.RedisConstants.ADMIN_LOGIN_EXPIRE_TIME;
 import static com.ts.Constants.RedisConstants.ADMIN_LOGIN_KEY;
 
 public class refreshTokenInterceptor implements HandlerInterceptor {

@@ -12,6 +12,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -37,7 +38,9 @@ public class Log {
     // 前置通知：在目标方法调用前执行
     @Before(value = "requestLog()")
     public void logBefore(JoinPoint joinPoint) {
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (Objects.isNull(requestAttributes)) return;
+        HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
         Admin admin = AdminHolder.getAdmin();
         String method = request.getMethod();
         String ip = getClientIp(request.getHeader("X-Forwarded-For"),request.getHeader("X-Real-IP"),ip = request.getRemoteAddr());

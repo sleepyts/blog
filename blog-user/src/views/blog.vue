@@ -2,21 +2,30 @@
 import '../assets/theam.css'
 import BlogCard from "@/components/Blog/BlogCard.vue";
 import {provide, ref, onMounted, watch} from 'vue';
-import Title from "@/components/Common/Title.vue";
-import BlogHeader from "@/components/Common/BlogHeader.vue";
+import Title from "@/components/Title.vue";
+import BlogHeader from "@/components/BlogHeader.vue";
 import {getCategories} from "@/api/category.js";
 import store from "@/store/index.js";
 import {BarsOutlined} from "@ant-design/icons-vue";
+import {getBlogList} from "@/api/blog.js";
+import {getMoment} from "@/api/Moment.js";
 
 const searchText = ref('');
 const options = ref([]);
 const value = ref([0]);
 const blogList = ref([]);
-const filteredBlogs =ref([]);
+const filteredBlogs = ref([]);
 const categoryName = ref('');
-provide(blogList,"blogList");
+const currentPage = ref(1);
+const total = ref(0);
 onMounted(async () => {
-  await store().dispatch("getBlogList")
+  await getBlogList(currentPage.value).then(res => {
+    if (res.data.code === 200) {
+      blogList.value = res.data.data.rows
+      total.value = res.data.data.total
+    }
+  })
+
   await getCategories().then(res => {
     if (res.data.code === 200) {
       options.value.push({
@@ -29,35 +38,26 @@ onMounted(async () => {
           value: res.data.data[i].id
         })
       }
-      // console.log(options.value)
     }
   });
-  blogList.value = await store().state.blogList;
   categoryName.value = '全部';
   await filterBlogsByCategory()
-  //console.log(store().state.blogList)
 });
 
-//
-// const filteredBlogs = computed(() => {
-//   const blogList = store().state.blogList; // 获取 store 中的 blogList
-//   return blogList.filter(blog => {
-//     return blog.title.toLowerCase().includes(searchText.value.toLowerCase());
-//   });
-// });
 watch(value, async () => {
   const selectedCategory = options.value.find(option => option.value === value.value[0]);
   categoryName.value = selectedCategory ? selectedCategory.label : '';
   await filterBlogsByCategory();
 });
 watch(searchText, () => {
-   filteredBlogs.value = blogList.value.filter(blog => {
+  filteredBlogs.value = blogList.value.filter(blog => {
     return blog.title.toLowerCase().includes(searchText.value.toLowerCase());
   });
 });
+
 async function filterBlogsByCategory() {
-  if(categoryName.value === '全部') filteredBlogs.value = blogList.value;
-  else if (categoryName.value!=='') {
+  if (categoryName.value === '全部') filteredBlogs.value = blogList.value;
+  else if (categoryName.value !== '') {
     filteredBlogs.value = blogList.value.filter(blog => {
       return blog.categoryName === categoryName.value;
     });
@@ -65,10 +65,19 @@ async function filterBlogsByCategory() {
     filteredBlogs.value = blogList.value;
   }
 }
+
+const onPageChange = async (page) => {
+  await getBlogList(page).then(res => {
+    if (res.data.code === 200) blogList.value = res.data.data.rows
+  });
+  await filterBlogsByCategory();
+  currentPage.value = page;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 </script>
 <template>
   <div class="app">
-    <blog-header ></blog-header>
+    <blog-header></blog-header>
     <Title title="Blog"></Title>
     <div class="blogContent page-main-container">
       <input class="searchInput" type="text" placeholder="Search..." v-model="searchText">
@@ -78,61 +87,74 @@ async function filterBlogsByCategory() {
                   :allowClear="false"
                   :expandTrigger="'hover'"
       />
-      <span style="margin-left: 1em">({{filteredBlogs.length}})</span>
+      <span style="margin-left: 1em">({{ filteredBlogs.length }})</span>
       <div class="blogCards">
         <blog-card v-for="blog in filteredBlogs" :blog="blog" class="blogCard"/>
       </div>
+      <a-pagination v-model:current=currentPage :total="total"
+                    @change="onPageChange"
+                    simple
+                    style="text-align: center; margin-top: 20px;"
+      >
+      </a-pagination>
     </div>
   </div>
 </template>
 
 <style scoped>
 @media (max-width: 768px) {
-  .blogContent{
+  .blogContent {
     position: relative;
     margin-top: 3em;
   }
 }
+
 @media (min-width: 768px) {
-  .blogContent{
+  .blogContent {
     position: relative;
     margin-top: 3em;
   }
 
 }
+
 .searchInput {
   padding: 0.7em;
   position: relative;
-  width:100%;
+  width: 100%;
   border-radius: 5px;
   border: 1px solid var(--border-color);
   background-color: var(--colorBgContainer);
   color: var(--text-color);
   transition: border-color 0.2s ease-in-out;
 }
-.searchInput:focus,.searchInput:active {
+
+.searchInput:focus, .searchInput:active {
   outline: none;
   border: 1px solid teal;
 }
+
 .blogCards {
-   padding: 0.7em;
+  padding: 0.7em;
 }
+
 .blogCard {
   margin-top: 1em;
   padding: 0.4em;
-  border : 1px solid var(--border-color);
+  border: 1px solid var(--border-color);
   border-radius: 5px;
   background-color: var(--colorBgContainer);
   transition-property: transform;
   transition-duration: 0.1s;
   animation: blogCardsSlideInFromBottom 0.3s ease-in-out;
 }
+
 .blogCard:hover {
   transform: scale(1.010);
   backdrop-filter: blur(8px);
   box-shadow: var(--card-border-shadow); /* 设置阴影样式 */
   cursor: pointer;
 }
+
 .blogCard:active {
   transform: scale(0.995);
 }

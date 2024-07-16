@@ -12,9 +12,9 @@ spring:
   task:
     execution:
       pool:
-        core-size: 10          # 核心线程数
-        max-size: 50           # 最大线程数
-        queue-capacity: 2500    # 队列容量
+        core-size: 4          # 核心线程数
+        max-size: 8           # 最大线程数
+        queue-capacity: 500    # 队列容量
         keep-alive: 10s        # 线程空闲时间
       thread-name-prefix: AsyncExecutor-  # 线程名称前缀
   data:

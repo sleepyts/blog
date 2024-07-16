@@ -11,6 +11,6 @@ public interface SettingsMapper {
     @Select("SELECT * FROM tb_settings")
     Settings getSettings();
 
-    @Update("UPDATE tb_settings set about_me=#{aboutMe},ICP=#{ICP},about_me_page_song_id=#{aboutMePageSongId}")
+    @Update("UPDATE tb_settings set about_me=#{aboutMe},ICP=#{ICP},index_name=#{indexName},index_url=#{indexUrl},description=#{description},logo_url=#{logoUrl}")
     boolean updateSettings(Settings setting);
 }

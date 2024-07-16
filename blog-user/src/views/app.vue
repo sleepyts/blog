@@ -1,7 +1,7 @@
 <script setup>
 import {ref,onMounted} from "vue";
-import BlogHeader from "@/components/Common/BlogHeader.vue";
-import Title from "@/components/Common/Title.vue";
+import BlogHeader from "@/components/BlogHeader.vue";
+import Title from "@/components/Title.vue";
 import Appcard from "@/components/Apps/Appcard.vue";
 import 'md-editor-v3/lib/preview.css';
 import {getApps} from "@/api/app.js";
@@ -40,6 +40,9 @@ onMounted(() => {
     transition: all 0.1s ease-in-out; /* 应用过渡效果 */
     animation: slideInFromBottom 0.4s ease-in-out;
   }
+  .app-card:nth-child(2n+1) {
+     margin-left: 0;
+   }
 }
 @media (min-width: 768px) {
   .apps {
@@ -55,11 +58,14 @@ onMounted(() => {
     transition: all 0.1s ease-in-out; /* 应用过渡效果 */
     animation: blogCardsSlideInFromBottom 0.4s ease-in-out;
   }
+  .app-card:nth-child(3n+1) {
+     margin-left: 0;
+   }
+}
+.app-card{
+  padding: 10px;
 }
 
-.app-card:nth-child(3n+1) {
-  margin-left: 0;
-}
 .app-card:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 应用阴影效果 */
   cursor: url(/public/new-tab.png) 10 10,pointer;; /* 鼠标悬停时显示手型 */

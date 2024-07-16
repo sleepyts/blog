@@ -11,7 +11,7 @@
           <template #title>
             <span>
               <SwitcherOutlined/>
-              <span>文章管理</span>
+              <span>内容管理</span>
             </span>
           </template>
           <a-menu-item key="1-1" @click="$router.push('/blog/list')">
@@ -20,11 +20,19 @@
           </a-menu-item>
           <a-menu-item key="1-2" @click="$router.push('/blog/create')">
             <EditOutlined/>
-            <span>创建文章</span>
+            <span>写文章</span>
           </a-menu-item>
           <a-menu-item key="1-3" @click="$router.push('/blog/category')">
             <FormOutlined />
             <span>类别管理</span>
+          </a-menu-item>
+          <a-menu-item key="1-4" @click="$router.push('/blog/moment/list')">
+            <CalendarOutlined />
+            <span>动态管理</span>
+          </a-menu-item>
+          <a-menu-item key="1-5" @click="$router.push('/blog/moment/create')">
+            <EditOutlined />
+            <span>写动态</span>
           </a-menu-item>
         </a-sub-menu>
         <a-sub-menu key="2">
@@ -72,11 +80,12 @@
             <span>访客列表</span>
           </a-menu-item>
         </a-sub-menu>
+        <a-menu-item key="7" @click="$router.push('/friend')">
+          <span>友链管理</span>
+        </a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout :style="{ marginLeft: '200px' }">
-      <a-layout-header :style="{ background: '#fff', padding: 0 }">
-      </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
         <router-view/>
       </a-layout-content>
@@ -85,7 +94,7 @@
 </template>
 <script setup>
 import {ref} from 'vue';
-import {EditOutlined, FormOutlined, ReadOutlined, SwitcherOutlined} from '@ant-design/icons-vue';
+import {EditOutlined, FormOutlined, ReadOutlined, SwitcherOutlined, CalendarOutlined} from '@ant-design/icons-vue';
 
 const selectedKeys = ref(['1']);
 </script>

@@ -31,25 +31,25 @@ function changePage(page){
 }
 @media (max-width: 768px) {
   .left-container #first{
-     font-size: 1.2em;
+     font-size: 1.3em;
   }
 
   .left-container #second{
      font-size: 1em;
   }
   .buttons #btn{
-     font-size: 0.6em;
+     font-size: 1em;
   }
 }
 @media (min-width: 768px) {
   .left-container #first{
-    font-size: 1.5em;
+    font-size: 2em;
   }
   .left-container #second{
-    font-size: 1.2em;
+    font-size: 1.5em;
   }
   .buttons #btn{
-    font-size: 1em;
+    font-size: 1.2em;
   }
 
 }

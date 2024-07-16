@@ -113,6 +113,22 @@ const routes = [
                     title: '访客列表'
                 }
                 ,breadcrumbName: '访客列表'
+            },
+            {
+                path: 'friend',
+                name: 'friend',
+                component: () => import('../views/admin/FriendList.vue')
+            },
+            {
+                path: 'blog/moment/list',
+                name: 'blogMomentList',
+                component: () => import('../views/admin/BlogMoment.vue')
+            },
+            {
+                path: 'blog/moment/create',
+                name: 'blogMomentCreate',
+                component: () => import('../views/admin/BlogMomentCreate.vue')
+
             }
         ],
     },

@@ -3,9 +3,11 @@ package com.ts.Service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ts.Annotation.Cacheable;
 import com.ts.Annotation.RequestLog;
 import com.ts.Entity.Blog;
 import com.ts.Entity.Result;
+import com.ts.VO.BlogDetailVO;
 import com.ts.VO.BlogThumbnailVO;
 import com.ts.VO.BlogVO;
 import com.ts.VO.PageVO;
@@ -50,19 +52,22 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
      */
     @Override
     @RequestLog
-    @Transactional()
-    public Result queryBlog() {
+    @Transactional(rollbackFor = Exception.class)
+    public Result queryBlog(int page) {
+        PageVO pageVO = new PageVO();
         List<BlogVO> blogVOList;
         String key = BLOG_CACHE_KEY;
-        blogVOList=redisService.getList(key);
+        blogVOList = redisService.getList(key);
         if (blogVOList != null && !blogVOList.isEmpty()) {
             for (BlogVO blogVO : blogVOList) {
-                Long count = Long.valueOf(commentService.query().eq("blog_id", blogVO.getId()).count());
+                Long count = commentService.query().eq("blog_id", blogVO.getId()).count();
                 blogVO.setCommentNum(count);
-                String categoryName = blogMapper.getCategoryName(Long.valueOf(blogVO.getCategoryId()));
+                String categoryName = blogMapper.getCategoryName(blogVO.getCategoryId());
                 blogVO.setCategoryName(categoryName);
             }
-            return Result.success(blogVOList);
+            pageVO.setTotal(blogVOList.size());
+            pageVO.setRows(blogVOList.subList(5 * (page - 1),Math.min(blogVOList.size(), 5 * page)));
+            return Result.success(pageVO);
         }
 
         blogVOList = new ArrayList<>();
@@ -90,38 +95,49 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
         }
         if (!blogVOList.isEmpty()) {
             for (BlogVO blogVO : blogVOList) {
-                Long count = Long.valueOf(commentService.query().eq("blog_id", blogVO.getId()).count());
+                Long count = commentService.query().eq("blog_id", blogVO.getId()).count();
                 blogVO.setCommentNum(count);
-                String categoryName = blogMapper.getCategoryName(Long.valueOf(blogVO.getCategoryId()));
+                String categoryName = blogMapper.getCategoryName(blogVO.getCategoryId());
                 blogVO.setCategoryName(categoryName);
             }
         }
+        pageVO.setTotal(blogVOList.size());
+        pageVO.setRows(blogVOList.subList(5 * (page - 1),Math.min(blogVOList.size(), 5 * page)));
+        return Result.success(pageVO);
+    }
+
+    @Cacheable(KEY = BLOG_CONTENT_CACHE_KEY)
+    public Result getBlogDetail(Integer id) {
+        Blog blog = getById(id);
+        if (blog == null) {
+            return Result.error("博客不存在");
+        }
+        BlogDetailVO blogDetailVO = new BlogDetailVO();
+        BeanUtils.copyProperties(blog, blogDetailVO);
+        blogDetailVO.setCategoryName(blogMapper.getCategoryName(blog.getCategoryId()));
+        return Result.success(blogDetailVO);
+    }
+
+    @Override
+    public Result getBlogList() {
+        List<Blog> blogs = query().orderByDesc("create_time").list();
+        List<BlogVO> blogVOList = blogs.stream().map(blog -> {
+            BlogVO blogVO = new BlogVO();
+            BeanUtils.copyProperties(blog, blogVO);
+            blogVO.setDate(LocalDateUtil.transfromDate(blog.getCreateTime().toLocalDate(), LocalDateUtil.BLOG_CARD_DATE_FORMAT));
+            blogVO.setCategoryName(blogMapper.getCategoryName(blog.getCategoryId()));
+            return blogVO;
+        }).collect(Collectors.toList());
         return Result.success(blogVOList);
     }
 
-    public Result getBlogContent(Integer id) {
-        String key = BLOG_CONTENT_CACHE_KEY + id;
-        String content =redisService.getString(key);
-        if (content != null) {
-            return Result.success(content);
+    @Override
+    public Result getBlogContent(int id) {
+        Blog blog = getById(id);
+        if (blog == null) {
+            return Result.error("博客不存在");
         }
-        RLock lock = redissonClient.getLock(BLOG_CACHE_LOCK);
-        // 加锁
-        boolean isLockable = lock.tryLock();
-        try {
-            if (!isLockable) return Result.error("当前访问人数过多，请稍后再试");
-            Blog blog = getById(id);
-            if (blog == null) {
-                return Result.error("博客不存在");
-            }
-            content = blog.getContent();
-            if (content != null && !content.isEmpty()) redisService.set(key, content, BLOG_CONTENT_CACHE_EXPIRE_TIME);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            lock.unlock();
-        }
+        String content = blog.getContent();
         return Result.success(content);
     }
 
@@ -153,7 +169,7 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
         blog.setUpdateTime(LocalDateTime.now());
         updateById(blog);
         recordService.updateRecord(blog);
-        redisService.delayDeleteTwice(BLOG_CACHE_KEY, BLOG_CONTENT_CACHE_KEY +blog.getId());
+        redisService.delayDeleteTwice(BLOG_CACHE_KEY, BLOG_CONTENT_CACHE_KEY +":"+ blog.getId());
         return Result.success();
     }
 
@@ -184,7 +200,7 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
         commentService.deleteCommentByBlogId(id);
         recordService.deleteRecordByBlogId(id);
 
-        redisService.delayDeleteTwice(BLOG_CACHE_KEY, BLOG_CONTENT_CACHE_KEY +id);
+        redisService.delayDeleteTwice(BLOG_CACHE_KEY, BLOG_CONTENT_CACHE_KEY +":"+ id);
         return Result.success();
     }
 
@@ -199,16 +215,14 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
     public Result getCommentByPage(Integer current, Integer size) {
         Page<Blog> page = new Page<>(current, size);
         Page<Blog> blogs = page(page, new QueryWrapper<Blog>().orderByDesc("create_time"));
-        List<BlogVO> blogVOList = blogs.getRecords().stream()
-                .map(blog -> {
-                    BlogVO blogVO = new BlogVO();
-                    BeanUtils.copyProperties(blog, blogVO);
-                    blogVO.setDate(LocalDateUtil.transfromDate(blog.getCreateTime().toLocalDate(), LocalDateUtil.BLOG_CARD_DATE_FORMAT));
-                    return blogVO;
-                })
-                .collect(Collectors.toList());
+        List<BlogVO> blogVOList = blogs.getRecords().stream().map(blog -> {
+            BlogVO blogVO = new BlogVO();
+            BeanUtils.copyProperties(blog, blogVO);
+            blogVO.setDate(LocalDateUtil.transfromDate(blog.getCreateTime().toLocalDate(), LocalDateUtil.BLOG_CARD_DATE_FORMAT));
+            return blogVO;
+        }).collect(Collectors.toList());
         PageVO pageEntity = new PageVO();
-        pageEntity.setTotal(blogs.getTotal());
+        pageEntity.setTotal((int) blogs.getTotal());
         pageEntity.setRows(blogVOList);
         return Result.success(pageEntity);
     }

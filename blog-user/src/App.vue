@@ -4,33 +4,40 @@
         :theme="{
           token: {
             colorPrimary: '#439b79',
-          }
+          },
+
         }"
     >
+
+      <loading class="loading"></loading>
+      <router-view class="content"/>
+<!--      <RightContent></RightContent>-->
     </a-config-provider>
-    <loading class="loading"></loading>
-    <router-view class="content"/>
-<!--    <right-content class="right-content"></right-content>-->
+    <!--    <right-content class="right-content"></right-content>-->
   </div>
   <a-back-top :visibility-height=100></a-back-top>
   <div class="line"></div>
   <a-layout-footer id="footer">
     <br>
-     <a href="http://beian.miit.gov.cn/" target="_blank" class="link" style="font-size: 20px;">{{ICP}}</a>
+    <a href="http://beian.miit.gov.cn/" target="_blank" class="link" style="font-size: 20px;">{{ ICP }}</a>
     <br>
     <br>
   </a-layout-footer>
+
 </template>
 
 <script setup>
-import Loading from "@/components/Common/Loading.vue";
+import Loading from "@/components/Loading.vue";
 import {onMounted, computed} from "vue";
 import store from "@/store";
 import {getSettings} from "@/api/settings.js";
-const ICP=computed(() => store().state.siteSettings.icp)
+
+const ICP = computed(() => store().state.siteSettings.icp)
 onMounted(() => {
+  const token=store().state.userToken;
+  if(token==null|| token=='') 
   getSettings().then(res => {
-    if (res.data.code === 200){
+    if (res.data.code === 200) {
       store().commit('SET_SETTINGS', res.data.data)
     }
   })
@@ -51,14 +58,16 @@ onMounted(() => {
   margin-top: auto;
   font: 14px/1.5 "Helvetica Neue", Arial, sans-serif;
 }
-.loading{
+
+.loading {
   position: sticky;
 
   top: 0;
 }
+
 .right-content {
   position: fixed;
   right: 5%;
-  top:110px
+  top: 110px
 }
 </style>
