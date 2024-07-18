@@ -28,6 +28,7 @@ public class BlogController {
     public Result getBlogContent(@PathVariable("id") Integer id) {
         return blogService.getBlogContent(id);
     }
+
     @GetMapping("/admin/Blog")
     public Result getBlogList() {
         return blogService.getBlogList();
@@ -50,6 +51,11 @@ public class BlogController {
     @GetMapping("/admin/Blog/thumbnail")
     public Result getBlogThumb() {
         return blogService.getBlogThumbnail();
+    }
+
+    @GetMapping("/Blog/random")
+    public Result getRandomBlog() {
+        return blogService.getRandomBlog();
     }
 
 }

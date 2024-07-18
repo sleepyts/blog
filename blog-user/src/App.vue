@@ -11,7 +11,8 @@
 
       <loading class="loading"></loading>
       <router-view class="content"/>
-<!--      <RightContent></RightContent>-->
+      <RightContent></RightContent>
+
     </a-config-provider>
     <!--    <right-content class="right-content"></right-content>-->
   </div>
@@ -31,14 +32,19 @@ import Loading from "@/components/Loading.vue";
 import {onMounted, computed} from "vue";
 import store from "@/store";
 import {getSettings} from "@/api/settings.js";
+import RightContent from "@/components/RightContent.vue";
+import {getRandomBlog} from "@/api/blog.js";
 
 const ICP = computed(() => store().state.siteSettings.icp)
 onMounted(() => {
-  const token=store().state.userToken;
-  if(token==null|| token=='') 
   getSettings().then(res => {
     if (res.data.code === 200) {
       store().commit('SET_SETTINGS', res.data.data)
+    }
+  })
+  getRandomBlog().then(res => {
+    if (res.data.code === 200) {
+      store().commit('SET_RANDOM_BLOG', res.data.data)
     }
   })
 })

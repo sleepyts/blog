@@ -2,6 +2,7 @@ package com.ts.Service.Impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ts.Annotation.Cacheable;
+import com.ts.Annotation.RequestLog;
 import com.ts.Entity.Moment;
 import com.ts.Entity.Result;
 import com.ts.Mapper.MomentMapper;
@@ -32,6 +33,7 @@ public class MomentServiceImpl implements MomentService {
     private MomentMapper momentMapper;
 
     @Override
+    @RequestLog
     public Result addMoment(Moment moment) {
         momentMapper.insert(moment);
         deleteCache();
@@ -39,6 +41,7 @@ public class MomentServiceImpl implements MomentService {
     }
 
     @Override
+    @RequestLog
     @Cacheable(KEY =MOMENT_CACHE_KEY)
     public Result getMomentByPage(int currentPage, int pageSize) {
         pageSize=7;
@@ -59,6 +62,7 @@ public class MomentServiceImpl implements MomentService {
     }
 
     @Override
+    @RequestLog
     public Result deleteMoment(int id) {
         momentMapper.deleteById(id);
         deleteCache();
@@ -66,6 +70,7 @@ public class MomentServiceImpl implements MomentService {
     }
 
     @Override
+    @RequestLog
     public Result updateMoment(Moment moment) {
         momentMapper.updateById(moment);
         deleteCache();
@@ -73,6 +78,7 @@ public class MomentServiceImpl implements MomentService {
     }
 
     @Override
+    @RequestLog
     public Result changeVisibility(int id) {
         if(momentMapper.changeVisible(id)) {
             deleteCache();

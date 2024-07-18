@@ -15,4 +15,5 @@ public interface IBlogService extends IService<Blog> {
     Result getBlogDetail(Integer id);
     Result getBlogList();
     Result getBlogContent(int id);
+    Result getRandomBlog();
 }

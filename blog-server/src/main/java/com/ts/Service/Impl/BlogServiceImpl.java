@@ -7,8 +7,8 @@ import com.ts.Annotation.Cacheable;
 import com.ts.Annotation.RequestLog;
 import com.ts.Entity.Blog;
 import com.ts.Entity.Result;
-import com.ts.VO.BlogDetailVO;
 import com.ts.VO.BlogThumbnailVO;
+import com.ts.VO.BlogDetailVO;
 import com.ts.VO.BlogVO;
 import com.ts.VO.PageVO;
 import com.ts.Mapper.BlogMapper;
@@ -139,6 +139,11 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
         }
         String content = blog.getContent();
         return Result.success(content);
+    }
+
+    @Override
+    public Result getRandomBlog() {
+        return Result.success(blogMapper.selectRandomVO());
     }
 
 

@@ -1,5 +1,8 @@
 
 export default {
+    currentMdId: '',
+    randomBlog : [
+    ],
     siteSettings:JSON.parse(sessionStorage.getItem('sitSettings')) || {
     },
     siteInfo: '',

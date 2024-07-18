@@ -41,4 +41,8 @@ export default {
         state.siteSettings = res
         localStorage.setItem('siteSettings', JSON.stringify(res))
     },
+
+    SET_RANDOM_BLOG(state, res) {
+        state.randomBlog = res
+    },
 }

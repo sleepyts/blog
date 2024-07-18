@@ -21,9 +21,6 @@ public class SettingsServiceImpl implements SettingsService {
     private SettingsMapper settingsMapper;
     @Autowired
     private RedisService redisService;
-
-    @Autowired
-    private RedissonClient redissonClient;
     @Override
     @RequestLog
     @Cacheable(KEY=SETTINGS_CACHE_KEY)

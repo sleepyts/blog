@@ -17,7 +17,6 @@ const currentPage=ref(1)
 const pageSize=ref(8)
 const onPageChange= (page,pageSize) => {
   store().dispatch("getCommentsByPage",{page,pageSize})
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 onMounted(async () => {

@@ -98,3 +98,12 @@ export function getBlogDetail(id) {
         },
     })
 }
+export function getRandomBlog() {
+    return axios({
+        method: "GET",
+        url: `${config.url}/Blog/random`,
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+}
