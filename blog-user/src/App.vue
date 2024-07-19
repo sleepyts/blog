@@ -34,6 +34,7 @@ import store from "@/store";
 import {getSettings} from "@/api/settings.js";
 import RightContent from "@/components/RightContent.vue";
 import {getRandomBlog} from "@/api/blog.js";
+import {getRecentMoment} from "@/api/Moment.js";
 
 const ICP = computed(() => store().state.siteSettings.icp)
 onMounted(() => {
@@ -45,6 +46,11 @@ onMounted(() => {
   getRandomBlog().then(res => {
     if (res.data.code === 200) {
       store().commit('SET_RANDOM_BLOG', res.data.data)
+    }
+  })
+  getRecentMoment().then(res => {
+    if (res.data.code === 200) {
+      store().commit('SET_RECENT_MOMENT', res.data.data)
     }
   })
 })

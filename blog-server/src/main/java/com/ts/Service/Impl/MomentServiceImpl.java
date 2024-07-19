@@ -17,6 +17,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.ts.Constants.RedisConstants.COMMENT_CACHE_KEY;
@@ -85,6 +86,14 @@ public class MomentServiceImpl implements MomentService {
             return Result.success();
         }
         else return Result.error("未知错误");
+    }
+
+    @Override
+    public Result getRecentMoments() {
+        PageVO firstPage =(PageVO)(getMomentByPage(1, 7).getData());
+        List<Moment> moments = (List<Moment>) firstPage.getRows();
+        List<Moment> recentMoments = moments.subList(0, Math.min(moments.size(), 5));
+        return Result.success(recentMoments);
     }
 
     private void deleteCache() {

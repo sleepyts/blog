@@ -45,4 +45,7 @@ export default {
     SET_RANDOM_BLOG(state, res) {
         state.randomBlog = res
     },
+    SET_RECENT_MOMENT(state, res) {
+        state.recentMoment = res
+    }
 }

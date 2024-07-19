@@ -1,6 +1,8 @@
 
 export default {
-    currentMdId: '',
+    recentMoment:[
+
+    ],
     randomBlog : [
     ],
     siteSettings:JSON.parse(sessionStorage.getItem('sitSettings')) || {

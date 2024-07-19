@@ -10,3 +10,10 @@ export function getMoment(currentPage,size){
         }
     })
 }
+
+export function getRecentMoment(){
+    return axios({
+        method: "GET",
+        url: `/api/moment/recent`
+    })
+}

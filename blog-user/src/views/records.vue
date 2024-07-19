@@ -8,7 +8,7 @@
       <span>  共计 {{total}} 篇文章</span>
       <Timeline style="margin-top: 2em;">
         <div v-for="recordList in records" :key="recordList.year" >
-          <timeline-title style="font-size: 2em;">{{recordList.year+"年"}}</timeline-title>
+          <timeline-title style="font-size: 2em;">{{recordList.year}}</timeline-title>
           <timeline-item v-for="record in recordList.recordList" :key="record.id" :date="record.date" class="timeline-item" >
             <div>
               {{ record.date.slice(5) }}

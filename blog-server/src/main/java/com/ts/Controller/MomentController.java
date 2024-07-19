@@ -42,4 +42,9 @@ public class MomentController {
     public Result updateVisible(@PathVariable("id") int id){
         return momentService.changeVisibility(id);
     }
+
+    @GetMapping("/moment/recent")
+    public Result getRecentMoments() {
+        return momentService.getRecentMoments();
+    }
 }
