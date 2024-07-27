@@ -1,2 +1,17 @@
-# 项目排除路径
 /blog-server/target/
+/blog-admin/dist2/*
+/blog-admin/node_modules/*
+/blog-user/dist1/*
+/blog-user/node_modules/*
+/blog-user/.idea/*
+/blog-user/.vscode/*
+/blog-admin/.idea/*
+/blog-admin/.vscode/*
+/blog-server/.idea/*
+/blog-server/.vscode/*
+/blog-server/logs/*
+/blog-server/ip2region.xdb
+
+
+
+/blog-user/test.html
