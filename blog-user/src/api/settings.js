@@ -6,3 +6,10 @@ export function getSettings() {
         method: 'get'
     })
 }
+
+export function getVisitorCount() {
+    return axios({
+        url: '/api/visitor/count',
+        method: 'get'
+    })
+}

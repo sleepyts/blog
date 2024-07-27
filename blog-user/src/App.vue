@@ -31,7 +31,7 @@
 import Loading from "@/components/Loading.vue";
 import {onMounted, computed} from "vue";
 import store from "@/store";
-import {getSettings} from "@/api/settings.js";
+import {getSettings,getVisitorCount} from "@/api/settings.js";
 import RightContent from "@/components/RightContent.vue";
 import {getRandomBlog} from "@/api/blog.js";
 import {getRecentMoment} from "@/api/Moment.js";
@@ -51,6 +51,11 @@ onMounted(() => {
   getRecentMoment().then(res => {
     if (res.data.code === 200) {
       store().commit('SET_RECENT_MOMENT', res.data.data)
+    }
+  })
+  getVisitorCount().then(res => {
+    if (res.data.code === 200) {
+      store().state.siteSettings.visitorCount = res.data.data
     }
   })
 })

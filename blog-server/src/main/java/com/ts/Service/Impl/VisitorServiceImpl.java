@@ -24,4 +24,9 @@ public class VisitorServiceImpl implements VisitorService {
     public Result deleteVisitorById(Integer id) {
         return Result.success(visitorMapper.deleteById(id));
     }
+
+    @Override
+    public Result getVisitorCount() {
+        return Result.success(visitorMapper.selectCount(null));
+    }
 }

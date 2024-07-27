@@ -20,8 +20,12 @@ public class VisitorController {
     }
 
     @DeleteMapping("/admin/visitor/{id}")
-
     public Result deleteVisitor(@PathVariable("id") Integer id)  {
         return visitorService.deleteVisitorById(id);
+    }
+
+    @GetMapping("/visitor/count")
+    public Result getVisitorCount() {
+        return visitorService.getVisitorCount();
     }
 }

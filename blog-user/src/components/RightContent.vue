@@ -1,9 +1,9 @@
 <script setup>
-import {ref, onMounted, computed} from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import store from '../store'
-import {BarsOutlined} from '@ant-design/icons-vue'
+import { BarsOutlined, NotificationOutlined } from '@ant-design/icons-vue'
 import router from "@/router/index.js";
-import {MdCatalog, MdPreview} from "md-editor-v3";
+import { MdCatalog, MdPreview } from "md-editor-v3";
 
 const scrollElement = document.documentElement;
 const handleClick = async (id) => {
@@ -64,49 +64,66 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="router.currentRoute.value.name !== 'Home'" class="content" :style="{position: showTOC() ? 'fixed' : 'absolute'}">
+  <div v-if="router.currentRoute.value.name !== 'Home'" class="content"
+    :style="{ position: showTOC() ? 'fixed' : 'absolute' }">
+    <div class="mt-5 mobile-hidden">
+      <div style="padding: 10px;">
+        <NotificationOutlined />
+        <span style="margin-left: 10px;">公告</span>
+      </div>
+      <div class="line-break"></div>
+      <div style="padding: 10px;">
+        <span>{{store().state.siteSettings.announcement }}</span>
+      </div>
+    </div>
     <div v-if="showTOC()" class="toc mt-5 mobile-hidden ">
       <div style="padding: 10px;">
-        <BarsOutlined/>
+        <BarsOutlined />
         <span style="margin-left: 10px;">Table of Content</span>
       </div>
       <div class="line-break"></div>
       <div style="padding: 10px;">
-        <MdCatalog editorId="preview-only" :scrollElement="scrollElement"
-                   :scrollElementOffsetTop=90
-                   :offsetTop="200"
-                   class="catalog"
-        ></MdCatalog>
+        <MdCatalog editorId="preview-only" :scrollElement="scrollElement" :scrollElementOffsetTop=90 :offsetTop="200"
+          class="catalog"></MdCatalog>
       </div>
     </div>
     <div v-if="showRandomBlogsAndRecent()" class="mt-5 mobile-hidden">
       <div style="padding: 10px;">
-        <BarsOutlined/>
+        <BarsOutlined />
         <span style="margin-left: 10px;">随机文章</span>
       </div>
       <div class="line-break"></div>
       <div style="padding: 10px;">
         <div v-for="blog in randomBlogs" class="item-blog" @click="handleClick(blog.id)"
-             :class="{active: Number(blog.id) === Number(router.currentRoute.value.params.id)}">
+          :class="{ active: Number(blog.id) === Number(router.currentRoute.value.params.id) }">
           <span>{{ blog.title }}</span>
         </div>
       </div>
     </div>
     <div v-if="showRandomBlogsAndRecent()" class="mt-5 mobile-visible">
       <div style="padding: 10px;">
-        <BarsOutlined/>
+        <BarsOutlined />
         <span style="margin-left: 10px;">最近动态</span>
       </div>
       <div class="line-break"></div>
       <div class="timeline">
         <div class="timenode" v-for="moment in recentMoments">
           <div class="header">
-            <span>{{new Date(moment.createTime).toLocaleString() }}</span>
+            <span>{{ new Date(moment.createTime).toLocaleString() }}</span>
           </div>
           <div class="body">
-            <span>{{moment.content }}</span>
+            <span>{{ moment.content }}</span>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="mt-5 mobile-hidden">
+      <div style="padding: 10px;">
+        <span>本站已存活：{{ runTime.days }}天{{ runTime.hours }}小时{{ runTime.minutes }}分{{ runTime.seconds }}秒</span>
+      </div>
+      <div class="line-break"></div>
+      <div style="padding: 10px;">
+        <span>访客数量：{{ store().state.siteSettings.visitorCount }}</span>
       </div>
     </div>
   </div>
@@ -146,7 +163,8 @@ onMounted(() => {
 .item-blog {
   cursor: pointer;
   transition: 0.2s all ease-in-out;
-  box-shadow: 0 0 #0000, 0 0 #0000, -0.5rem 0.875rem 2.375rem #272c310f, -0.0625rem 0.1875rem 0.5rem #272c3108;;
+  box-shadow: 0 0 #0000, 0 0 #0000, -0.5rem 0.875rem 2.375rem #272c310f, -0.0625rem 0.1875rem 0.5rem #272c3108;
+  ;
   padding: 10px;
   border-radius: 5px;
 }

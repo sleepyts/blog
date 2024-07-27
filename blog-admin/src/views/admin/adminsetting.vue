@@ -14,7 +14,10 @@
       <a-input v-model:value="settings.logoUrl"></a-input>
       <img :src="settings.logoUrl" style="width: 100px; margin-top: 10px;"/>
     </div>
-
+    <div  class="settings-container">
+      <span style="font-weight: bold;">公告</span>
+      <a-input v-model:value="settings.announcement"></a-input>
+    </div>
     <div  class="settings-container">
       <span style="font-weight: bold;">站点描述</span>
       <a-input v-model:value="settings.description"></a-input>
@@ -53,6 +56,7 @@ const settings = ref({
   indexUrl: "",
   logoUrl: "",
   description: "",
+  announcement: ""
 })
 onMounted(async () => {
   await getSettings().then(res => {

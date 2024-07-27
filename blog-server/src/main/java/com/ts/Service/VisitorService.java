@@ -6,4 +6,6 @@ public interface VisitorService {
     Result getVisitor();
 
     Result deleteVisitorById(Integer id);
+
+    Result getVisitorCount();
 }

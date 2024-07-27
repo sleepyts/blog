@@ -21,6 +21,7 @@ public class Settings implements java.io.Serializable {
     private String indexUrl;
     private String description;
     private String logoUrl;
+    private String announcement;
 
 }
 
