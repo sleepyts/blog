@@ -1,12 +1,10 @@
 <script setup>
-import {onMounted} from "vue";
+import { onMounted } from "vue";
 import store from "@/store/index.js";
 import BlogHeader from "@/components/BlogHeader.vue";
 import Detail from "@/components/Blog/Detail.vue";
 import Comments from "@/components/Comment/Comments.vue";
 import Guest from "@/components/Comment/Guest.vue";
-import RightContent from "@/components/RightContent.vue";
-
 onMounted(() => {
   store().dispatch("getVerify")
 });
@@ -16,6 +14,7 @@ onMounted(() => {
     <blog-header></blog-header>
     <div class="mt-5 cont page-main-container">
       <Detail></Detail>
+
     </div>
     <Guest :blog-id=Number(store().state.blogId)></Guest>
     <Comments :blog-id=Number(store().state.blogId) class="mt-5"></Comments>
@@ -28,9 +27,11 @@ onMounted(() => {
     background-color: var(--colorBgContainer)
   }
 }
+
 .cont {
   animation: slid 0.2s ease-in-out;
 }
+
 @keyframes slid {
   from {
     transform: translateY(0%);
@@ -42,6 +43,7 @@ onMounted(() => {
     opacity: 1;
   }
 }
+
 @media (min-width: 768px) {
   .cont {
     margin-top: 5%;

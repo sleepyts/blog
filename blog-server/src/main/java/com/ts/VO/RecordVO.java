@@ -22,4 +22,5 @@ public class RecordVO implements Serializable {
 //    private Long blogId;
     private String year;
     private List<Record> recordList;
+    
 }

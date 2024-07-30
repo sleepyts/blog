@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @RestController
@@ -26,8 +27,12 @@ public class OperationController {
     }
 
     @DeleteMapping("/{id}")
-
     public Result deleteOperationLogById(@PathVariable("id") int id) {
         return logService.deleteOperationLog(id);
+    }
+
+    @GetMapping("/log")
+    public Result getLogFile(){
+        return logService.getLogFile();
     }
 }

@@ -1,14 +1,14 @@
 <script setup>
 import '../assets/theam.css'
 import BlogCard from "@/components/Blog/BlogCard.vue";
-import {provide, ref, onMounted, watch} from 'vue';
+import { provide, ref, onMounted, watch } from 'vue';
 import Title from "@/components/Title.vue";
 import BlogHeader from "@/components/BlogHeader.vue";
-import {getCategories} from "@/api/category.js";
+import { getCategories } from "@/api/category.js";
 import store from "@/store/index.js";
-import {BarsOutlined} from "@ant-design/icons-vue";
-import {getBlogList} from "@/api/blog.js";
-import {getMoment} from "@/api/Moment.js";
+import { BarsOutlined } from "@ant-design/icons-vue";
+import { getBlogList } from "@/api/blog.js";
+import { getMoment } from "@/api/Moment.js";
 
 const searchText = ref('');
 const options = ref([]);
@@ -81,21 +81,14 @@ const onPageChange = async (page) => {
     <Title title="Blog"></Title>
     <div class="blogContent page-main-container">
       <input class="searchInput" type="text" placeholder="Search..." v-model="searchText">
-      <a-cascader v-model:value="value"
-                  :options="options"
-                  style="width: 250px;margin-top:1em;"
-                  :allowClear="false"
-                  :expandTrigger="'hover'"
-      />
+      <a-cascader v-model:value="value" :options="options" style="width: 250px;margin-top:1em;" :allowClear="false"
+        :expandTrigger="'hover'" />
       <span style="margin-left: 1em">({{ filteredBlogs.length }})</span>
       <div class="blogCards">
-        <blog-card v-for="blog in filteredBlogs" :blog="blog" class="blogCard"/>
+        <blog-card v-for="blog in filteredBlogs" :blog="blog" class="blogCard" />
       </div>
-      <a-pagination v-model:current=currentPage :total="total"
-                    @change="onPageChange"
-                    simple
-                    style="text-align: center; margin-top: 20px;"
-      >
+      <a-pagination v-model:current=currentPage :total="total" @change="onPageChange" simple
+        style="text-align: center; margin-top: 20px;">
       </a-pagination>
     </div>
   </div>
@@ -128,7 +121,8 @@ const onPageChange = async (page) => {
   transition: border-color 0.2s ease-in-out;
 }
 
-.searchInput:focus, .searchInput:active {
+.searchInput:focus,
+.searchInput:active {
   outline: none;
   border: 1px solid teal;
 }
@@ -150,8 +144,7 @@ const onPageChange = async (page) => {
 
 .blogCard:hover {
   transform: scale(1.010);
-  backdrop-filter: blur(8px);
-  box-shadow: var(--card-border-shadow); /* 设置阴影样式 */
+  box-shadow: var(--card-border-shadow);
   cursor: pointer;
 }
 
@@ -159,4 +152,3 @@ const onPageChange = async (page) => {
   transform: scale(0.995);
 }
 </style>
-

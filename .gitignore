@@ -15,3 +15,10 @@
 
 
 /blog-user/test.html
+blog-user/.eslintrc.js
+blog-user/jsconfig.json
+blog-user/volar.config.js
+blog-admin/volar.config.js
+blog-admin/jsconfig.json
+blog-admin/.eslintrc.js
+blog-server/blog-server.jar

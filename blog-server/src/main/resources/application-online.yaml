@@ -1,22 +1,21 @@
-server.port:
-  8080
+server.port: 8080
 spring:
   application:
     name: 未月拾叁
   datasource:
     url: jdbc:mysql://mysql:3306/blog?useSSL=false
-    username: yourUsername
-    password: yourPassword
+    username: root
+    password: Blog@123
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   task:
     execution:
       pool:
-        core-size: 4          # 核心线程数
-        max-size: 8           # 最大线程数
-        queue-capacity: 500    # 队列容量
-        keep-alive: 10s        # 线程空闲时间
-      thread-name-prefix: AsyncExecutor-  # 线程名称前缀
+        core-size: 4 # 核心线程数
+        max-size: 8 # 最大线程数
+        queue-capacity: 500 # 队列容量
+        keep-alive: 10s # 线程空闲时间
+      thread-name-prefix: AsyncExecutor- # 线程名称前缀
   data:
     redis:
       host: redis
@@ -35,3 +34,5 @@ config:
     redisDeleteDelay: 100
   ipXbd:
     path: /root/java/ipXbd/ip2region.xdb
+  log:
+    path: /root/java/nohup.out

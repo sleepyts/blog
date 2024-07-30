@@ -13,12 +13,14 @@
       @ Tsukiyo 2024
       <br>
       <br>
+
     </a-layout-footer>
   </a-config-provider>
 </template>
 
 <script setup>
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
+
 </script>
 
 <style>
@@ -54,5 +56,4 @@ import zhCN from 'ant-design-vue/es/locale/zh_CN';
 
   top: 0;
 }
-
 </style>

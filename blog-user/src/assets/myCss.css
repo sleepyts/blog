@@ -1,24 +1,27 @@
 .rowFlex {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .columnFlex {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .flex {
-    display: flex;
+  display: flex;
 }
 
 .center {
-    align-items: center;
-    justify-content: center;
-    margin-top: auto
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
 }
 
-.padding-10{
-    padding: 10px;
+.padding-10 {
+  padding: 10px;
 }
-
+.line-break {
+  height: 1px;
+  border-bottom: 1px solid #ccc;
+}

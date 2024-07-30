@@ -18,6 +18,7 @@ public class RedisConstants {
     public static final String SETTINGS_CACHE_KEY=PRE+"SETTINGS_CACHE";
     public static final String FRIEND_CACHE_KEY=PRE+"FRIEND_CACHE";
     public static final String MOMENT_CACHE_KEY=PRE+"MOMENT_CACHE";
+    public static final String BLOG_LIST_CACHE_KEY=PRE+"BLOG_LIST_CACHE";
 
     public static final String BLOG_CACHE_LOCK=PRE+"BLOG_CACHE_LOCK";
     public static final String COMMENT_CACHE_LOCK=PRE+"COMMENT_CACHE_LOCK";

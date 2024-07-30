@@ -119,6 +119,7 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
     }
 
     @Override
+    @Cacheable(KEY = BLOG_LIST_CACHE_KEY)
     public Result getBlogList() {
         List<Blog> blogs = query().orderByDesc("create_time").list();
         List<BlogVO> blogVOList = blogs.stream().map(blog -> {
@@ -160,6 +161,7 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
         save(blog);
         recordService.addRecord(blog);
         redisService.delayDeleteTwice(BLOG_CACHE_KEY);
+        redisService.delayDeleteTwice(BLOG_LIST_CACHE_KEY);
         return Result.success();
     }
 
@@ -175,6 +177,7 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
         updateById(blog);
         recordService.updateRecord(blog);
         redisService.delayDeleteTwice(BLOG_CACHE_KEY, BLOG_CONTENT_CACHE_KEY +":"+ blog.getId());
+        redisService.delayDeleteTwice(BLOG_LIST_CACHE_KEY);
         return Result.success();
     }
 
@@ -206,6 +209,7 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
         recordService.deleteRecordByBlogId(id);
 
         redisService.delayDeleteTwice(BLOG_CACHE_KEY, BLOG_CONTENT_CACHE_KEY +":"+ id);
+        redisService.delayDeleteTwice(BLOG_LIST_CACHE_KEY);
         return Result.success();
     }
 

@@ -10,16 +10,25 @@ import com.ts.Mapper.VisitorMapper;
 import com.ts.Service.IExceptionLogService;
 import com.ts.Service.IOperationLogService;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.ts.Constants.RedisConstants.PV_CACHE_KEY;
 import static com.ts.Constants.RedisConstants.UV_CACHE_KEY;
@@ -28,6 +37,9 @@ import static com.ts.Utils.ipAddressUtils.getCityInfo;
 @Service
 @Slf4j
 public class LogService implements IOperationLogService, IExceptionLogService {
+
+    @Value("${config.log.path}")
+    private String logPath;
 
     @Autowired
     private OperationLogMapper operationLogMapper;
@@ -138,6 +150,19 @@ public class LogService implements IOperationLogService, IExceptionLogService {
     public Result saveOperationLog(OperationLog operationLog) {
         boolean success=operationLogMapper.insert(operationLog)>0;
         if(success) return Result.success();
-        else return Result.error("保存日志失败");
+        else return Result.error("保存日志失败");            
+    }
+
+    public Result getLogFile(){
+        StringBuilder contentBuilder = new StringBuilder();
+
+        try (Stream<String> stream = Files.lines(Paths.get(logPath))) {
+            contentBuilder.append(stream.collect(Collectors.joining("\n")));
+        } catch (IOException e) { 
+            e.printStackTrace();
+            return Result.error("获取日志失败");
+        }
+
+        return Result.success(contentBuilder.toString());
     }
 }

@@ -26,6 +26,8 @@ export default defineConfig(({ mode }) => {
             template:{
               compilerOptions:{
                 isCustomElement: tag=>tag==="meting-js",
+
+                
               }
             }
           }
