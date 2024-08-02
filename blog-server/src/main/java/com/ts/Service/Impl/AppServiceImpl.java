@@ -8,7 +8,6 @@ import com.ts.Entity.Result;
 import com.ts.Mapper.AppMapper;
 import com.ts.Service.IAppService;
 import com.ts.Service.RedisService;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,21 +15,18 @@ import java.util.List;
 
 import static com.ts.Constants.RedisConstants.APP_CACHE_KEY;
 
-
 @Service
 public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements IAppService {
 
     @Autowired
     private RedisService redisService;
-    @Autowired
-    private RedissonClient redissonClient;
-    
+
     @Override
     @RequestLog
-    @Cacheable(KEY=APP_CACHE_KEY)
+    @Cacheable(KEY = APP_CACHE_KEY)
     public Result getApps() {
         List<App> apps;
-        apps=this.list();
+        apps = this.list();
         return Result.success(apps);
     }
 
@@ -57,6 +53,5 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements IAppS
         redisService.delayDeleteTwice(APP_CACHE_KEY);
         return Result.success();
     }
-
 
 }

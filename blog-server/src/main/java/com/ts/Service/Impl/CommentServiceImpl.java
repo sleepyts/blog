@@ -5,18 +5,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ts.Annotation.Cacheable;
 import com.ts.Annotation.RequestLog;
-import com.ts.Entity.Comment;
 import com.ts.DTO.CommentDTO;
+import com.ts.Entity.Comment;
 import com.ts.Entity.Result;
-import com.ts.VO.CommentVO;
-import com.ts.VO.PageVO;
 import com.ts.Mapper.CommentMapper;
 import com.ts.Service.ICommentService;
-import com.ts.Service.RedisService;
 import com.ts.Utils.RegexUtil;
 import com.ts.Utils.VerifyUtil;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
+import com.ts.VO.CommentVO;
+import com.ts.VO.PageVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.Cursor;
@@ -30,7 +27,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.ts.Constants.RedisConstants.*;
+import static com.ts.Constants.RedisConstants.COMMENT_CACHE_KEY;
+import static com.ts.Constants.RedisConstants.VERIFY_CACHE_KEY;
 
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements ICommentService {

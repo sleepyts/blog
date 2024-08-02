@@ -1,6 +1,5 @@
 package com.ts.Config;
 
-
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -16,10 +15,20 @@ public class RedisConfig {
 
     @Value("${spring.data.redis.host}")
     private String redisHost;
+    @Value("${spring.data.redis.port}")
+    private int redisPort;
+    @Value("${spring.data.redis.password}")
+    private String redisPassword;
+    @Value("${config.global.env}")
+    private String env;
+
     @Bean
     public RedissonClient redissonClient() {
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://" + redisHost + ":6379");
+        if (env.equals("online"))
+            config.useSingleServer().setAddress("redis://" + redisHost + ":" + redisPort);
+        else if (env.equals("dev"))
+            config.useSingleServer().setAddress("redis://" + redisHost + ":" + redisPort).setPassword(redisPassword);
         return Redisson.create(config);
     }
 
@@ -31,4 +40,4 @@ public class RedisConfig {
         return template;
     }
 
-    }
+}

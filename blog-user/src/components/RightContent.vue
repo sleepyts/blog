@@ -71,8 +71,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="router.currentRoute.value.name !== 'Home' && router.currentRoute.value.name !== 'RSS'" class="content"
-    :style="{ position: showTOC() ? 'fixed' : 'absolute' }">
+  <div v-if="router.currentRoute.value.name !== 'Home' && router.currentRoute.value.name !== 'RSS'"
+    class="content mobile-hidden" :style="{ position: showTOC() ? 'fixed' : 'absolute' }">
     <div v-if="showAnnouncement()" class="mt-5 mobile-hidden">
       <div style="padding: 10px;">
         <NotificationOutlined />
@@ -107,7 +107,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div v-if="showRandomBlogsAndRecent()" class="mt-5 mobile-visible">
+    <div v-if="showRandomBlogsAndRecent()" class="mt-5 mobile-hidden">
       <div style="padding: 10px;">
         <BarsOutlined />
         <span style="margin-left: 10px;">最近动态</span>

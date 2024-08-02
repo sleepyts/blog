@@ -8,7 +8,6 @@ import com.ts.Entity.Settings;
 import com.ts.Mapper.SettingsMapper;
 import com.ts.Service.RedisService;
 import com.ts.Service.SettingsService;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
