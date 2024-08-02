@@ -21,17 +21,18 @@ spring:
     default-property-inclusion: non_null # JSON处理时忽略非空字段
   data:
     redis:
-      host: 127.0.0.1
-      port: 6379
+      host: 1.94.145.164
+      port: 8888
+      password: "Redis134771150"
       lettuce:
         pool:
           max-active: 10
           max-idle: 10
           min-idle: 1
           time-between-eviction-runs: 10s
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# mybatis-plus:
+#   configuration:
+#     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # 自定义配置
 config:
   redis:
@@ -40,3 +41,5 @@ config:
     path: D:\IdeaProjects\blog\blog-server\ip2region.xdb
   log:
     path: D:\app2024-07-21.log
+  global:
+    env: dev

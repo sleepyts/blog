@@ -2,8 +2,8 @@ package com.ts.Controller;
 
 
 import com.ts.Entity.Result;
-import com.ts.VO.VerifyVO;
 import com.ts.Utils.VerifyUtil;
+import com.ts.VO.VerifyVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;

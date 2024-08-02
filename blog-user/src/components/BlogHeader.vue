@@ -1,12 +1,8 @@
 <template>
   <div class="container">
     <div class="header page-main-container">
-      <button class="head-btn "
-              v-for="(item, index) in menuItems"
-              :key="index"
-              :class="{ active: index === activeIndex }"
-              @click="handleClick(item,index)"
-      >
+      <button class="head-btn " v-for="(item, index) in menuItems" :key="index"
+        :class="{ active: index === activeIndex }" @click="handleClick(item, index)">
         {{ item }}
       </button>
     </div>
@@ -14,8 +10,8 @@
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue'
-import {useRouter} from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const menuItems = ref(['Home', 'Blog', 'Records', 'Moments', 'Links', 'Guestbook', 'About', 'Apps'])
@@ -40,12 +36,14 @@ onMounted(() => {
     font-size: 1em;
   }
 }
+
 @media (min-width: 769px) {
   .head-btn {
     font-size: 1.5em;
   }
 
 }
+
 .container {
   display: flex;
   flex-direction: row;
@@ -58,10 +56,17 @@ onMounted(() => {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+
 .header {
   display: flex;
   flex-direction: row;
   margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .head-btn {
+    font-size: 0.8em;
+  }
 }
 
 .head-btn {
@@ -72,6 +77,7 @@ onMounted(() => {
   background: var(--background-color);
   color: var(--text-color);
   height: fit-content;
+  width: fit-content;
 }
 
 .head-btn:hover {
@@ -88,5 +94,4 @@ onMounted(() => {
   background: var(--active-background-color);
   color: var(--active-color);
 }
-
 </style>

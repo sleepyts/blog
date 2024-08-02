@@ -74,6 +74,10 @@ onMounted(async () => {
   align-items: center;
 }
 
+.name {
+  font-weight: bold;
+}
+
 .line {
   margin-top: 10px;
   margin-bottom: 10px;

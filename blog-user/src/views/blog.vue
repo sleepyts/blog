@@ -8,8 +8,6 @@ import { getCategories } from "@/api/category.js";
 import store from "@/store/index.js";
 import { BarsOutlined } from "@ant-design/icons-vue";
 import { getBlogList } from "@/api/blog.js";
-import { getMoment } from "@/api/Moment.js";
-
 const searchText = ref('');
 const options = ref([]);
 const value = ref([0]);
@@ -18,6 +16,7 @@ const filteredBlogs = ref([]);
 const categoryName = ref('');
 const currentPage = ref(1);
 const total = ref(0);
+const currentTotal = ref(0);
 onMounted(async () => {
   await getBlogList(currentPage.value).then(res => {
     if (res.data.code === 200) {
@@ -56,14 +55,21 @@ watch(searchText, () => {
 });
 
 async function filterBlogsByCategory() {
-  if (categoryName.value === '全部') filteredBlogs.value = blogList.value;
+  currentPage.value = 1;
+  if (categoryName.value === '全部') {
+    currentTotal.value = total.value;
+    filteredBlogs.value = blogList.value;
+  }
   else if (categoryName.value !== '') {
     filteredBlogs.value = blogList.value.filter(blog => {
       return blog.categoryName === categoryName.value;
     });
+    currentTotal.value = filteredBlogs.value.length;
   } else {
     filteredBlogs.value = blogList.value;
+    currentTotal.value = total.value;
   }
+
 }
 
 const onPageChange = async (page) => {
@@ -87,9 +93,10 @@ const onPageChange = async (page) => {
       <div class="blogCards">
         <blog-card v-for="blog in filteredBlogs" :blog="blog" class="blogCard" />
       </div>
-      <a-pagination v-model:current=currentPage :total="total" @change="onPageChange" simple
+      <a-pagination v-model:current=currentPage :total="currentTotal" @change="onPageChange" simple
         style="text-align: center; margin-top: 20px;">
       </a-pagination>
+
     </div>
   </div>
 </template>

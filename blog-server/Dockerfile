@@ -12,6 +12,7 @@ WORKDIR /root/java
 # 设置时区
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+
 # 设置时区
 ENV TZ=Asia/Shanghai
 
@@ -31,3 +32,5 @@ ADD ${JAR_FILE} ./bili.jar
 # /usr/local/java/application-online.yaml 指定配置文件的路径，这里是application.yaml和application-online.yaml
 # -jar /usr/local/java/bili.jar 启动的jar包路径
 ENTRYPOINT ["nohup", "java", "-Dspring.profiles.active=online", "-Dspring.config.location=/root/java/application.yaml,/root/java/application-online.yaml", "-jar", "/root/java/bili.jar"]
+
+

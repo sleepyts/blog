@@ -11,7 +11,6 @@
       <router-view />
       <RightContent></RightContent>
 
-
     </a-config-provider>
   </div>
   <a-back-top :visibility-height=100></a-back-top>

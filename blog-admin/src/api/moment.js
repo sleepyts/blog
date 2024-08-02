@@ -10,10 +10,7 @@ export function getMoments(){
 export function deleteMoment(id){
     return myAxios({
         method: 'DELETE',
-        url: `/api/admin/moment`,
-        params: {
-            id: id
-        }
+        url: `/api/admin/moment/${id}`,
     })
 }
 

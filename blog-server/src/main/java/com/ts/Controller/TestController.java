@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.ts.Utils.ipAddressUtils.getCityInfo;
-
 @RestController
 @RequestMapping("/test")
 @CrossOrigin(origins = "*")
