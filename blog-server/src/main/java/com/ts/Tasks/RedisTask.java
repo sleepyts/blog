@@ -1,10 +1,8 @@
 package com.ts.Tasks;
 
 import com.ts.Entity.UVPV;
-import com.ts.Service.IAppService;
-import com.ts.Service.IBlogService;
-import com.ts.Service.IRecordService;
-import com.ts.Service.IUVPVService;
+import com.ts.Mapper.MomentMapper;
+import com.ts.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -41,6 +39,7 @@ public class RedisTask {
         for (int i = 0; i < blogCount / 5; i++) {
             blogService.queryBlog(i);
         }
+
 
     }
 

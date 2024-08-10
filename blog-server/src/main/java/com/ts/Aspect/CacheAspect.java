@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @Order(2) // 保证该切面在记录日志的切面之后执行
-public class CacheAndLockAspect {
+public class CacheAspect {
 
     @Autowired
     private RedisService redisService;

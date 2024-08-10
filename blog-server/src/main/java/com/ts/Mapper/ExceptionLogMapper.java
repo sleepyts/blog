@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface ExceptionLogMapper extends BaseMapper<ExceptionLog> {
 
-    @Select("select * from tb_exception where create_time >= #{startDate} and create_time <= #{endDate}")
+    @Select("select * from tb_exception where create_time >= #{startDate} and create_time <= #{endDate} order by create_time desc")
     List<ExceptionLog> selectByTime(LocalDateTime startDate, LocalDateTime endDate);
 }

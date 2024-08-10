@@ -1,12 +1,10 @@
 package com.ts.Controller.Admin;
 
-import com.esotericsoftware.minlog.Log;
 import com.ts.Entity.Result;
 import com.ts.Service.IBlogService;
 import com.ts.Service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +27,8 @@ public class DashBordController {
 
     @GetMapping("/pv")
     public Result getPV() {
-        return Result.success(redisTemplate.opsForValue().get(PV_CACHE_KEY));
+        Long increment = redisTemplate.opsForValue().increment(PV_CACHE_KEY);
+        return Result.success(increment);
     }
 
     @GetMapping("/uv")

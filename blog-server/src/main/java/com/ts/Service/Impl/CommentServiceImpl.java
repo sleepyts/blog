@@ -27,6 +27,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.ts.Constants.ExceptionConstants.EXCEPTION_VERIFY_ERROR;
+import static com.ts.Constants.ExceptionConstants.EXCEPTION_VERIFY_OVERDUE;
 import static com.ts.Constants.RedisConstants.COMMENT_CACHE_KEY;
 import static com.ts.Constants.RedisConstants.VERIFY_CACHE_KEY;
 
@@ -52,9 +54,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (ok == 1)
             return Result.error("?");
         if (ok == 2)
-            return Result.error("验证码过期,请刷新重试");
+            return Result.error(EXCEPTION_VERIFY_OVERDUE);
         if (ok == 3)
-            return Result.error("验证码错误");
+            return Result.error(EXCEPTION_VERIFY_ERROR);
 
         // 保存评论
         Comment comment = new Comment();

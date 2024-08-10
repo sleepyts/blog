@@ -65,10 +65,7 @@ public class LogService implements IOperationLogService, IExceptionLogService {
                     visitor,
                     joinPoint.getSignature().getName(),
                     joinPoint.getArgs());
-            if (redisTemplate.hasKey(PV_CACHE_KEY))
-                redisTemplate.opsForValue().increment(PV_CACHE_KEY);
-            else
-                redisTemplate.opsForValue().set(PV_CACHE_KEY, new Integer(1));
+            redisTemplate.opsForValue().increment(PV_CACHE_KEY, 1);
             visitorMapper.updateLastVisit(visitor);
         }
         // 管理员日志记录
