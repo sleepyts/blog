@@ -3,6 +3,7 @@ package com.ts.Tasks;
 import com.ts.Entity.UVPV;
 import com.ts.Mapper.MomentMapper;
 import com.ts.Service.*;
+import com.ts.Utils.IpBloomFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,6 +27,8 @@ public class RedisTask {
     private IAppService appService;
     @Autowired
     private StringRedisTemplate redisTemplate;
+    @Autowired
+    private IpBloomFilter ipBloomFilter;
 
     /**
      * 预热缓存
@@ -44,7 +47,7 @@ public class RedisTask {
     }
 
     /**
-     * 清除每日访问量和每日访客量缓存
+     * 清除每日访问量,每日访客量缓存,当日IP布隆过滤器
      * time : 01:30 防止与预热缓存并发问题
      */
     @Scheduled(cron = "0 30 1 * * ? ")
@@ -60,6 +63,8 @@ public class RedisTask {
         }
         uvpv.setDate(LocalDate.now().minusDays(1));
         uvpvService.addUVPV(uvpv);
+
+        ipBloomFilter.clearDaily();
         redisTemplate.delete(PV_CACHE_KEY);
         redisTemplate.delete(UV_CACHE_KEY);
     }

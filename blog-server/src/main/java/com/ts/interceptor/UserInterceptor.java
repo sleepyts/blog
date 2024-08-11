@@ -21,6 +21,7 @@ public class UserInterceptor implements HandlerInterceptor {
                 request.getRemoteAddr());
         Visitor visitor = new Visitor();
         visitor.setIp(ip);
+        visitor.setUserAgent(request.getHeader("User-Agent"));
         Holder.setCurrentVisitor(visitor);
         return true;
     }

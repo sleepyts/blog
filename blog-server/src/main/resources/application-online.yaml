@@ -39,3 +39,5 @@ config:
     path: /root/java/nohup.out
   global:
     env: online
+    index-name: 未月拾叁
+    index-url: https://www.tsukiyo.cn

@@ -16,4 +16,5 @@ public interface ICommentService extends IService<Comment> {
 
     Result getCommentByPage(Long id, Integer page, Integer size);
 
+    Result adminAddComment(CommentDTO commentDTO);
 }

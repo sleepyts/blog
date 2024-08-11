@@ -17,9 +17,13 @@ public class CommentController {
     private ICommentService commentService;
     @PostMapping("/comment")
     public Result addComment(@RequestBody CommentDTO commentDTO) {
-
         return commentService.addComment(commentDTO);
     }
+    @PostMapping("/admin/comment")
+    public Result adminAddComment(@RequestBody CommentDTO commentDTO) {
+        return commentService.adminAddComment(commentDTO);
+    }
+
 
     @GetMapping("/comment/{id}")
     public Result getCommentById(@PathVariable("id") Long id) {

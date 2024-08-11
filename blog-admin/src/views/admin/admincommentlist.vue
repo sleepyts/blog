@@ -1,12 +1,18 @@
 <template>
-  <a-space>
     <a-cascader v-model:value="value"
                 :options="options"
                 placeholder="选择文章查看评论"
                 style="width: 300px"
     />
     <span>评论总数：{{ data.length }}</span>
-  </a-space>
+  <a-button type="primary" @click="handleComment">评论</a-button>
+  <a-modal width="80%" v-model:open="openReply" title="回复评论" @ok="reply">
+    <MdEditor v-model="replyForm.content" :preview-theme="'github'"
+              style="margin-top: 10px;width: 100%;"
+              ref="mdEditor"
+              :preview=false
+    />
+  </a-modal>
   <a-table
       :columns="columns"
       :data-source="data"
@@ -18,6 +24,8 @@
       <template v-if="column.key === 'action'">
           <span>
             <a-divider type="vertical" />
+            <a-button type="primary" @click="handleReply(record)">回复</a-button>
+            <a-divider type="vertical" />
             <a-button type="primary" danger @click="handleDelete(record.id)">删除</a-button>
           </span>
       </template>
@@ -28,8 +36,16 @@
 <script setup>
 import {onMounted, ref, watch} from 'vue';
 import {message} from "ant-design-vue";
-import {deleteComment, getComment} from "@/api/comment.js";
+import {adminPostComment, deleteComment, getComment} from "@/api/comment.js";
 import {getBlogThumbnail} from "@/api/blog.js";
+import {MdEditor} from "md-editor-v3";
+import "md-editor-v3/lib/style.css";
+const replyForm=ref({
+  isAdmin:true,
+  content:'',
+  replyId:'',
+  blogId:''
+})
 
 const blogId = ref(-1);
 onMounted(async () => {
@@ -47,6 +63,7 @@ onMounted(async () => {
 const options = ref([]);
 const value = ref([-1]);
 const data = ref([]);
+const openReply = ref(false);
 watch(value, async () => {
   blogId.value = value.value[0];
   await getComment(blogId.value).then((res) => {
@@ -94,6 +111,27 @@ const handleDelete = (id) => {
       message.success('删除成功');
     }
   });
+}
+const handleReply = (record) => {
+  openReply.value = true;
+  replyForm.value.replyId = record.id;
+  replyForm.value.blogId = blogId.value;
+}
+const handleComment = () => {
+  openReply.value = true;
+  replyForm.value.replyId = -1;
+  replyForm.value.blogId = blogId.value;
+}
+const reply = () => {
+  adminPostComment(replyForm.value).then(res =>{
+    if (res.data.code === 200){
+      message.success('评论成功');
+      openReply.value = false;
+      getComment(blogId.value).then((res) => {
+        if (res.data.code === 200) data.value = res.data.data;
+      });
+    }
+  })
 }
 
 </script>

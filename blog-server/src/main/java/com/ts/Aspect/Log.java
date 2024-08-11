@@ -4,10 +4,7 @@ import com.ts.Service.Impl.LogService;
 import com.ts.Utils.Holder;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -25,7 +22,6 @@ public class Log {
     public void requestLog() {
 
     }
-
     // 前置通知：在目标方法调用前执行
     @Before(value = "requestLog()")
     public void logBefore(JoinPoint joinPoint) {

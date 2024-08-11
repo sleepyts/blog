@@ -45,13 +45,14 @@ onMounted(async () => {
         id="randomColorLink">{{ props.comment.name }}</a>
       <span v-else class="name">{{ props.comment.name }}</span>
       <span style="margin-left: 10px;">{{ time }}</span>
+      <span v-if="props.comment.isAdmin " style="margin-left: 10px;border-radius: 5px;padding: 2px 5px;background-color: darkseagreen;color: #fff;font-size: 0.8em;"> (站长)</span>
       <a-button size="small" style="margin-left: auto;" @click="handleReply">回复</a-button>
     </div>
     <div class="content">
       <div style="padding-left: 20px;">
         <span style="font-size: 0.8em;">{{ "回复 @" + props.replyName + "：" }}</span>
       </div>
-      <MdPreview :model-value="props.comment.content"></MdPreview>
+      <MdPreview :model-value="props.comment.content" :preview-theme="'github'"></MdPreview>
     </div>
     <div class="reply" v-if="isReplying">
       <Reply></Reply>

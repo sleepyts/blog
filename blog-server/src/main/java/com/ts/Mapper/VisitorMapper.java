@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 @Mapper
 public interface VisitorMapper extends BaseMapper<Visitor> {
 
@@ -17,4 +19,7 @@ public interface VisitorMapper extends BaseMapper<Visitor> {
 
     @Update("UPDATE tb_visitor SET last_visit_time = #{lastVisitTime} WHERE id = #{id}")
     Boolean updateLastVisit(Visitor visitor);
+
+    @Select("SELECT ip FROM tb_visitor")
+    List<String> selectAllIps();
 }

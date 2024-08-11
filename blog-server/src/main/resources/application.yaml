@@ -34,6 +34,8 @@ spring:
 #   configuration:
 #     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # 自定义配置
+
+
 config:
   redis:
     redisDeleteDelay: 100
@@ -43,3 +45,6 @@ config:
     path: D:\app2024-07-21.log
   global:
     env: dev
+    index-name: 未月拾叁
+    index-url: https://www.tsukiyo.cn
+

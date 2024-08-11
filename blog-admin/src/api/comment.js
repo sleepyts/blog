@@ -13,3 +13,11 @@ export function deleteComment(id){
         method: 'delete',
     }))
 }
+
+export function adminPostComment(data){
+    return myAxios(({
+        url: '/api/admin/comment',
+        method: 'post',
+        data: data
+    }))
+}

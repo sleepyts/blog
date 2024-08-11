@@ -6,6 +6,7 @@ import com.ts.Mapper.OperationLogMapper;
 import com.ts.Mapper.VisitorMapper;
 import com.ts.Service.IExceptionLogService;
 import com.ts.Service.IOperationLogService;
+import com.ts.Utils.IpBloomFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -45,26 +48,51 @@ public class LogService implements IOperationLogService, IExceptionLogService {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+    @Autowired
+    private IpBloomFilter ipBloomFilter;
+
     @Async
-    public void logRequest(Visitor visitor, Admin admin, JoinPoint joinPoint) {
+    public void logRequest(Visitor visitor, Admin admin, JoinPoint joinPoint){
+        String argsNameAndValue="";
+        Parameter[] parameters=null;
+        Object[] args=joinPoint.getArgs();
+        try{
+            Method methods =
+                    joinPoint.getTarget().getClass().getMethod(joinPoint.getSignature().getName()
+                    ,((org.aspectj.lang.reflect.MethodSignature) joinPoint.getSignature()).getParameterTypes());
+            parameters=methods.getParameters();
+            for(int i=0;i<parameters.length;i++){
+                argsNameAndValue+=parameters[i].getName()+":"+args[i]+",";
+            }
+        }catch (Exception e){
+            log.error("获取方法失败:{}",e.getMessage());
+            return;
+        }
+
         // 访客日志记录
         if (visitor != null) {
             String ip = visitor.getIp();
-            visitor = visitorMapper.selectByIp(ip);
-            if (visitor == null || visitor.getIp() == null) {
-                redisTemplate.opsForValue().increment(UV_CACHE_KEY);
-                visitor = new Visitor();
+            // 判断当日新访客，更新当日UV
+            if (!ipBloomFilter.dailyContain(ip)){
+                ipBloomFilter.dailyAdd(ip);
+                redisTemplate.opsForSet().add(UV_CACHE_KEY, ip);
+            }
+            // 判断是否已经存在该访客
+            if (!ipBloomFilter.databaseContain(ip)) {
                 visitor.setIp(ip);
                 visitor.setFirstVisitTime(LocalDateTime.now());
-
                 visitor.setAddress(getCityInfo(ip));
                 visitorMapper.insert(visitor);
+                ipBloomFilter.databaseAdd(ip);
             }
+            visitor=visitorMapper.selectByIp(ip);
             visitor.setLastVisitTime(LocalDateTime.now());
             log.info("Current visitor:{} ,Method:{},Args:{}",
                     visitor,
                     joinPoint.getSignature().getName(),
-                    joinPoint.getArgs());
+                    argsNameAndValue
+                    );
+            // 增加pv
             redisTemplate.opsForValue().increment(PV_CACHE_KEY, 1);
             visitorMapper.updateLastVisit(visitor);
         }
@@ -75,27 +103,13 @@ public class LogService implements IOperationLogService, IExceptionLogService {
             log.info("Current admin:{} ,Method:{},Args:{}",
                     admin.getUsername(),
                     joinPoint.getSignature().getName(),
-                    joinPoint.getArgs());
+                    argsNameAndValue);
             OperationLog operationLog = new OperationLog();
             operationLog.setOperationTime(LocalDateTime.now());
             operationLog.setUserName(admin.getUsername());
             operationLog.setMethodName(joinPoint.getSignature().getName());
             saveOperationLog(operationLog);
         }
-        // //记录管理员操作日志
-        // if(method!=null&&ip!=null&&!Objects.equals(method,
-        // "GET")&&!classMethod.equals("deleteOperationLogById")&&!classMethod.equals("login")){
-        // logAdminRequest(method, ip, classMethod, joinPoint.getArgs(), adminName,
-        // userAgent);
-        // }
-        // //记录访客日志
-        // if (ip != null) {
-        // redisTemplate.opsForSet().add(UV_CACHE_KEY, ip);
-        // logVisitor(ip, userAgent);
-        // }
-        // Object[] args = joinPoint.getArgs();
-        // log.info("Request: method={} ip={} classMethod={} args={}", method, ip,
-        // classMethod, args);
     }
 
     @Async

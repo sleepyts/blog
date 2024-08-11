@@ -17,6 +17,7 @@ public class CommentVO implements java.io.Serializable {
     private String name;
     private String content;
     private String url;
+    private Boolean isAdmin;
     private Long replyId;
     private LocalDateTime createTime;
     private List<CommentVO> replyList;

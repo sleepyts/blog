@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ts.Annotation.Cacheable;
 import com.ts.Annotation.RequestLog;
+import com.ts.Config.GlobalConfig;
 import com.ts.DTO.CommentDTO;
 import com.ts.Entity.Comment;
 import com.ts.Entity.Result;
@@ -37,6 +38,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+    @Autowired
+    private GlobalConfig globalConfig;
 
     /**
      * 添加评论
@@ -197,6 +200,26 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         pageEntity.setRows(commentVOList);
 
         return Result.success(pageEntity);
+    }
+
+
+    /**
+     * 管理员添加评论 用于后台管理
+     * @param commentDTO
+     * @return
+     */
+    @Override
+    public Result adminAddComment(CommentDTO commentDTO) {
+        commentDTO.setUrl(globalConfig.getIndexUrl());
+        commentDTO.setName(globalConfig.getIndexName());
+        Comment comment = new Comment();
+        BeanUtils.copyProperties(commentDTO, comment);
+        comment.setCreateTime(LocalDateTime.now());
+        comment.setIsAdmin(true);
+        save(comment);
+
+        deleteCache(comment.getBlogId());
+        return Result.success();
     }
 
     private List<CommentVO> fromEntToVo(List<Comment> comments) {

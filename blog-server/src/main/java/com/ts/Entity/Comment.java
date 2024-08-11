@@ -22,6 +22,7 @@ public class Comment implements Serializable {
     private String name;
     private String content;
     private String url;
+    private Boolean isAdmin;
     private Long blogId;
     private Long replyId;
     private LocalDateTime createTime;
