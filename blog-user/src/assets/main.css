@@ -21,6 +21,9 @@
     font-style: normal;
 }
 @media (min-width: 768px) {
+    .pc-hidden{
+        display: none;
+    }
     .page-main-container {
         width: 60%;
         margin-left: 20%;

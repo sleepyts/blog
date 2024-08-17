@@ -1,6 +1,7 @@
 package com.ts.Service.Impl;
 
 import com.ts.Service.RedisService;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -50,14 +51,15 @@ public class RedisServiceImpl implements RedisService {
     @Async
     public void delayDeleteTwice(String... keys) {
         for (String key : keys) {
-            redisTemplate.delete(key);
-        }try{
-            Thread.sleep(DELAY_TIME);
-        }catch (Exception e){
-            throw new RuntimeException(e);
+            delayDeleteTwice(key);
         }
+    }
+
+    @Override
+    @Async
+    public void delayDeleteTwice(List<String> keys) {
         for (String key : keys) {
-            redisTemplate.delete(key);
+            delayDeleteTwice(key);
         }
     }
 

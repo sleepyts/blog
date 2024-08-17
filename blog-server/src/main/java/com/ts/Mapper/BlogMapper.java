@@ -19,4 +19,7 @@ public interface BlogMapper extends BaseMapper<Blog> {
 
     @Select("select id,title,create_time from tb_blog order by rand() limit 3")
     List<BlogRandomVO> selectRandomVO();
+
+    @Select("select id from tb_blog")
+    List<Integer> selectAllBlogIds();
 }

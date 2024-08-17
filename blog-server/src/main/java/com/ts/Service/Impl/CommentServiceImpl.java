@@ -186,7 +186,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     public Result getCommentByPage(Long id, Integer current, Integer size) {
         List<CommentVO> commentVOList;
         PageVO pageEntity;
-        int total = Math.toIntExact(query().eq("blog_id", id).eq("reply_id", -1).count());
+        int total = Math.toIntExact(query().eq("blog_id", id).count());
         // 从数据库中查询数据
         Page<Comment> page = new Page<>(current, size);
         Page<Comment> comments = page(page,

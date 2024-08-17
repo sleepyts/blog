@@ -2,28 +2,42 @@
   <div style="padding: 30px;display: flex;flex-direction: column;">
     <a-row >
       <a-col :span="12">
-        <a-statistic title="后端请求数" :value=pv >
+        <a-statistic title="当日PV" :value=dashBoardData.dailyPV >
           <template #prefix>
             <PieChartOutlined />
           </template>
         </a-statistic>
       </a-col>
       <a-col :span="12">
-        <a-statistic title="独立用户访问量" :value=uv >
+        <a-statistic title="当日UV" :value=dashBoardData.dailyUV >
           <template #prefix>
             <UserOutlined />
           </template>
         </a-statistic>
       </a-col>
       <a-col :span="12">
-        <a-statistic title="文章总数" :value=totalArticle  >
+        <a-statistic title="总PV" :value=dashBoardData.totalPV >
+          <template #prefix>
+            <UserOutlined />
+          </template>
+        </a-statistic>
+      </a-col>
+      <a-col :span="12">
+        <a-statistic title="总UV" :value=dashBoardData.totalUV >
+          <template #prefix>
+            <UserOutlined />
+          </template>
+        </a-statistic>
+      </a-col>
+      <a-col :span="12">
+        <a-statistic title="文章总数" :value=dashBoardData.blogCount  >
           <template #prefix>
             <PieChartOutlined />
           </template>
         </a-statistic>
       </a-col>
       <a-col :span="12">
-        <a-statistic title="评论总数" :value=totalComment  >
+        <a-statistic title="评论总数" :value=dashBoardData.commentCount  >
           <template #prefix>
             <PieChartOutlined />
           </template>
@@ -34,25 +48,14 @@
 </template>
 <script setup>
 import {onMounted, ref} from 'vue'
-import {getPV, getTotalArticle, getTotalComment, getUV} from "@/api/dashboard.js";
+import {getDashboardData} from "@/api/dashboard.js";
 import {PieChartOutlined, UserOutlined} from '@ant-design/icons-vue'
-
-const uv = ref()
-const pv = ref()
-const totalArticle = ref()
-const totalComment = ref()
+const dashBoardData = ref({})
 onMounted(async () => {
-  await getUV().then(res => {
-    if (res.data.code === 200) uv.value = res.data.data
-  })
-  await getPV().then(res => {
-    if (res.data.code === 200) pv.value = res.data.data
-  })
-  await  getTotalArticle().then(res => {
-    if (res.data.code === 200) totalArticle.value = res.data.data
-  })
-  await  getTotalComment().then(res => {
-    if (res.data.code === 200) totalComment.value = res.data.data
+  getDashboardData().then(res => {
+    if(res.data.code === 200){
+      dashBoardData.value = res.data.data
+    }
   })
 })
 </script>

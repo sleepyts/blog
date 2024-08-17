@@ -6,7 +6,7 @@ import com.ts.Mapper.OperationLogMapper;
 import com.ts.Mapper.VisitorMapper;
 import com.ts.Service.IExceptionLogService;
 import com.ts.Service.IOperationLogService;
-import com.ts.Utils.IpBloomFilter;
+import com.ts.Utils.BloomFilters;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class LogService implements IOperationLogService, IExceptionLogService {
     private RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
-    private IpBloomFilter ipBloomFilter;
+    private BloomFilters bloomFilters;
 
     @Async
     public void logRequest(Visitor visitor, Admin admin, JoinPoint joinPoint){
@@ -68,34 +68,6 @@ public class LogService implements IOperationLogService, IExceptionLogService {
             log.error("获取方法失败:{}",e.getMessage());
             return;
         }
-
-        // 访客日志记录
-        if (visitor != null) {
-            String ip = visitor.getIp();
-            // 判断当日新访客，更新当日UV
-            if (!ipBloomFilter.dailyContain(ip)){
-                ipBloomFilter.dailyAdd(ip);
-                redisTemplate.opsForSet().add(UV_CACHE_KEY, ip);
-            }
-            // 判断是否已经存在该访客
-            if (!ipBloomFilter.databaseContain(ip)) {
-                visitor.setIp(ip);
-                visitor.setFirstVisitTime(LocalDateTime.now());
-                visitor.setAddress(getCityInfo(ip));
-                visitorMapper.insert(visitor);
-                ipBloomFilter.databaseAdd(ip);
-            }
-            visitor=visitorMapper.selectByIp(ip);
-            visitor.setLastVisitTime(LocalDateTime.now());
-            log.info("Current visitor:{} ,Method:{},Args:{}",
-                    visitor,
-                    joinPoint.getSignature().getName(),
-                    argsNameAndValue
-                    );
-            // 增加pv
-            redisTemplate.opsForValue().increment(PV_CACHE_KEY, 1);
-            visitorMapper.updateLastVisit(visitor);
-        }
         // 管理员日志记录
         if (admin != null
                 && !Objects.equals(joinPoint.getSignature().getName(), "login")
@@ -109,7 +81,36 @@ public class LogService implements IOperationLogService, IExceptionLogService {
             operationLog.setUserName(admin.getUsername());
             operationLog.setMethodName(joinPoint.getSignature().getName());
             saveOperationLog(operationLog);
+            return ;
         }
+        // 访客日志记录
+        if (visitor != null) {
+            String ip = visitor.getIp();
+            // 判断当日新访客，更新当日UV
+            if (!bloomFilters.dailyContain(ip)){
+                bloomFilters.dailyAdd(ip);
+                redisTemplate.opsForSet().add(UV_CACHE_KEY, ip);
+            }
+            // 判断是否已经存在该访客
+            if (!bloomFilters.databaseContain(ip)) {
+                visitor.setIp(ip);
+                visitor.setFirstVisitTime(LocalDateTime.now());
+                visitor.setAddress(getCityInfo(ip));
+                visitorMapper.insert(visitor);
+                bloomFilters.databaseAdd(ip);
+            }
+            visitor=visitorMapper.selectByIp(ip);
+            visitor.setLastVisitTime(LocalDateTime.now());
+            log.info("Current visitor:{} ,Method:{},Args:{}",
+                    visitor,
+                    joinPoint.getSignature().getName(),
+                    argsNameAndValue
+                    );
+            // 增加pv
+            redisTemplate.opsForValue().increment(PV_CACHE_KEY, 1);
+            visitorMapper.updateLastVisit(visitor);
+        }
+
     }
 
     @Async

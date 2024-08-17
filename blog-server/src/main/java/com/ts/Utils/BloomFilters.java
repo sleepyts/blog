@@ -3,6 +3,7 @@ package com.ts.Utils;
 
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
+import com.ts.Mapper.BlogMapper;
 import com.ts.Mapper.VisitorMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,12 @@ import java.util.List;
 
 @Component
 @SuppressWarnings("all")
-public class IpBloomFilter {
+public class BloomFilters {
 
     @Autowired
     private VisitorMapper visitorMapper;
+    @Autowired
+    private BlogMapper blogMapper;
 
     // 布隆过滤器的大小和错误率
     private final int size = 50000; // 50000 elements
@@ -50,6 +53,7 @@ public class IpBloomFilter {
     public boolean dailyContain(String ip) {
         return dailyIpFilter.mightContain(ip);
     }
+
 
     public void clearDaily() {
         dailyIpFilter = BloomFilter.create(Funnels.stringFunnel(StandardCharsets.UTF_8), size, errorRate);

@@ -6,4 +6,5 @@ import com.ts.Entity.Result;
 
 public interface ICategoryService extends IService<Category> {
     Result getCategories();
+    Result updateCategory(Category category);
 }

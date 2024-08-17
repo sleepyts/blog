@@ -15,6 +15,8 @@ public interface RedisService {
 
     void delayDeleteTwice(String ... keys);
 
+    void delayDeleteTwice(List<String> keys);
+
     void delete(String key);
 
     void set(String key,Object value);

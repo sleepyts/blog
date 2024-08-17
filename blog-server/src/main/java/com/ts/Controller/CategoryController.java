@@ -31,6 +31,6 @@ public class CategoryController {
 
     @PutMapping("/admin/category")
     public Result updateCategory(@RequestBody Category category) {
-        return Result.success(categoryService.updateById(category));
+        return Result.success(categoryService.updateCategory(category));
     }
 }

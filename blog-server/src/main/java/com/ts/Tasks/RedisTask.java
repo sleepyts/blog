@@ -1,9 +1,8 @@
 package com.ts.Tasks;
 
 import com.ts.Entity.UVPV;
-import com.ts.Mapper.MomentMapper;
 import com.ts.Service.*;
-import com.ts.Utils.IpBloomFilter;
+import com.ts.Utils.BloomFilters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,7 +17,7 @@ import static com.ts.Constants.RedisConstants.UV_CACHE_KEY;
 public class RedisTask {
 
     @Autowired
-    private IBlogService blogService;
+    private SettingsService settingsService;
     @Autowired
     private IRecordService recordService;
     @Autowired
@@ -28,7 +27,7 @@ public class RedisTask {
     @Autowired
     private StringRedisTemplate redisTemplate;
     @Autowired
-    private IpBloomFilter ipBloomFilter;
+    private BloomFilters bloomFilters;
 
     /**
      * 预热缓存
@@ -38,12 +37,7 @@ public class RedisTask {
     public void readRedis() {
         recordService.getRecord();
         appService.getApps();
-        long blogCount = blogService.count();
-        for (int i = 0; i < blogCount / 5; i++) {
-            blogService.queryBlog(i);
-        }
-
-
+        settingsService.getSettings();
     }
 
     /**
@@ -64,7 +58,7 @@ public class RedisTask {
         uvpv.setDate(LocalDate.now().minusDays(1));
         uvpvService.addUVPV(uvpv);
 
-        ipBloomFilter.clearDaily();
+        bloomFilters.clearDaily();
         redisTemplate.delete(PV_CACHE_KEY);
         redisTemplate.delete(UV_CACHE_KEY);
     }

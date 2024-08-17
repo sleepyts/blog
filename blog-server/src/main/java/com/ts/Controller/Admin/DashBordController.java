@@ -1,8 +1,11 @@
 package com.ts.Controller.Admin;
 
 import com.ts.Entity.Result;
+import com.ts.Mapper.UVPVMapper;
 import com.ts.Service.IBlogService;
 import com.ts.Service.ICommentService;
+import com.ts.VO.DashBoardVO;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,26 +28,18 @@ public class DashBordController {
     @Autowired
     private ICommentService commentService;
 
-    @GetMapping("/pv")
-    public Result getPV() {
-        Long increment = redisTemplate.opsForValue().increment(PV_CACHE_KEY);
-        return Result.success(increment);
-    }
+    @Autowired
+    private UVPVMapper uvpvMapper;
 
-    @GetMapping("/uv")
-    public Result getUV() {
-        return Result.success(redisTemplate.opsForSet().size(UV_CACHE_KEY));
-    }
-
-    @GetMapping("/totalArticle")
-    public Result getTotalArticle() {
-        Integer totalArticle = Math.toIntExact(blogService.count());
-        return Result.success(totalArticle);
-    }
-
-    @GetMapping("/totalComment")
-    public Result getTotalComment() {
-        Integer totalComment = Math.toIntExact(commentService.count());
-        return Result.success(totalComment);
+    @GetMapping("")
+    public Result getDashboard() {
+        DashBoardVO dashboardVO = new DashBoardVO();
+        dashboardVO.setBlogCount((int) blogService.count());
+        dashboardVO.setCommentCount((int) commentService.count());
+        dashboardVO.setDailyPV(Math.toIntExact(redisTemplate.opsForValue().increment(PV_CACHE_KEY)));
+        dashboardVO.setDailyUV(Math.toIntExact(redisTemplate.opsForSet().size(UV_CACHE_KEY)));
+        dashboardVO.setTotalPV(uvpvMapper.getTotalPV());
+        dashboardVO.setTotalUV(uvpvMapper.getTotalUV());
+        return Result.success(dashboardVO);
     }
 }
