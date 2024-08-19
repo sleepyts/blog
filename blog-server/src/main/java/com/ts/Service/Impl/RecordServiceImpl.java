@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ts.Annotation.Cacheable;
 import com.ts.Annotation.RequestLog;
-import com.ts.Entity.Blog;
-import com.ts.Entity.Record;
-import com.ts.Entity.Result;
 import com.ts.Mapper.RecordMapper;
+import com.ts.Model.Entity.Blog;
+import com.ts.Model.Entity.Record;
+import com.ts.Model.Entity.Result;
+import com.ts.Model.VO.RecordVO;
 import com.ts.Service.IRecordService;
 import com.ts.Service.RedisService;
-import com.ts.VO.RecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

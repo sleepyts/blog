@@ -1,9 +1,9 @@
 package com.ts.Service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ts.DTO.CommentDTO;
-import com.ts.Entity.Comment;
-import com.ts.Entity.Result;
+import com.ts.Model.DTO.CommentDTO;
+import com.ts.Model.Entity.Comment;
+import com.ts.Model.Entity.Result;
 
 public interface ICommentService extends IService<Comment> {
     Result addComment(CommentDTO commentDTO);

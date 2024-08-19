@@ -1,9 +1,9 @@
 package com.ts.Service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ts.Entity.Blog;
-import com.ts.Entity.Record;
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.Blog;
+import com.ts.Model.Entity.Record;
+import com.ts.Model.Entity.Result;
 
 public interface IRecordService extends IService<Record> {
     Result getRecord();

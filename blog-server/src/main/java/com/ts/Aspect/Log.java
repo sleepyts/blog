@@ -4,6 +4,7 @@ import com.ts.Service.Impl.LogService;
 import com.ts.Utils.Holder;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -22,10 +23,19 @@ public class Log {
     public void requestLog() {
 
     }
-    // 前置通知：在目标方法调用前执行
-    @Before(value = "requestLog()")
-    public void logBefore(JoinPoint joinPoint) {
-        logService.logRequest(Holder.getCurrentVisitor(), Holder.getAdmin(), joinPoint);
+    @Around("requestLog()")
+    public Object logBefore(ProceedingJoinPoint joinPoint) {
+        long start = System.currentTimeMillis();
+
+        try {
+            Object proceed = joinPoint.proceed();
+            long end = System.currentTimeMillis();
+            logService.logRequest(Holder.getCurrentVisitor(), Holder.getAdmin(), joinPoint, end - start);
+            return proceed;
+        } catch (Throwable e) {
+            log.error("error", e);
+        }
+        return null;
     }
 
     // 异常通知：在目标方法抛出异常后执行

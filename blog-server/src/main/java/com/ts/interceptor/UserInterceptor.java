@@ -1,7 +1,7 @@
 
 package com.ts.interceptor;
 
-import com.ts.Entity.Visitor;
+import com.ts.Model.Entity.Visitor;
 import com.ts.Utils.Holder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

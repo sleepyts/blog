@@ -1,7 +1,7 @@
 package com.ts.Service;
 
-import com.ts.Entity.OperationLog;
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.OperationLog;
+import com.ts.Model.Entity.Result;
 
 import java.time.LocalDateTime;
 

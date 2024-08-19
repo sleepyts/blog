@@ -7,16 +7,14 @@ import BlogHeader from "@/components/BlogHeader.vue";
 import { getCategories } from "@/api/category.js";
 import store from "@/store/index.js";
 import { BarsOutlined } from "@ant-design/icons-vue";
-import { getBlogList } from "@/api/blog.js";
+import {getBlogByCategory, getBlogList} from "@/api/blog.js";
 const searchText = ref('');
 const options = ref([]);
 const value = ref([0]);
 const blogList = ref([]);
-const filteredBlogs = ref([]);
 const categoryName = ref('');
 const currentPage = ref(1);
 const total = ref(0);
-const currentTotal = ref(0);
 onMounted(async () => {
   await getBlogList(currentPage.value).then(res => {
     if (res.data.code === 200) {
@@ -40,44 +38,44 @@ onMounted(async () => {
     }
   });
   categoryName.value = '全部';
-  await filterBlogsByCategory()
 });
 
 watch(value, async () => {
+  currentPage.value = 1;
+  if(value.value[0]===0) {
+    categoryName.value = '全部';
+    await getBlogList(currentPage.value).then(res => {
+      if (res.data.code === 200) {
+        blogList.value = res.data.data.rows
+        total.value = res.data.data.total
+      }
+    })
+    return;
+  }
+  else{
+    await getBlogByCategory(currentPage.value, value.value[0]).then(res => {
+      if (res.data.code === 200) {
+        blogList.value = res.data.data.rows
+        total.value = res.data.data.total
+      }
+    })
+
+  }
   const selectedCategory = options.value.find(option => option.value === value.value[0]);
   categoryName.value = selectedCategory ? selectedCategory.label : '';
-  await filterBlogsByCategory();
 });
-watch(searchText, () => {
-  filteredBlogs.value = blogList.value.filter(blog => {
-    return blog.title.toLowerCase().includes(searchText.value.toLowerCase());
-  });
-});
-
-async function filterBlogsByCategory() {
-  currentPage.value = 1;
-  if (categoryName.value === '全部') {
-    currentTotal.value = total.value;
-    filteredBlogs.value = blogList.value;
-  }
-  else if (categoryName.value !== '') {
-    filteredBlogs.value = blogList.value.filter(blog => {
-      return blog.categoryName === categoryName.value;
+const onPageChange =async (page) => {
+  currentPage.value=page
+  if (value.value[0] === 0) {
+     await getBlogList(currentPage.value).then(res => {
+      if (res.data.code === 200) blogList.value = res.data.data.rows
     });
-    currentTotal.value = filteredBlogs.value.length;
-  } else {
-    filteredBlogs.value = blogList.value;
-    currentTotal.value = total.value;
   }
-
-}
-
-const onPageChange = async (page) => {
-  await getBlogList(page).then(res => {
-    if (res.data.code === 200) blogList.value = res.data.data.rows
-  });
-  await filterBlogsByCategory();
-  currentPage.value = page;
+  else {
+     await getBlogByCategory(currentPage.value, value.value[0]).then(res => {
+      if (res.data.code === 200) blogList.value = res.data.data.rows
+    });
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
@@ -89,12 +87,11 @@ const onPageChange = async (page) => {
       <input class="searchInput" type="text" placeholder="Search..." v-model="searchText">
       <a-cascader v-model:value="value" :options="options" style="width: 250px;margin-top:1em;" :allowClear="false"
         :expandTrigger="'hover'" />
-      <span style="margin-left: 1em">({{ filteredBlogs.length }})</span>
       <div class="blogCards">
-        <blog-card v-for="blog in filteredBlogs" :blog="blog" class="blogCard" />
+        <blog-card v-for="blog in blogList" :blog="blog" class="blogCard" />
       </div>
-      <a-pagination v-model:current=currentPage :total="currentTotal" @change="onPageChange" simple
-        style="text-align: center; margin-top: 20px;">
+      <a-pagination v-model:current=currentPage :total="total" @change="onPageChange" simple
+        style="text-align: center; margin-top: 20px;" :page-size="5">
       </a-pagination>
 
     </div>

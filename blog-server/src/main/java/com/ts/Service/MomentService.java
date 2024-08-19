@@ -1,7 +1,7 @@
 package com.ts.Service;
 
-import com.ts.Entity.Moment;
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.Moment;
+import com.ts.Model.Entity.Result;
 
 public interface MomentService {
     Result addMoment(Moment moment);

@@ -1,8 +1,8 @@
 package com.ts.Controller;
 
 
-import com.ts.Entity.App;
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.App;
+import com.ts.Model.Entity.Result;
 import com.ts.Service.IAppService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,9 +3,9 @@ package com.ts.Service.Impl;
 
 import com.ts.Annotation.Cacheable;
 import com.ts.Annotation.RequestLog;
-import com.ts.Entity.Result;
-import com.ts.Entity.Settings;
 import com.ts.Mapper.SettingsMapper;
+import com.ts.Model.Entity.Result;
+import com.ts.Model.Entity.Settings;
 import com.ts.Service.RedisService;
 import com.ts.Service.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;

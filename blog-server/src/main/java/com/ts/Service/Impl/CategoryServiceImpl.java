@@ -2,20 +2,18 @@ package com.ts.Service.Impl;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ts.Entity.Category;
-import com.ts.Entity.Result;
 import com.ts.Mapper.CategoryMapper;
+import com.ts.Model.Entity.Category;
+import com.ts.Model.Entity.Result;
 import com.ts.Service.ICategoryService;
 import com.ts.Service.RedisService;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ts.Constants.RedisConstants.*;
+import static com.ts.Constants.RedisConstants.BLOG_CONTENT_CACHE_KEY;
 
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements ICategoryService {

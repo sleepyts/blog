@@ -1,6 +1,6 @@
 package com.ts.Service;
 
-import com.ts.Entity.UVPV;
+import com.ts.Model.Entity.UVPV;
 
 public interface IUVPVService {
     void addUVPV(UVPV uvpv);

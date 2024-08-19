@@ -1,4 +1,4 @@
-package com.ts.Entity;
+package com.ts.Model.Entity;
 
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -8,18 +8,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-@Data
+/*
+ * 文章归档实体类
+ */
 @AllArgsConstructor
+@Data
 @NoArgsConstructor
-@TableName("tb_exception")
-public class ExceptionLog {
+@TableName("tb_record")
+public class Record implements java.io.Serializable {
+    private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-    private String methodName;
-    private String errorMessage;
-    private String errorType;
+    private Integer blogId;
+    private String title;
+    private LocalDate date;
     private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 }

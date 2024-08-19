@@ -1,7 +1,7 @@
 package com.ts.Service;
 
-import com.ts.Entity.Result;
-import com.ts.Entity.Settings;
+import com.ts.Model.Entity.Result;
+import com.ts.Model.Entity.Settings;
 
 public interface SettingsService {
     Result getSettings();

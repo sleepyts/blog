@@ -1,8 +1,8 @@
 package com.ts.Controller.Admin;
 
 
-import com.ts.Entity.Admin;
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.Admin;
+import com.ts.Model.Entity.Result;
 import com.ts.Service.IAdminService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;

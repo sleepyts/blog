@@ -1,6 +1,6 @@
 package com.ts.Mapper;
 
-import com.ts.Entity.UVPV;
+import com.ts.Model.Entity.UVPV;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

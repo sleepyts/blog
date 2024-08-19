@@ -1,7 +1,7 @@
 package com.ts.Service;
 
-import com.ts.Entity.Friend;
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.Friend;
+import com.ts.Model.Entity.Result;
 
 public interface FriendService {
     Result getFriendList();

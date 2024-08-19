@@ -1,8 +1,8 @@
 package com.ts.Controller;
 
 
-import com.ts.Entity.Result;
-import com.ts.Entity.Settings;
+import com.ts.Model.Entity.Result;
+import com.ts.Model.Entity.Settings;
 import com.ts.Service.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

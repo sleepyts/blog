@@ -1,11 +1,13 @@
 package com.ts.Controller;
 
 
-import com.ts.Entity.Blog;
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.Blog;
+import com.ts.Model.Entity.Result;
 import com.ts.Service.IBlogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,8 +16,8 @@ public class BlogController {
 
     @Autowired
     private IBlogService blogService;
-    @GetMapping("/Blog")
-    public Result getBlog(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+    @GetMapping("/Blog/page/{page}")
+    public Result getBlog(@PathVariable("page") Integer page) {
         return blogService.queryBlog(page);
     }
 
@@ -32,6 +34,10 @@ public class BlogController {
     @GetMapping("/admin/Blog")
     public Result getBlogList() {
         return blogService.getBlogList();
+    }
+    @GetMapping("/Blog/category/{id}")
+    public Result getBlogCategory(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, @PathVariable("id") Integer id) {
+        return blogService.getBlogByPageAndCategory(page, id);
     }
     @PostMapping("/admin/Blog")
     public Result addBlog(@RequestBody Blog blog) {

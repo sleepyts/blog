@@ -7,12 +7,9 @@ import config from "@/api/config.js";
 
  */
 export function getBlogList(page){
-    return axios({
+   return axios({
         method: "GET",
-        url: config.url + '/Blog',
-        params:{
-            page: page,
-        }
+        url: `/api/Blog/page/${page}`,
     })
 }
 
@@ -38,19 +35,6 @@ export function getBlogContent(id) {
         },
     })
 }
-/*
-     删除博客
- */
-export function deleteBlog(id){
-    return axios({
-        method: "DELETE",
-        url: `${config.url}/Blog/${id}`,
-        params: {
-            id: id
-        }
-    })
-}
-
 /*
      分页获取博客列表
  */
@@ -78,14 +62,16 @@ export function getBlogThumbnail() {
     })
 }
 
-export function updateBlog(blog) {
+export function getBlogByCategory(page,id) {
     return axios({
-        method: "PUT",
-        url: `${config.url}/Blog`,
+        method: "GET",
+        url: `${config.url}/Blog/category/${id}`,
         headers: {
             "Content-Type": "application/json",
         },
-        data: blog
+        params: {
+            page: page,
+        },
     })
 }
 

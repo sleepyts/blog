@@ -1,7 +1,7 @@
 package com.ts.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ts.Entity.OperationLog;
+import com.ts.Model.Entity.OperationLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

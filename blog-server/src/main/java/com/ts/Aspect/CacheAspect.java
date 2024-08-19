@@ -1,8 +1,9 @@
 package com.ts.Aspect;
 
 import com.ts.Annotation.Cacheable;
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.Result;
 import com.ts.Service.RedisService;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @Order(2) // 保证该切面在记录日志的切面之后执行
+@Slf4j
 public class CacheAspect {
 
     @Autowired
@@ -27,6 +29,7 @@ public class CacheAspect {
 
     @Around("cacheablePointcut()")
     public Result cacheableAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        long start = System.currentTimeMillis();
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Cacheable cacheable = signature.getMethod().getAnnotation(Cacheable.class);
         Object[] args = joinPoint.getArgs();

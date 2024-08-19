@@ -1,7 +1,7 @@
 package com.ts.Controller;
 
-import com.ts.Entity.Moment;
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.Moment;
+import com.ts.Model.Entity.Result;
 import com.ts.Service.MomentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,8 +1,8 @@
 package com.ts.Service.Impl;
 
 
-import com.ts.Entity.UVPV;
 import com.ts.Mapper.UVPVMapper;
+import com.ts.Model.Entity.UVPV;
 import com.ts.Service.IUVPVService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

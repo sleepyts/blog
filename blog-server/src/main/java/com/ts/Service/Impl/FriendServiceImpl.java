@@ -2,9 +2,9 @@ package com.ts.Service.Impl;
 
 import com.ts.Annotation.Cacheable;
 import com.ts.Annotation.RequestLog;
-import com.ts.Entity.Friend;
-import com.ts.Entity.Result;
 import com.ts.Mapper.FriendMapper;
+import com.ts.Model.Entity.Friend;
+import com.ts.Model.Entity.Result;
 import com.ts.Service.FriendService;
 import com.ts.Service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;

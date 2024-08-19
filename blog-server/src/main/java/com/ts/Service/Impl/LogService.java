@@ -1,9 +1,9 @@
 package com.ts.Service.Impl;
 
-import com.ts.Entity.*;
 import com.ts.Mapper.ExceptionLogMapper;
 import com.ts.Mapper.OperationLogMapper;
 import com.ts.Mapper.VisitorMapper;
+import com.ts.Model.Entity.*;
 import com.ts.Service.IExceptionLogService;
 import com.ts.Service.IOperationLogService;
 import com.ts.Utils.BloomFilters;
@@ -52,9 +52,38 @@ public class LogService implements IOperationLogService, IExceptionLogService {
     private BloomFilters bloomFilters;
 
     @Async
-    public void logRequest(Visitor visitor, Admin admin, JoinPoint joinPoint){
+    public void logRequest(Visitor visitor, Admin admin, JoinPoint joinPoint,long requestTime){
+
+        enum LogStragety {
+            Admin{
+                @Override
+                public void log(String argsAndValue, Visitor visitor, Admin admin, JoinPoint joinPoint,long requestTime) {
+                    log.info("Current admin:{} ,Method:{},Args:{},Time:{}ms",
+                            admin.getUsername(),
+                            joinPoint.getSignature().getName(),
+                            argsAndValue,
+                            requestTime
+                            );
+                }
+            },
+            Visitor {
+                @Override
+                public void log(String argsAndValue, Visitor visitor, Admin admin, JoinPoint joinPoint,long requestTime) {
+                    log.info("Current visitor:{} ,Method:{},Args:{},Time:{}ms",
+                            visitor,
+                            joinPoint.getSignature().getName(),
+                            argsAndValue,
+                            requestTime
+                            );
+                }
+            };
+
+            public void log(String argsAndValue, com.ts.Model.Entity.Visitor visitor, com.ts.Model.Entity.Admin admin, JoinPoint joinPoint, long requestTime) {
+            }
+        }
+
         String argsNameAndValue="";
-        Parameter[] parameters=null;
+        Parameter[] parameters;
         Object[] args=joinPoint.getArgs();
         try{
             Method methods =
@@ -72,10 +101,7 @@ public class LogService implements IOperationLogService, IExceptionLogService {
         if (admin != null
                 && !Objects.equals(joinPoint.getSignature().getName(), "login")
                 && !Objects.equals(joinPoint.getSignature().getName(), "deleteOperationLogById")) {
-            log.info("Current admin:{} ,Method:{},Args:{}",
-                    admin.getUsername(),
-                    joinPoint.getSignature().getName(),
-                    argsNameAndValue);
+            LogStragety.Admin.log(argsNameAndValue, visitor, admin, joinPoint,requestTime);
             OperationLog operationLog = new OperationLog();
             operationLog.setOperationTime(LocalDateTime.now());
             operationLog.setUserName(admin.getUsername());
@@ -86,9 +112,11 @@ public class LogService implements IOperationLogService, IExceptionLogService {
         // 访客日志记录
         if (visitor != null) {
             String ip = visitor.getIp();
-            // 判断当日新访客，更新当日UV
+            // 判断当日新访客，更新当日UVff
             if (!bloomFilters.dailyContain(ip)){
                 bloomFilters.dailyAdd(ip);
+
+                // 增加UV
                 redisTemplate.opsForSet().add(UV_CACHE_KEY, ip);
             }
             // 判断是否已经存在该访客
@@ -101,11 +129,7 @@ public class LogService implements IOperationLogService, IExceptionLogService {
             }
             visitor=visitorMapper.selectByIp(ip);
             visitor.setLastVisitTime(LocalDateTime.now());
-            log.info("Current visitor:{} ,Method:{},Args:{}",
-                    visitor,
-                    joinPoint.getSignature().getName(),
-                    argsNameAndValue
-                    );
+            LogStragety.Visitor.log(argsNameAndValue, visitor, admin, joinPoint,requestTime);
             // 增加pv
             redisTemplate.opsForValue().increment(PV_CACHE_KEY, 1);
             visitorMapper.updateLastVisit(visitor);

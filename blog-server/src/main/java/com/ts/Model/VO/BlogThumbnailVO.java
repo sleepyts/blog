@@ -1,4 +1,4 @@
-package com.ts.VO;
+package com.ts.Model.VO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

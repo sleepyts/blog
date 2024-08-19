@@ -1,7 +1,7 @@
 package com.ts.Utils;
 
-import com.ts.Entity.Admin;
-import com.ts.Entity.Visitor;
+import com.ts.Model.Entity.Admin;
+import com.ts.Model.Entity.Visitor;
 
 public class Holder {
     private static final ThreadLocal<Admin> tl = new ThreadLocal<Admin>();

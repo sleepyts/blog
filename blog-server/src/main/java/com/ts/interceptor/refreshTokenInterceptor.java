@@ -1,7 +1,7 @@
 package com.ts.interceptor;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.ts.Entity.Admin;
+import com.ts.Model.Entity.Admin;
 import com.ts.Utils.Holder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,6 +1,6 @@
-package com.ts.VO;
+package com.ts.Model.VO;
 
-import com.ts.Entity.Record;
+import com.ts.Model.Entity.Record;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

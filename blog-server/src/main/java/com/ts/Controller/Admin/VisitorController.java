@@ -1,6 +1,6 @@
 package com.ts.Controller.Admin;
 
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.Result;
 import com.ts.Service.VisitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;

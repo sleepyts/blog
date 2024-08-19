@@ -1,6 +1,6 @@
 package com.ts.Mapper;
 
-import com.ts.Entity.Settings;
+import com.ts.Model.Entity.Settings;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

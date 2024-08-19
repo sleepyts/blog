@@ -1,7 +1,7 @@
 package com.ts.Controller.Admin;
 
 
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.Result;
 import com.ts.Service.Impl.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

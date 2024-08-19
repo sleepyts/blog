@@ -2,8 +2,8 @@ package com.ts.Service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ts.Entity.Admin;
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.Admin;
+import com.ts.Model.Entity.Result;
 import jakarta.servlet.http.HttpSession;
 
 

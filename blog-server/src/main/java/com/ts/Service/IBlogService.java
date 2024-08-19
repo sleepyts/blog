@@ -1,8 +1,8 @@
 package com.ts.Service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ts.Entity.Blog;
-import com.ts.Entity.Result;
+import com.ts.Model.Entity.Blog;
+import com.ts.Model.Entity.Result;
 
 public interface IBlogService extends IService<Blog> {
 
@@ -16,4 +16,5 @@ public interface IBlogService extends IService<Blog> {
     Result getBlogList();
     Result getBlogContent(int id);
     Result getRandomBlog();
+    Result getBlogByPageAndCategory(int page, Integer categoryId);
 }

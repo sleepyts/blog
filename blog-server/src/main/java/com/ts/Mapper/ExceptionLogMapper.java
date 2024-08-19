@@ -1,7 +1,7 @@
 package com.ts.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ts.Entity.ExceptionLog;
+import com.ts.Model.Entity.ExceptionLog;
 import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDateTime;

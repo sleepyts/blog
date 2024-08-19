@@ -1,7 +1,10 @@
 package com.ts.Tasks;
 
-import com.ts.Entity.UVPV;
-import com.ts.Service.*;
+import com.ts.Model.Entity.UVPV;
+import com.ts.Service.IAppService;
+import com.ts.Service.IRecordService;
+import com.ts.Service.IUVPVService;
+import com.ts.Service.SettingsService;
 import com.ts.Utils.BloomFilters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -46,6 +49,8 @@ public class RedisTask {
      */
     @Scheduled(cron = "0 30 1 * * ? ")
     public void clearPVAndUV() {
+
+        // 保存当日UVPV
         UVPV uvpv = new UVPV();
         Long uv = redisTemplate.opsForSet().size(UV_CACHE_KEY);
         String pv = redisTemplate.opsForValue().get(PV_CACHE_KEY);
@@ -58,6 +63,7 @@ public class RedisTask {
         uvpv.setDate(LocalDate.now().minusDays(1));
         uvpvService.addUVPV(uvpv);
 
+        // 进行其他操作
         bloomFilters.clearDaily();
         redisTemplate.delete(PV_CACHE_KEY);
         redisTemplate.delete(UV_CACHE_KEY);

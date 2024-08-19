@@ -1,4 +1,4 @@
-package com.ts.Entity;
+package com.ts.Model.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

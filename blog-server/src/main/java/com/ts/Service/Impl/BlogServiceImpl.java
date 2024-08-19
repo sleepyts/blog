@@ -5,18 +5,18 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ts.Annotation.Cacheable;
 import com.ts.Annotation.RequestLog;
-import com.ts.Entity.Blog;
-import com.ts.Entity.Result;
 import com.ts.Mapper.BlogMapper;
+import com.ts.Model.Entity.Blog;
+import com.ts.Model.Entity.Result;
+import com.ts.Model.VO.BlogDetailVO;
+import com.ts.Model.VO.BlogThumbnailVO;
+import com.ts.Model.VO.BlogVO;
+import com.ts.Model.VO.PageVO;
 import com.ts.Service.IBlogService;
 import com.ts.Service.ICommentService;
 import com.ts.Service.IRecordService;
 import com.ts.Service.RedisService;
 import com.ts.Utils.LocalDateUtil;
-import com.ts.VO.BlogDetailVO;
-import com.ts.VO.BlogThumbnailVO;
-import com.ts.VO.BlogVO;
-import com.ts.VO.PageVO;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
@@ -145,6 +145,35 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
     @Override
     public Result getRandomBlog() {
         return Result.success(blogMapper.selectRandomVO());
+    }
+
+    @Override
+    @RequestLog
+    public Result getBlogByPageAndCategory(int page, Integer categoryId) {
+        PageVO pageVO = redisService.get(BLOG_LIST_CACHE_KEY +":" + categoryId + ":" + page);
+        if (pageVO != null) {
+            List<BlogVO> blogVOList = (List<BlogVO>) pageVO.getRows();
+            for (BlogVO blogVO : blogVOList) {
+                Long count = commentService.query().eq("blog_id", blogVO.getId()).count();
+                blogVO.setCommentNum(count);
+            }
+            return Result.success(pageVO);
+        }
+
+        pageVO = new PageVO();
+        List<BlogVO> blogVOList = blogMapper.getBlogByCategoryId((page - 1)*5, categoryId);
+        if (blogVOList != null && !blogVOList.isEmpty()) {
+            for (BlogVO blogVO : blogVOList) {
+                Long count = commentService.query().eq("blog_id", blogVO.getId()).count();
+                blogVO.setCommentNum(count);
+                blogVO.setDate(LocalDateUtil.transfromDate(blogVO.getCreateTime().toLocalDate(), LocalDateUtil.BLOG_CARD_DATE_FORMAT));
+            }
+        }
+        pageVO.setTotal(blogMapper.getBlogCountByCategoryId(categoryId));
+        pageVO.setRows(blogVOList);
+
+        redisService.set(BLOG_LIST_CACHE_KEY +":" + categoryId + ":" + page, pageVO, BLOG_CACHE_EXPIRE_TIME);
+        return Result.success(pageVO);
     }
 
 

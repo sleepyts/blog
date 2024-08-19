@@ -1,4 +1,4 @@
-package com.ts.Entity;
+package com.ts.Model.Entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;

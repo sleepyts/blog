@@ -1,4 +1,4 @@
-package com.ts.DTO;
+package com.ts.Model.DTO;
 
 
 import lombok.AllArgsConstructor;
