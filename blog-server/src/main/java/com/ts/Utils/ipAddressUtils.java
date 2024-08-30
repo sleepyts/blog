@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * ip地址工具类
  * @author sleepyts
- * @date 2024-06-29
+ * &#064;date  2024-06-29
  */
 @Component
 public class ipAddressUtils {

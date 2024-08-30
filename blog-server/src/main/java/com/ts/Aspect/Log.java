@@ -5,7 +5,10 @@ import com.ts.Utils.Holder;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -21,7 +24,6 @@ public class Log {
 
     @Pointcut("@annotation(com.ts.Annotation.RequestLog)")
     public void requestLog() {
-
     }
     @Around("requestLog()")
     public Object logBefore(ProceedingJoinPoint joinPoint) {
@@ -33,7 +35,7 @@ public class Log {
             logService.logRequest(Holder.getCurrentVisitor(), Holder.getAdmin(), joinPoint, end - start);
             return proceed;
         } catch (Throwable e) {
-            log.error("error", e);
+            log.error("Method {} processing failed : {} ", joinPoint.getSignature().getName(),e.getMessage());
         }
         return null;
     }

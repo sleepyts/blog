@@ -14,6 +14,7 @@ const value = ref([0]);
 const blogList = ref([]);
 const categoryName = ref('');
 const currentPage = ref(1);
+const pageSize = ref(5);
 const total = ref(0);
 onMounted(async () => {
   await getBlogList(currentPage.value).then(res => {
@@ -64,8 +65,9 @@ watch(value, async () => {
   const selectedCategory = options.value.find(option => option.value === value.value[0]);
   categoryName.value = selectedCategory ? selectedCategory.label : '';
 });
-const onPageChange =async (page) => {
+const onPageChange =async (page, size) => {
   currentPage.value=page
+  pageSize.value=size
   if (value.value[0] === 0) {
      await getBlogList(currentPage.value).then(res => {
       if (res.data.code === 200) blogList.value = res.data.data.rows
@@ -90,8 +92,13 @@ const onPageChange =async (page) => {
       <div class="blogCards">
         <blog-card v-for="blog in blogList" :blog="blog" class="blogCard" />
       </div>
-      <a-pagination v-model:current=currentPage :total="total" @change="onPageChange" simple
-        style="text-align: center; margin-top: 20px;" :page-size="5">
+      <a-pagination v-model:current=currentPage
+                    :total="total"
+                    @change="onPageChange"
+                    :page-size="pageSize"
+                    :show-total="total => `总共 ${total} 篇文章`"
+                    style="padding: 20px"
+                                         >
       </a-pagination>
 
     </div>

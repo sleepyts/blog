@@ -22,6 +22,7 @@
 //import java.util.List;
 //
 //@RestController
+//@Deprecated
 //public class RssController {
 //
 //    @Autowired

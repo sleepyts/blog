@@ -1,7 +1,6 @@
 package com.ts.Service.Impl;
 
 import com.ts.Service.RedisService;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;

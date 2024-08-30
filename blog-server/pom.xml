@@ -52,8 +52,6 @@
             <version>3.5.5</version>
         </dependency>
 
-
-
         <!-- Redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -93,14 +91,6 @@
             <version>2.7.0</version>
         </dependency>
 
-        <!-- Rome Tools -->
-        <dependency>
-            <groupId>com.rometools</groupId>
-            <artifactId>rome</artifactId>
-            <version>1.15.0</version>
-        </dependency>
-
-
         <!-- JUnit -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -108,12 +98,13 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Bloom Filter -->
+        <!-- Google Guava-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>32.0.0-android</version>
         </dependency>
+
     </dependencies>
     <build>
         <finalName>bili</finalName>

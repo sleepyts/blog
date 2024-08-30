@@ -2,20 +2,16 @@ package com.ts.Utils;
 
 
 import com.google.common.hash.BloomFilter;
-import com.google.common.hash.Funnel;
 import com.google.common.hash.Funnels;
 import com.ts.Mapper.BlogMapper;
 import com.ts.Mapper.VisitorMapper;
 import jakarta.annotation.PostConstruct;
-import lombok.Locked;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 @Component
 @SuppressWarnings("all")

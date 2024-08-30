@@ -1,18 +1,21 @@
 <template>
   <div class="container">
-    <div class="header page-main-container">
-      <button class="head-btn " v-for="(item, index) in menuItems" :key="index"
-        :class="{ active: index === activeIndex }" @click="handleClick(item, index)">
-        {{ item }}
-      </button>
+    <div class="page-main-container header ">
+      <div v-for="(item, index) in menuItems" :key="index" class="head-btn" :class="{ active: index === activeIndex }"
+        @click="handleClick(item, index)">
+        <button class="btn" :class="{ active: index === activeIndex }" v-if="!isMobile()">
+          {{ item }}
+        </button>
+      </div>
     </div>
+
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-
+import { HomeOutlined } from '@ant-design/icons-vue'
 const router = useRouter()
 const menuItems = ref(['Home', 'Blog', 'Records', 'Moments', 'Links', 'Guestbook', 'About', 'Apps'])
 const activeIndex = ref(0)
@@ -21,7 +24,9 @@ function handleClick(name, index) {
   if (name === 'Home') router.push('/')
   else router.push('/' + name)
 }
-
+const isMobile = () => {
+  return /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
+}
 onMounted(() => {
   const url = window.location.pathname.split('/')[1]
   if (url === '') {
@@ -39,7 +44,12 @@ onMounted(() => {
 
 @media (min-width: 769px) {
   .head-btn {
-    font-size: 1.5em;
+    font-size: 1.3em;
+  }
+
+  .page-main-container {
+    width: 40%;
+    margin-left: 20%;
   }
 
 }
@@ -60,37 +70,29 @@ onMounted(() => {
 .header {
   display: flex;
   flex-direction: row;
-  margin-top: 20px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-@media (max-width: 768px) {
-  .head-btn {
-    font-size: 0.8em;
-  }
-}
-
-.head-btn {
+.btn {
   cursor: pointer;
   border: none;
-  margin-right: calc(2vw);
   border-radius: 3px;
   background: var(--background-color);
   color: var(--text-color);
-  height: fit-content;
-  width: fit-content;
 }
 
-.head-btn:hover {
+.btn:hover {
   background: var(--hover-background-color);
   color: var(--hover-color);
 }
 
-.head-btn:focus {
+.btn:focus {
   background: var(--active-background-color);
   color: var(--active-color);
 }
 
-.head-btn.active {
+.btn.active {
   background: var(--active-background-color);
   color: var(--active-color);
 }

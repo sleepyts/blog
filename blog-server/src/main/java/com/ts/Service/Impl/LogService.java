@@ -52,68 +52,81 @@ public class LogService implements IOperationLogService, IExceptionLogService {
     private BloomFilters bloomFilters;
 
     @Async
-    public void logRequest(Visitor visitor, Admin admin, JoinPoint joinPoint,long requestTime){
+    public void logRequest(Visitor visitor, Admin admin, JoinPoint joinPoint, long requestTime) {
+        // 记录请求时间
+        long logStartTime=System.currentTimeMillis();
 
-        enum LogStragety {
-            Admin{
+        // 日志策略
+        enum LogStrategy {
+            Admin {
                 @Override
-                public void log(String argsAndValue, Visitor visitor, Admin admin, JoinPoint joinPoint,long requestTime) {
-                    log.info("Current admin:{} ,Method:{},Args:{},Time:{}ms",
+                public void log(String argsAndValue, Visitor visitor, Admin admin, JoinPoint joinPoint,
+                        long requestTime ,long logTime) {
+                    log.info("Current admin:{}\nMethod:{}\nArgs:{}\nTime:{}ms\nLogTime:{}ms\n",
                             admin.getUsername(),
                             joinPoint.getSignature().getName(),
                             argsAndValue,
-                            requestTime
-                            );
+                            requestTime,
+                            logTime
+                    );
                 }
             },
             Visitor {
                 @Override
-                public void log(String argsAndValue, Visitor visitor, Admin admin, JoinPoint joinPoint,long requestTime) {
-                    log.info("Current visitor:{} ,Method:{},Args:{},Time:{}ms",
+                public void log(String argsAndValue, Visitor visitor, Admin admin, JoinPoint joinPoint,
+                        long requestTime,long logTime) {
+                    log.info("Current visitor:{}\nMethod:{}\nArgs:{}\nTime:{}ms\nLogTime:{}ms\n",
                             visitor,
                             joinPoint.getSignature().getName(),
                             argsAndValue,
-                            requestTime
-                            );
+                            requestTime,
+                            logTime
+                    );
                 }
             };
 
-            public void log(String argsAndValue, com.ts.Model.Entity.Visitor visitor, com.ts.Model.Entity.Admin admin, JoinPoint joinPoint, long requestTime) {
+            public void log(String argsAndValue, com.ts.Model.Entity.Visitor visitor, com.ts.Model.Entity.Admin admin,
+                    JoinPoint joinPoint, long requestTime,long logTime) {
+                log.error("无效策略");
             }
         }
 
-        String argsNameAndValue="";
+        // 拼装参数
+        String argsNameAndValue = "";
         Parameter[] parameters;
-        Object[] args=joinPoint.getArgs();
-        try{
-            Method methods =
-                    joinPoint.getTarget().getClass().getMethod(joinPoint.getSignature().getName()
-                    ,((org.aspectj.lang.reflect.MethodSignature) joinPoint.getSignature()).getParameterTypes());
-            parameters=methods.getParameters();
-            for(int i=0;i<parameters.length;i++){
-                argsNameAndValue+=parameters[i].getName()+":"+args[i]+",";
+        Object[] args = joinPoint.getArgs();
+        try {
+            Method methods = joinPoint.getTarget().getClass().getMethod(joinPoint.getSignature().getName(),
+                    ((org.aspectj.lang.reflect.MethodSignature) joinPoint.getSignature()).getParameterTypes());
+            parameters = methods.getParameters();
+            for (int i = 0; i < parameters.length; i++) {
+                argsNameAndValue += parameters[i].getName() + ":" + args[i] + ",";
             }
-        }catch (Exception e){
-            log.error("获取方法失败:{}",e.getMessage());
+        } catch (Exception e) {
+            log.error("获取方法失败:{}", e.getMessage());
             return;
         }
+
+
         // 管理员日志记录
         if (admin != null
                 && !Objects.equals(joinPoint.getSignature().getName(), "login")
                 && !Objects.equals(joinPoint.getSignature().getName(), "deleteOperationLogById")) {
-            LogStragety.Admin.log(argsNameAndValue, visitor, admin, joinPoint,requestTime);
+
             OperationLog operationLog = new OperationLog();
             operationLog.setOperationTime(LocalDateTime.now());
             operationLog.setUserName(admin.getUsername());
             operationLog.setMethodName(joinPoint.getSignature().getName());
             saveOperationLog(operationLog);
-            return ;
+
+            LogStrategy.Admin.log(argsNameAndValue, visitor, admin, joinPoint, requestTime, System.currentTimeMillis()-logStartTime);
+            return;
         }
         // 访客日志记录
         if (visitor != null) {
             String ip = visitor.getIp();
             // 判断当日新访客，更新当日UVff
-            if (!bloomFilters.dailyContain(ip)){
+            if (!bloomFilters.dailyContain(ip)) {
                 bloomFilters.dailyAdd(ip);
 
                 // 增加UV
@@ -127,12 +140,14 @@ public class LogService implements IOperationLogService, IExceptionLogService {
                 visitorMapper.insert(visitor);
                 bloomFilters.databaseAdd(ip);
             }
-            visitor=visitorMapper.selectByIp(ip);
+            visitor = visitorMapper.selectByIp(ip);
             visitor.setLastVisitTime(LocalDateTime.now());
-            LogStragety.Visitor.log(argsNameAndValue, visitor, admin, joinPoint,requestTime);
+
             // 增加pv
             redisTemplate.opsForValue().increment(PV_CACHE_KEY, 1);
             visitorMapper.updateLastVisit(visitor);
+
+            LogStrategy.Visitor.log(argsNameAndValue, visitor, admin, joinPoint, requestTime, System.currentTimeMillis()-logStartTime);
         }
 
     }
@@ -147,6 +162,7 @@ public class LogService implements IOperationLogService, IExceptionLogService {
         exceptionLog.setErrorMessage(errorMessage);
         exceptionLog.setErrorType(errorType);
         exceptionLog.setCreateTime(LocalDateTime.now());
+        log.error("Exception:{}\nMethod:{}\n", errorMessage, methodName);
         saveExceptionLog(exceptionLog);
     }
 

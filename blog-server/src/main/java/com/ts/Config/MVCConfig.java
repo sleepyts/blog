@@ -15,19 +15,23 @@ public class MVCConfig implements WebMvcConfigurer {
         @Autowired
         private StringRedisTemplate stringRedisTemplate;
 
+        private final Integer FIRST_INTERCEPTOR = 0;
+        private final Integer SECOND_INTERCEPTOR = 1;
+
+
         @Override
         public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(new adminLoginInterceptor())
                                 .addPathPatterns("/admin/**")
                                 .excludePathPatterns("/admin/login")
-                                .order(1);
+                                .order(SECOND_INTERCEPTOR);
                 registry.addInterceptor(new refreshTokenInterceptor(stringRedisTemplate))
                                 .addPathPatterns("/**")
-                                .order(0);
+                                .order(FIRST_INTERCEPTOR);
                 registry.addInterceptor(new UserInterceptor())
                                 .addPathPatterns("/**")
                                 .excludePathPatterns("/admin/**")
-                                .order(0);
+                                .order(FIRST_INTERCEPTOR);
         }
 
 }
