@@ -22,7 +22,6 @@ public class ipAddressUtils {
     private static final String UNKNOWN = "unknown";
     private static final String LOCALHOST = "127.0.0.1";
     private static final String LOCALHOST_IP = "0:0:0:0:0:0:0:1";
-
     private static Searcher searcher;
 
 
@@ -58,7 +57,6 @@ public class ipAddressUtils {
             searcher = new Searcher(null, null, cBuff);
         } catch (Exception e) {
             System.out.printf("failed to load content from `%s`: %s\n", ipXbdPath, e);
-            return;
         }
     }
     /**

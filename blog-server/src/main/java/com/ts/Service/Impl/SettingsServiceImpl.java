@@ -6,8 +6,10 @@ import com.ts.Annotation.RequestLog;
 import com.ts.Mapper.SettingsMapper;
 import com.ts.Model.Entity.Result;
 import com.ts.Model.Entity.Settings;
+import com.ts.Model.VO.SettingsVO;
 import com.ts.Service.RedisService;
 import com.ts.Service.SettingsService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +26,8 @@ public class SettingsServiceImpl implements SettingsService {
     @RequestLog
     @Cacheable(KEY=SETTINGS_CACHE_KEY)
     public Result getSettings() {
-        Settings setting;
-        setting = settingsMapper.getSettings();
+        SettingsVO setting=new SettingsVO();
+        BeanUtils.copyProperties(settingsMapper.getSettings(),setting);
         return Result.success(setting);
     }
 

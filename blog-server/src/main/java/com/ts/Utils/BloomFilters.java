@@ -37,7 +37,7 @@ public class BloomFilters {
         dailyIpFilter.set( BloomFilter.create(Funnels.stringFunnel(StandardCharsets.UTF_8), dailyIpSize, errorRate));
         allIpFilter = BloomFilter.create(Funnels.stringFunnel(StandardCharsets.UTF_8), allIpSize, errorRate);
         List<String> ips = visitorMapper.selectAllIps();
-        for (String ip : ips) allIpFilter.put(ip);
+        ips.forEach(allIpFilter::put);
     }
 
     synchronized public void databaseAdd(String ip) {

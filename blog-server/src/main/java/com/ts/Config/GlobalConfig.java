@@ -15,5 +15,6 @@ public class GlobalConfig {
 
     private String indexUrl;
     private String indexName;
+    private String env;
 }
 

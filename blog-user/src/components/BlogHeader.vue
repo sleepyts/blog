@@ -8,7 +8,7 @@
         </button>
       </div>
     </div>
-
+    <div class="header-line"></div>
   </div>
 </template>
 
@@ -53,18 +53,22 @@ onMounted(() => {
   }
 
 }
-
+.header-line{
+  width: 100%;
+  height: 1px;
+  background: var(--border-color);
+  position: sticky;
+}
 .container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
   height: 8vh;
   position: sticky;
   top: 6px;
-  background: var(--background-color);
+  background: #fff;
   z-index: 175;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+
 }
 
 .header {
@@ -72,6 +76,7 @@ onMounted(() => {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  height: 100%;
 }
 
 .btn {

@@ -61,5 +61,9 @@ public class BlogController {
     public Result getRandomBlog() {
         return blogService.getRandomBlog();
     }
+    @GetMapping("/Blog/search")
+    public Result searchBlog( @RequestParam(value = "keyword") String keyword) {
+        return blogService.searchBlog(keyword);
+    }
 
 }

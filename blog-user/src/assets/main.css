@@ -40,6 +40,7 @@
         background-color: var(--colorBgContainer);
     }
 }
+
 * {
     margin: 0;
     padding: 0;
@@ -48,7 +49,6 @@
     font-size: 16px;
     transition: background-color 0.2s ease-in-out;
 }
-
 .link{
     cursor: url(../../public/new-tab.png),pointer;
     text-decoration: none;

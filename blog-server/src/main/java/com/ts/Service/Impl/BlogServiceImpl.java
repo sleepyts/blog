@@ -1,5 +1,6 @@
 package com.ts.Service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -23,10 +24,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.ts.Constants.RedisConstants.*;
@@ -153,10 +156,10 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
         PageVO pageVO = redisService.get(BLOG_LIST_CACHE_KEY +":" + categoryId + ":" + page);
         if (pageVO != null) {
             List<BlogVO> blogVOList = (List<BlogVO>) pageVO.getRows();
-            for (BlogVO blogVO : blogVOList) {
-                Long count = commentService.query().eq("blog_id", blogVO.getId()).count();
-                blogVO.setCommentNum(count);
-            }
+            blogVOList.forEach(blogVO -> {
+                        Long count = commentService.query().eq("blog_id", blogVO.getId()).count();
+                        blogVO.setCommentNum(count);
+                    });
             return Result.success(pageVO);
         }
 
@@ -174,6 +177,21 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
 
         redisService.set(BLOG_LIST_CACHE_KEY +":" + categoryId + ":" + page, pageVO, BLOG_CACHE_EXPIRE_TIME);
         return Result.success(pageVO);
+    }
+
+    @Override
+    public Result searchBlog(String keyword) {
+        Optional.of(keyword)
+                .filter(k -> !k.isEmpty())
+                .orElseThrow(() -> new IllegalArgumentException("搜索关键字不能为空"));
+        LambdaQueryWrapper<Blog> searchWrapper = new LambdaQueryWrapper<Blog>()
+                .like(Blog::getTitle, keyword)
+                .or()
+                .like(Blog::getDescription, keyword)
+                .or()
+                .like(Blog::getContent, keyword);
+        List<Blog> blogs = blogMapper.selectList(searchWrapper);
+        return Result.success(blogs);
     }
 
 

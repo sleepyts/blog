@@ -93,3 +93,16 @@ export function getRandomBlog() {
         }
     })
 }
+
+export function searchBlog(keyword) {
+    return axios({
+        method: "GET",
+        url: `${config.url}/Blog/search`,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        params: {
+            keyword: keyword,
+        },
+    })
+}

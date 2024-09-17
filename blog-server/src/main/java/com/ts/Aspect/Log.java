@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+
 @Aspect
 @Component
 @Slf4j
@@ -35,6 +37,7 @@ public class Log {
             logService.logRequest(Holder.getCurrentVisitor(), Holder.getAdmin(), joinPoint, end - start);
             return proceed;
         } catch (Throwable e) {
+            logService.logException(joinPoint, e);
             log.error("Method {} processing failed : {} ", joinPoint.getSignature().getName(),e.getMessage());
         }
         return null;

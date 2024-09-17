@@ -7,7 +7,8 @@ import BlogHeader from "@/components/BlogHeader.vue";
 import { getCategories } from "@/api/category.js";
 import store from "@/store/index.js";
 import { BarsOutlined } from "@ant-design/icons-vue";
-import {getBlogByCategory, getBlogList} from "@/api/blog.js";
+import {getBlogByCategory, getBlogList, searchBlog} from "@/api/blog.js";
+import {message} from "ant-design-vue";
 const searchText = ref('');
 const options = ref([]);
 const value = ref([0]);
@@ -16,6 +17,7 @@ const categoryName = ref('');
 const currentPage = ref(1);
 const pageSize = ref(5);
 const total = ref(0);
+const searchBlogList = ref([]);
 onMounted(async () => {
   await getBlogList(currentPage.value).then(res => {
     if (res.data.code === 200) {
@@ -80,6 +82,16 @@ const onPageChange =async (page, size) => {
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+const searchBlogs = async () => {
+  searchBlog(searchText.value).then(res => {
+    if (res.data.code === 200) {
+      console.log(res.data.data)
+      searchBlogList.value = res.data.data
+    }else {
+      message.error(res.data.message)
+    }
+  })
+};
 </script>
 <template>
   <div class="app">
@@ -87,6 +99,7 @@ const onPageChange =async (page, size) => {
     <Title title="Blog"></Title>
     <div class="blogContent page-main-container">
       <input class="searchInput" type="text" placeholder="Search..." v-model="searchText">
+<!--      <button @click="searchBlogs" class="searchBtn">搜索</button>-->
       <a-cascader v-model:value="value" :options="options" style="width: 250px;margin-top:1em;" :allowClear="false"
         :expandTrigger="'hover'" />
       <div class="blogCards">

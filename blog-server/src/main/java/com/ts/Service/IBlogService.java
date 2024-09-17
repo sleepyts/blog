@@ -17,4 +17,5 @@ public interface IBlogService extends IService<Blog> {
     Result getBlogContent(int id);
     Result getRandomBlog();
     Result getBlogByPageAndCategory(int page, Integer categoryId);
+    Result searchBlog(String keyword);
 }

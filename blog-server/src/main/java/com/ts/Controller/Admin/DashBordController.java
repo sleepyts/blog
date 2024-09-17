@@ -35,8 +35,8 @@ public class DashBordController {
         DashBoardVO dashboardVO = new DashBoardVO();
         dashboardVO.setBlogCount((int) blogService.count());
         dashboardVO.setCommentCount((int) commentService.count());
-        dashboardVO.setDailyPV(Math.toIntExact(redisTemplate.opsForValue().increment(PV_CACHE_KEY)));
-        dashboardVO.setDailyUV(Math.toIntExact(redisTemplate.opsForSet().size(UV_CACHE_KEY)));
+        dashboardVO.setDailyPV(Math.toIntExact(redisTemplate.opsForValue().increment(PV_CACHE_KEY, 0)));
+        dashboardVO.setDailyUV(Math.toIntExact(redisTemplate.opsForHyperLogLog().size(UV_CACHE_KEY)));
         dashboardVO.setTotalPV(uvpvMapper.getTotalPV());
         dashboardVO.setTotalUV(uvpvMapper.getTotalUV());
         return Result.success(dashboardVO);

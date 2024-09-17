@@ -52,7 +52,7 @@ public class RedisTask {
 
         // 保存当日UVPV
         UVPV uvpv = new UVPV();
-        Long uv = redisTemplate.opsForSet().size(UV_CACHE_KEY);
+        Long uv = redisTemplate.opsForHyperLogLog().size(UV_CACHE_KEY);
         String pv = redisTemplate.opsForValue().get(PV_CACHE_KEY);
         if (uv != null) {
             uvpv.setUv(uv.intValue());

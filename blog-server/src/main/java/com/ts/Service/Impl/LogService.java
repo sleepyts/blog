@@ -62,7 +62,7 @@ public class LogService implements IOperationLogService, IExceptionLogService {
                 @Override
                 public void log(String argsAndValue, Visitor visitor, Admin admin, JoinPoint joinPoint,
                         long requestTime ,long logTime) {
-                    log.info("Current admin:{}\nMethod:{}\nArgs:{}\nTime:{}ms\nLogTime:{}ms\n",
+                    log.info("\nCurrent admin:{}\nMethod:{}\nArgs:{}\nTime:{}ms\nLogTime:{}ms\n",
                             admin.getUsername(),
                             joinPoint.getSignature().getName(),
                             argsAndValue,
@@ -75,7 +75,7 @@ public class LogService implements IOperationLogService, IExceptionLogService {
                 @Override
                 public void log(String argsAndValue, Visitor visitor, Admin admin, JoinPoint joinPoint,
                         long requestTime,long logTime) {
-                    log.info("Current visitor:{}\nMethod:{}\nArgs:{}\nTime:{}ms\nLogTime:{}ms\n",
+                    log.info("\nCurrent visitor:{}\nMethod:{}\nArgs:{}\nTime:{}ms\nLogTime:{}ms\n",
                             visitor,
                             joinPoint.getSignature().getName(),
                             argsAndValue,
@@ -130,7 +130,7 @@ public class LogService implements IOperationLogService, IExceptionLogService {
                 bloomFilters.dailyAdd(ip);
 
                 // 增加UV
-                redisTemplate.opsForSet().add(UV_CACHE_KEY, ip);
+                redisTemplate.opsForHyperLogLog().add(UV_CACHE_KEY,ip);
             }
             // 判断是否已经存在该访客
             if (!bloomFilters.databaseContain(ip)) {
