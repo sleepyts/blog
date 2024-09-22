@@ -1,7 +1,8 @@
-package com.abin.mallchat.common.common.algorithm.sensitiveWord;
+package com.ts.algorithm.sensitiveWord;
 
-import com.abin.mallchat.common.common.algorithm.sensitiveWord.acpro.ACProTrie;
-import io.micrometer.core.instrument.util.StringUtils;
+
+import com.ts.algorithm.sensitiveWord.acpro.ACProTrie;
+import jodd.util.StringUtil;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +18,7 @@ public class ACProFilter implements SensitiveWordFilter{
 
     @Override
     public boolean hasSensitiveWord(String text) {
-        if(StringUtils.isBlank(text)) return false;
+        if(StringUtil.isBlank(text)) return false;
         return !Objects.equals(filter(text),text);
     }
 

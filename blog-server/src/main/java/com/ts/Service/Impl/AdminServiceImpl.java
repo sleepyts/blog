@@ -29,7 +29,6 @@ import java.util.concurrent.TimeUnit;
 import static com.ts.Constants.RedisConstants.ADMIN_LOGIN_EXPIRE_TIME;
 import static com.ts.Constants.RedisConstants.ADMIN_LOGIN_KEY;
 
-
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements IAdminService {
@@ -42,15 +41,15 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public Result login(Admin admin, HttpSession session) {
         String username = admin.getUsername();
         String password = admin.getPassword();
-        LambdaQueryWrapper<Admin> adminQueryWrapper= new LambdaQueryWrapper<Admin>()
-                .eq(Admin::getUsername,username)
-                .eq(Admin::getPassword,password);
+        LambdaQueryWrapper<Admin> adminQueryWrapper = new LambdaQueryWrapper<Admin>()
+                .eq(Admin::getUsername, username)
+                .eq(Admin::getPassword, password);
         Admin one = this.getOne(adminQueryWrapper);
-        if (one==null)
+        if (one == null)
             return Result.error("用户名或密码错误");
 
-        String token= jwtUtils.createToken(admin.getUsername());
-        redisService.set(ADMIN_LOGIN_KEY+username,token,ADMIN_LOGIN_EXPIRE_TIME);
+        String token = jwtUtils.createToken(admin.getUsername());
+        redisService.set(ADMIN_LOGIN_KEY, token, ADMIN_LOGIN_EXPIRE_TIME);
 
         return Result.success(token);
     }

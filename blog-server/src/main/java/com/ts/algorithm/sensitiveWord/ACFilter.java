@@ -1,20 +1,21 @@
-package com.abin.mallchat.common.common.algorithm.sensitiveWord;
+package com.ts.algorithm.sensitiveWord;
 
-import com.abin.mallchat.common.common.algorithm.sensitiveWord.ac.ACTrie;
-import com.abin.mallchat.common.common.algorithm.sensitiveWord.ac.MatchResult;
-import org.HdrHistogram.ConcurrentHistogram;
-import org.apache.commons.lang3.StringUtils;
+
+import com.ts.algorithm.sensitiveWord.ac.ACTrie;
+import com.ts.algorithm.sensitiveWord.ac.MatchResult;
+import jodd.util.StringUtil;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
 
 /**
  * 基于ac自动机实现的敏感词过滤工具类
- * 可以用来替代{@link ConcurrentHistogram}
  * 为了兼容提供了相同的api接口 {@code hasSensitiveWord}
  * <p>
  * Created by berg on 2023/6/18.
  */
+@Component
 public class ACFilter implements SensitiveWordFilter {
 
     private final static char mask_char = '*'; // 替代字符
@@ -28,7 +29,7 @@ public class ACFilter implements SensitiveWordFilter {
      * @return boolean
      */
     public boolean hasSensitiveWord(String text) {
-        if (StringUtils.isBlank(text)) return false;
+        if (StringUtil.isBlank(text)) return false;
         return !Objects.equals(filter(text), text);
     }
 
@@ -39,7 +40,7 @@ public class ACFilter implements SensitiveWordFilter {
      * @return 替换后的文本
      */
     public String filter(String text) {
-        if (StringUtils.isBlank(text)) return text;
+        if (StringUtil.isBlank(text)) return text;
         List<MatchResult> matchResults = ac_trie.matches(text);
         StringBuffer result = new StringBuffer(text);
         // matchResults是按照startIndex排序的，因此可以通过不断更新endIndex最大值的方式算出尚未被替代部分

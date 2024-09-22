@@ -1,8 +1,9 @@
-package com.abin.mallchat.common.sensitive.dao;
+package com.ts.algorithm.sensitiveWord.sensitive.dao;
 
-import com.abin.mallchat.common.sensitive.domain.SensitiveWord;
-import com.abin.mallchat.common.sensitive.mapper.SensitiveWordMapper;
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ts.algorithm.sensitiveWord.sensitive.domain.SensitiveWord;
+import com.ts.Mapper.SensitiveWordMapper;
 import org.springframework.stereotype.Service;
 
 /**

@@ -1,4 +1,4 @@
-package com.abin.mallchat.common.common.algorithm.sensitiveWord.acpro;
+package com.ts.algorithm.sensitiveWord.acpro;
 
 import java.util.*;
 

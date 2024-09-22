@@ -1,8 +1,8 @@
-package com.abin.mallchat.common.sensitive;
+package com.ts.algorithm.sensitiveWord.sensitive;
 
-import com.abin.mallchat.common.common.algorithm.sensitiveWord.IWordFactory;
-import com.abin.mallchat.common.sensitive.dao.SensitiveWordDao;
-import com.abin.mallchat.common.sensitive.domain.SensitiveWord;
+import com.ts.algorithm.sensitiveWord.sensitive.domain.SensitiveWord;
+import com.ts.algorithm.sensitiveWord.IWordFactory;
+import com.ts.algorithm.sensitiveWord.sensitive.dao.SensitiveWordDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

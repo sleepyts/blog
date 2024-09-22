@@ -3,6 +3,8 @@ package com.ts.interceptor;
 
 import com.ts.Model.Entity.Visitor;
 import com.ts.Utils.Holder;
+
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -14,6 +16,7 @@ public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
             Object handler) {
+        // 获取客户端IP
         String ip = getClientIp(request.getHeader("X-Forwarded-For"),
                 request.getHeader("X-Real-IP"),
                 request.getRemoteAddr());
@@ -25,7 +28,8 @@ public class UserInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            throws Exception {
         Holder.removeCurrentVisitor();
     }
 }

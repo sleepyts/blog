@@ -1,8 +1,9 @@
-package com.abin.mallchat.common.common.config;
+package com.ts.Config;
 
-import com.abin.mallchat.common.common.algorithm.sensitiveWord.DFAFilter;
-import com.abin.mallchat.common.common.algorithm.sensitiveWord.SensitiveWordBs;
-import com.abin.mallchat.common.sensitive.MyWordFactory;
+
+import com.ts.algorithm.sensitiveWord.DFAFilter;
+import com.ts.algorithm.sensitiveWord.SensitiveWordBs;
+import com.ts.algorithm.sensitiveWord.sensitive.MyWordFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

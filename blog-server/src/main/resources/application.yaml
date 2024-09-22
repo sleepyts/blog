@@ -3,7 +3,7 @@ spring:
   application:
     name: 未月拾叁
   datasource:
-    url: jdbc:mysql://localhost:3306/blog?useSSL=false
+    url: jdbc:mysql://localhost:3306/blog?useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -11,15 +11,13 @@ spring:
     default-property-inclusion: non_null # JSON处理时忽略非空字段
   data:
     redis:
-      host: 111.230.11.195
+      host: localhost
       port: 6379
-      password: 123456
 
 # mybatis-plus:
 #   configuration:
 #     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # 自定义配置
-
 
 config:
   redis:
@@ -34,4 +32,3 @@ config:
     index-url: https://www.tsukiyo.cn
   jwt:
     secret: dsfsadawdasdasdaasd
-

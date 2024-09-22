@@ -2,6 +2,8 @@ package com.ts.interceptor;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.extra.spring.SpringUtil;
+
+import com.google.common.base.Strings;
 import com.ts.Model.Entity.Admin;
 import com.ts.Utils.Holder;
 import com.ts.Utils.JwtUtils;
@@ -16,6 +18,7 @@ import static com.ts.Constants.RedisConstants.ADMIN_LOGIN_KEY;
 
 public class refreshTokenInterceptor implements HandlerInterceptor {
     private final StringRedisTemplate redisTemplate;
+
     public refreshTokenInterceptor(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
@@ -25,9 +28,13 @@ public class refreshTokenInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
         if (token == null)
             return true;
+        if (Strings.isNullOrEmpty(redisTemplate.opsForValue().get(ADMIN_LOGIN_KEY))) {
+            return true;
 
-        String username= SpringUtil.getBean(JwtUtils.class).getUserName(token);
-        if(username==null){
+        }
+
+        String username = SpringUtil.getBean(JwtUtils.class).getUserName(token);
+        if (username == null) {
             Holder.removeAdmin();
             return true;
         }

@@ -1,4 +1,4 @@
-package com.ts.algorithm.sensitiveWord.sensitive.mapper;
+package com.ts.Mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

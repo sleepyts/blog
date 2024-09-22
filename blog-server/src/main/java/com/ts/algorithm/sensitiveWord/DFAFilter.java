@@ -1,7 +1,8 @@
-package com.abin.mallchat.common.common.algorithm.sensitiveWord;
+package com.ts.algorithm.sensitiveWord;
 
-import org.apache.commons.lang3.StringUtils;
+import jodd.util.StringUtil;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,7 +47,7 @@ public final class DFAFilter implements SensitiveWordFilter {
      * @return true: 存在敏感词, false: 不存在敏感词
      */
     public boolean hasSensitiveWord(String text) {
-        if (StringUtils.isBlank(text)) return false;
+        if (StringUtil.isBlank(text)) return false;
         return !Objects.equals(filter(text), text);
     }
 
@@ -115,7 +116,7 @@ public final class DFAFilter implements SensitiveWordFilter {
      * @param word 词
      */
     public void loadWord(String word, Word root) {
-        if (StringUtils.isBlank(word)) {
+        if (StringUtil.isBlank(word)) {
             return;
         }
         Word current = root;

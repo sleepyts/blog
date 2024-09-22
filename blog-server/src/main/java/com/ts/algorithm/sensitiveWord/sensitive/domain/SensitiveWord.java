@@ -1,4 +1,4 @@
-package com.abin.mallchat.common.sensitive.domain;
+package com.ts.algorithm.sensitiveWord.sensitive.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("sensitive_word")
+@TableName("tb_sensitive_word")
 public class SensitiveWord {
     private String word;
 }

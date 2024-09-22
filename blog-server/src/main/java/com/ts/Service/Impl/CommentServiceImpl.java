@@ -15,6 +15,9 @@ import com.ts.Model.VO.PageVO;
 import com.ts.Service.ICommentService;
 import com.ts.Utils.RegexUtil;
 import com.ts.Utils.VerifyUtil;
+import com.ts.algorithm.sensitiveWord.ACFilter;
+import com.ts.algorithm.sensitiveWord.SensitiveWordBs;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.Cursor;
@@ -40,7 +43,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private StringRedisTemplate redisTemplate;
     @Autowired
     private GlobalConfig globalConfig;
-
+    @Autowired
+    private SensitiveWordBs sensitiveWordBs;
     /**
      * 添加评论
      *
@@ -51,6 +55,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     @RequestLog
     public Result addComment(CommentDTO commentDTO) {
+        if(sensitiveWordBs.hasSensitiveWord(commentDTO.getContent()))
+            return Result.error("内容含有敏感词");
         // 进行验证码校验
         int ok = VerifyUtil.verify(commentDTO.getVerify(), redisTemplate);
 

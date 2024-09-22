@@ -39,8 +39,11 @@ onMounted(async () => {
         id="randomColorLink">{{ props.comment.name }}</a>
       <span v-else class="name">{{ props.comment.name }}</span>
       <span style="margin-left: 10px;">{{ time }}</span>
-      <span v-if="props.comment.isAdmin " style="margin-left: 10px;border-radius: 5px;padding: 2px 5px;background-color: darkseagreen;color: #fff;font-size: 0.8em;"> (站长)</span>
-      <span style="font-size: 0.8em;margin-left: auto;">{{ props.comment.replyList.length }}条回复</span>
+      <span v-if="props.comment.isAdmin"
+        style="margin-left: 10px;border-radius: 5px;padding: 2px 5px;background-color: darkseagreen;color: #fff;font-size: 0.8em;">
+        (站长)</span>
+      <span v-if="props.comment.replyList && props.comment.replyList.length > 0"
+        style="font-size: 0.8em;margin-left: auto;">{{ props.comment.replyList.length }}条回复</span>
       <a-button size="small" style="margin-left: 10px;" @click="handleReply">回复</a-button>
     </div>
     <MdPreview :model-value="props.comment.content" :preview-theme="'github'"></MdPreview>
@@ -48,7 +51,7 @@ onMounted(async () => {
       <Reply :blog-id="-1"></Reply>
     </div>
     <div style="width: 100%;">
-      <div v-for="reply in props.comment.replyList" class="reply-item">
+      <div v-if="props.comment.replyList" v-for="reply in props.comment.replyList" class="reply-item">
         <ReplyCard :is-first=true :reply-name="props.comment.name" :comment="reply"></ReplyCard>
       </div>
     </div>
