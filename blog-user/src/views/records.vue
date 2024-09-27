@@ -12,7 +12,7 @@
           <timeline-item v-for="record in recordList.recordList" :key="record.id" :date="record.date"
             class="timeline-item">
             <div>
-              {{ record.date.slice(5) }}
+              {{ record.createTime.slice(5, 10) }}
             </div>
             <div class="link-item">
               <a @click="[router.push('/Blog/' + record.blogId), store().commit('SET_BLOG', record.blogId)]"

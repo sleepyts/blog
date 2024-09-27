@@ -10,17 +10,20 @@ import java.util.Locale;
 /**
  * Util class for LocalDate operations.
  */
+@Deprecated
 public class LocalDateUtil {
     public static final String BLOG_CARD_DATE_FORMAT = "MMMM dd, YYYY";
     public static final String COMMENT_DATE_FORMAT = "yyyy-MM-dd";
 
     /**
-     * Transform LocalDate to String with specified format. Example: "2021-08-01" to "Aug 1, 2021"
-     * @param date date to be transformed
+     * Transform LocalDate to String with specified format. Example: "2021-08-01" to
+     * "Aug 1, 2021"
+     * 
+     * @param date   date to be transformed
      * @param format format of the output string
      * @return transformed string
      */
-    public static String transfromDate(LocalDate date, String format){
+    public static String transfromDate(LocalDate date, String format) {
         // 创建一个自定义的日期格式，指定为英文语言环境
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format, Locale.ENGLISH);
 
@@ -29,7 +32,9 @@ public class LocalDateUtil {
     }
 
     /**
-     * Transform comment time to relative time. Example: "2021-08-01 10:00:00" to "2 days ago"
+     * Transform comment time to relative time. Example: "2021-08-01 10:00:00" to "2
+     * days ago"
+     * 
      * @param commentTime comment time to be transformed
      * @return transformed string
      * 
@@ -44,7 +49,7 @@ public class LocalDateUtil {
         long days = hours / 24;
 
         if (days > 0) {
-            if(days>6)
+            if (days > 6)
                 return transfromDate(commentTime.atZone(ZoneId.systemDefault()).toLocalDate(),
                         COMMENT_DATE_FORMAT);
             return days + "天前";

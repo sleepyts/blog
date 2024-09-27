@@ -6,7 +6,6 @@ export function getMoment(currentPage, size) {
     url: `/api/moment`,
     params: {
       page: currentPage,
-      size: size,
     },
   });
 }

@@ -1,6 +1,5 @@
 package com.ts.Config;
 
-
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,10 +11,12 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
-@EnableAsync(proxyTargetClass=true)
+@EnableAsync(proxyTargetClass = true)
 public class AsyncConfig implements AsyncConfigurer {
     @Autowired
     private GlobalConfig globalConfig;
@@ -25,18 +26,19 @@ public class AsyncConfig implements AsyncConfigurer {
         return taskExecutor();
     }
 
-    @Bean(name="taskExecutor")
+    @Bean(name = "taskExecutor")
     @Primary
-    public Executor taskExecutor(){
-        ThreadPoolTaskExecutor executor= globalConfig.getEnv().equals("dev")?devThreadPoolExecutor():onlineThreadPoolExecutor();
+    public Executor taskExecutor() {
+        ThreadPoolTaskExecutor executor = globalConfig.getEnv().equals("dev") ? devThreadPoolExecutor()
+                : onlineThreadPoolExecutor();
         executor.initialize();
         return executor;
     }
 
-    private ThreadPoolTaskExecutor devThreadPoolExecutor(){
-        ThreadPoolTaskExecutor executor=new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(4);
-        executor.setMaxPoolSize(10);
+    private ThreadPoolTaskExecutor devThreadPoolExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(32);
+        executor.setMaxPoolSize(64);
         executor.setQueueCapacity(500);
         executor.setThreadNamePrefix("MyThreadTask-");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
@@ -44,8 +46,8 @@ public class AsyncConfig implements AsyncConfigurer {
         return executor;
     }
 
-    private ThreadPoolTaskExecutor onlineThreadPoolExecutor(){
-        ThreadPoolTaskExecutor executor=new ThreadPoolTaskExecutor();
+    private ThreadPoolTaskExecutor onlineThreadPoolExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(4);
         executor.setMaxPoolSize(20);
         executor.setQueueCapacity(200);
