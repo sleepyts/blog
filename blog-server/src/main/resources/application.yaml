@@ -13,6 +13,11 @@ spring:
     redis:
       host: localhost
       port: 6379
+  rabbitmq:
+    host: 8.136.110.151
+    port: 5672
+    username: guest
+    password: guest
 
 # mybatis-plus:
 #   configuration:

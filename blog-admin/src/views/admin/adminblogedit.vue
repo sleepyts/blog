@@ -3,20 +3,16 @@
     <a-form-item label="文章标题" required>
       <a-input v-model:value="editForm.title" placeholder="Please enter title" />
     </a-form-item>
-    <a-form-item label="文章封面URL" >
+    <a-form-item label="文章封面URL">
       <a-input v-model:value="editForm.img" placeholder="Please enter image URL" />
     </a-form-item>
     <a-form-item label="文章类别">
-      <a-cascader v-model:value="value"
-                  :options="options"
-                  placeholder="类别"
-                  :allowClear="false"
-      />
+      <a-cascader v-model:value="value" :options="options" placeholder="类别" :allowClear="false" />
     </a-form-item>
     <a-form-item label="文章简介">
       <a-textarea v-model:value="editForm.description" placeholder="Please enter description" />
     </a-form-item>
-    <MdEditor v-model="text" @onUploadImg="onUploadImg" :preview-theme="'vuepress'"/>
+    <MdEditor v-model="editForm.content" @onUploadImg="onUploadImg" :preview-theme="'vuepress'" />
     <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
       <a-button type="primary" @click="onSubmit">提交</a-button>
       <a-button style="margin-left: 8px;" href="https://image.tsukiyo.cn" target="_blank">去传图片</a-button>
@@ -24,26 +20,26 @@
   </a-form>
 </template>
 <script setup>
-import {onMounted, ref, toRaw, watch} from 'vue';
-import {message} from "ant-design-vue";
-import {MdEditor} from 'md-editor-v3';
+import { onMounted, ref, toRaw, watch } from 'vue';
+import { message } from "ant-design-vue";
+import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import {getCategories} from "@/api/category.js";
-import {onRequestPost} from "@/api/upload-2.0.js";
-import {getBlogContent, updateBlog} from "@/api/blog.js";
+import { getCategories } from "@/api/category.js";
+import { onRequestPost } from "@/api/upload-2.0.js";
+import { getBlogContent, updateBlog } from "@/api/blog.js";
 
 const onUploadImg = async (files, callback) => {
   const res = await Promise.all(
-      files.map((file) => {
-        return new Promise((rev, rej) => {
-          const form = new FormData();
-          form.append('file', file);
+    files.map((file) => {
+      return new Promise((rev, rej) => {
+        const form = new FormData();
+        form.append('file', file);
 
-          onRequestPost(form)
-              .then((res) => rev(res))
-              .catch((error) => rej(error));
-        });
-      })
+        onRequestPost(form)
+          .then((res) => rev(res))
+          .catch((error) => rej(error));
+      });
+    })
   );
   // 方式一
   callback(res.map((item) => item.url));
@@ -57,7 +53,7 @@ const onUploadImg = async (files, callback) => {
   //   }))
   // );
 };
-const props =defineProps({
+const props = defineProps({
   editForm: {
     type: Object,
     default: () => ({})
@@ -65,9 +61,8 @@ const props =defineProps({
 })
 const text = ref('');
 const onSubmit = () => {
-  props.editForm.content = text.value;
   updateBlog(props.editForm).then(res => {
-    if(res.data.code === 200) {
+    if (res.data.code === 200) {
       message.success('文章编辑成功！');
     }
   })
@@ -92,11 +87,6 @@ onMounted(async () => {
         })
       }
       // console.log(options.value)
-    }
-  });
-  await getBlogContent(props.editForm.id).then(res => {
-    if (res.data.code === 200) {
-      text.value = res.data.data;
     }
   });
   const p = options.value.find(item => item.label === props.editForm.categoryName);

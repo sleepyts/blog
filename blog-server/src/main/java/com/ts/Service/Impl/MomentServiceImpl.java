@@ -128,6 +128,7 @@ public class MomentServiceImpl implements MomentService {
     }
 
     @Override
+    @RequestLog
     public Result likeMoment(int id) {
         String ip = Holder.getCurrentVisitor().getIp();
         if (!redisTemplate.hasKey(MOMENT_LIKE_KEY + ":" + id)) {

@@ -64,6 +64,10 @@
             <FormOutlined />
             <span>日志文件</span>
           </a-menu-item>
+          <a-menu-item key="3-4" @click="$router.push('/log/visitorLog')">
+            <FormOutlined />
+            <span>用户操作</span>
+          </a-menu-item>
         </a-sub-menu>
         <a-menu-item key="4" @click="$router.push('/app')">
           <span>应用管理</span>

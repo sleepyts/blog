@@ -4,6 +4,7 @@ import com.ts.Mapper.ExceptionLogMapper;
 import com.ts.Mapper.OperationLogMapper;
 import com.ts.Mapper.VisitorMapper;
 import com.ts.Model.Entity.*;
+import com.ts.Mq.OperationLogProducer;
 import com.ts.Service.IExceptionLogService;
 import com.ts.Service.IOperationLogService;
 import com.ts.Utils.BloomFilters;
@@ -22,6 +23,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -75,13 +78,18 @@ public class LogService implements IOperationLogService, IExceptionLogService {
                 @Override
                 public void log(String argsAndValue, Visitor visitor, Admin admin, JoinPoint joinPoint,
                         long requestTime,long logTime) {
-                    log.info("\nCurrent visitor:{}\nMethod:{}\nArgs:{}\nTime:{}ms\nLogTime:{}ms\n",
-                            visitor,
+                    TaskLog taskLog=new TaskLog(
+                            null,
+                            visitor.getIp(),
+                            visitor.getAddress(),
                             joinPoint.getSignature().getName(),
                             argsAndValue,
-                            requestTime,
-                            logTime
+                            getOSInfo(visitor.getUserAgent()),
+                            getBrowserInfo(visitor.getUserAgent()),
+                            (int)requestTime,
+                            null
                     );
+                    OperationLogProducer.sendMessage(taskLog);
                 }
             };
 
@@ -112,13 +120,6 @@ public class LogService implements IOperationLogService, IExceptionLogService {
         if (admin != null
                 && !Objects.equals(joinPoint.getSignature().getName(), "login")
                 && !Objects.equals(joinPoint.getSignature().getName(), "deleteOperationLogById")) {
-
-            OperationLog operationLog = new OperationLog();
-            operationLog.setOperationTime(LocalDateTime.now());
-            operationLog.setUserName(admin.getUsername());
-            operationLog.setMethodName(joinPoint.getSignature().getName());
-            saveOperationLog(operationLog);
-
             LogStrategy.Admin.log(argsNameAndValue, visitor, admin, joinPoint, requestTime, System.currentTimeMillis()-logStartTime);
             return;
         }
@@ -151,7 +152,94 @@ public class LogService implements IOperationLogService, IExceptionLogService {
         }
 
     }
+    public static String getBrowserInfo(String userAgent) {
+        // 定义一个正则表达式模式
+        String chromePattern = "Chrome/(\\d+\\.\\d+\\.\\d+\\.\\d+)";
+        String firefoxPattern = "Firefox/(\\d+\\.\\d+)";
+        String safariPattern = "Version/(\\d+\\.\\d+) Safari/";
+        String edgePattern = "Edg/(\\d+\\.\\d+\\.\\d+)";
+        String iePattern = "MSIE (\\d+\\.\\d+)|(Trident.*rv:(\\d+\\.\\d+))";
 
+        String browserInfo = "Unknown Browser";
+
+        // 检查 Chrome
+        Matcher chromeMatcher = Pattern.compile(chromePattern).matcher(userAgent);
+        if (chromeMatcher.find()) {
+            return "Chrome " + chromeMatcher.group(1);
+        }
+
+        // 检查 Firefox
+        Matcher firefoxMatcher = Pattern.compile(firefoxPattern).matcher(userAgent);
+        if (firefoxMatcher.find()) {
+            return "Firefox " + firefoxMatcher.group(1);
+        }
+
+        // 检查 Safari
+        Matcher safariMatcher = Pattern.compile(safariPattern).matcher(userAgent);
+        if (safariMatcher.find()) {
+            return "Safari " + safariMatcher.group(1);
+        }
+
+        // 检查 Edge
+        Matcher edgeMatcher = Pattern.compile(edgePattern).matcher(userAgent);
+        if (edgeMatcher.find()) {
+            return "Edge " + edgeMatcher.group(1);
+        }
+
+        // 检查 IE
+        Matcher ieMatcher = Pattern.compile(iePattern).matcher(userAgent);
+        if (ieMatcher.find()) {
+            if (ieMatcher.group(1) != null) {
+                return "Internet Explorer " + ieMatcher.group(1);
+            } else {
+                return "Internet Explorer " + ieMatcher.group(3);
+            }
+        }
+
+        return browserInfo;
+    }
+    public static String getOSInfo(String userAgent) {
+        // 定义一个正则表达式模式
+        String windowsPattern = "Windows NT (\\d+\\.\\d+)";
+        String macPattern = "Mac OS X (\\d+[._\\d]*)";
+        String linuxPattern = "Linux";
+        String androidPattern = "Android (\\d+\\.\\d+)";
+        String iosPattern = "iPhone OS (\\d+_[\\d_]*)";
+
+        // 使用正则表达式查找操作系统
+        String osInfo = "Unknown OS";
+
+        // 检查 Windows
+        Matcher windowsMatcher = Pattern.compile(windowsPattern).matcher(userAgent);
+        if (windowsMatcher.find()) {
+            return "Windows " + windowsMatcher.group(1);
+        }
+
+        // 检查 macOS
+        Matcher macMatcher = Pattern.compile(macPattern).matcher(userAgent);
+        if (macMatcher.find()) {
+            return "Macintosh " + macMatcher.group(1).replace('_', '.');
+        }
+
+        // 检查 Linux
+        if (userAgent.contains("Linux")) {
+            return "Linux";
+        }
+
+        // 检查 Android
+        Matcher androidMatcher = Pattern.compile(androidPattern).matcher(userAgent);
+        if (androidMatcher.find()) {
+            return "Android " + androidMatcher.group(1);
+        }
+
+        // 检查 iOS
+        Matcher iosMatcher = Pattern.compile(iosPattern).matcher(userAgent);
+        if (iosMatcher.find()) {
+            return "iOS " + iosMatcher.group(1).replace('_', '.');
+        }
+
+        return osInfo;
+    }
     @Async
     public void logException(JoinPoint joinPoint, Throwable error) {
         String methodName = joinPoint.getSignature().getName();

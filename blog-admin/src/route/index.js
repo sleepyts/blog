@@ -85,6 +85,14 @@ const routes = [
         },
       },
       {
+        path: "log/visitorLog",
+        name: "AdminVisitorLog",
+        component: () => import("../views/admin/VisitorTaskLog.vue"),
+        meta: {
+          title: "用户操作",
+        },
+      },
+      {
         path: "app",
         name: "AdminApp",
         component: () => import("../views/admin/adminapp.vue"),

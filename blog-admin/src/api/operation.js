@@ -24,3 +24,14 @@ export function getLogFile() {
     method: "GET",
   });
 }
+
+export function getVisitorLog(page,pageSize){
+  return myAxios({
+    url: "/api/admin/operation/tasklog",
+    method: "GET",
+    params:{
+      page: page,
+      pageSize: pageSize
+    }
+  });
+}
