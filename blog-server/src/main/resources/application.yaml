@@ -37,3 +37,5 @@ config:
     index-url: https://www.tsukiyo.cn
   jwt:
     secret: dsfsadawdasdasdaasd
+  github:
+    secret: asdkjalskjdlkasjlk
