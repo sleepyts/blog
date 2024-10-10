@@ -31,8 +31,7 @@ import javax.crypto.spec.SecretKeySpec;
 @Slf4j
 public class GithubWebHookController {
 
-    @Value("${config.github.secret}")
-    private static String gitHubSecret;
+    private static String gitHubSecret="asdkjalskjdlkasjlk";
 
     @PostMapping("/webhook")
     public ResponseEntity<String> receiveGithubPush(@RequestBody String payload,
@@ -47,7 +46,7 @@ public class GithubWebHookController {
             log.info("Signature verified successfully.");
 
             // 执行 git pull
-            ProcessBuilder gitPull = new ProcessBuilder("git", "pull");
+            ProcessBuilder gitPull = new ProcessBuilder("/usr/bin/git", "pull");
             gitPull.directory(new java.io.File("/root/java/blog")); // 指定仓库路径
             Process process = gitPull.start();
 
@@ -59,10 +58,6 @@ public class GithubWebHookController {
             }
             process.waitFor();
 
-            // 执行自定义命令
-            ProcessBuilder customCommand = new ProcessBuilder("echo", "ok");
-            Process customProcess = customCommand.start();
-            customProcess.waitFor();
 
         } catch (Exception e) {
             log.error("Failed to process webhook", e);
