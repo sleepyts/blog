@@ -1,9 +1,11 @@
 <template>
   <div class="container">
     <div class="page-main-container header ">
-      <div v-for="(item, index) in menuItems" :key="index" class="head-btn" :class="{ active: index === activeIndex }"
+      <div v-for="(item, index) in menuItems"
+           :key="index" class="head-btn"
+           :class="{ active: index === activeIndex }"
         @click="handleClick(item, index)">
-        <button class="btn" :class="{ active: index === activeIndex }" v-if="!isMobile()">
+        <button class="btn" :class="{ active: index === activeIndex }">
           {{ item }}
         </button>
       </div>
@@ -77,6 +79,7 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   height: 100%;
+
 }
 
 .btn {

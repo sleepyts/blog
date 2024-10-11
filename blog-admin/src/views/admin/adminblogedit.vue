@@ -27,6 +27,7 @@ import 'md-editor-v3/lib/style.css';
 import { getCategories } from "@/api/category.js";
 import { onRequestPost } from "@/api/upload-2.0.js";
 import { getBlogContent, updateBlog } from "@/api/blog.js";
+import myAxios from "@/utils/myAxios.js";
 
 const onUploadImg = async (files, callback) => {
   const res = await Promise.all(
@@ -78,6 +79,11 @@ const wrapperCol = {
 const options = ref([]);
 const value = ref([]);
 onMounted(async () => {
+  await getBlogContent(props.editForm.id).then(res =>{
+    if (res.data.code===200){
+      props.editForm.content=res.data.data;
+    }
+  })
   await getCategories().then(res => {
     if (res.data.code === 200) {
       for (let i = 0; i < res.data.data.length; i++) {
