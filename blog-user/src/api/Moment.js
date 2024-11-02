@@ -1,11 +1,14 @@
 import axios from "axios";
 
-export function getMoment(currentPage, size) {
+export function getMoment(page, size) {
   return axios({
     method: "GET",
     url: `/api/moment`,
+    headers: {
+      "Content-Type": "application/json",
+    },
     params: {
-      page: currentPage,
+      page: page,
       size: size,
     },
   });

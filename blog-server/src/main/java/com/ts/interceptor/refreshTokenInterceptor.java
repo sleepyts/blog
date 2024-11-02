@@ -1,8 +1,6 @@
 package com.ts.interceptor;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.extra.spring.SpringUtil;
-
 import com.google.common.base.Strings;
 import com.ts.Model.Entity.Admin;
 import com.ts.Utils.Holder;
@@ -11,8 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
-
-import java.util.Map;
 
 import static com.ts.Constants.RedisConstants.ADMIN_LOGIN_KEY;
 

@@ -39,3 +39,6 @@ config:
     secret: dsfsadawdasdasdaasd
   github:
     secret: asdkjalskjdlkasjlk
+  coze:
+    token: Bearer pat_ikKOyCbNg2GiAusy15vd0zmvKoGPrTXjfjKE09qSLPHFaS1LCHpXFPP9Dpg69Dkb
+    aiId: 7430046417022009384

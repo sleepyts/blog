@@ -2,7 +2,6 @@ package com.ts.algorithm.sensitiveWord;
 
 import jodd.util.StringUtil;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

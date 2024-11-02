@@ -93,10 +93,7 @@ public class LogService implements IOperationLogService, IExceptionLogService {
                 }
             };
 
-            public void log(String argsAndValue, com.ts.Model.Entity.Visitor visitor, com.ts.Model.Entity.Admin admin,
-                    JoinPoint joinPoint, long requestTime,long logTime) {
-                log.error("无效策略");
-            }
+            abstract public void log(String argsAndValue, com.ts.Model.Entity.Visitor visitor, com.ts.Model.Entity.Admin admin,JoinPoint joinPoint, long requestTime,long logTime);
         }
 
         // 拼装参数
@@ -220,9 +217,9 @@ public class LogService implements IOperationLogService, IExceptionLogService {
         if (macMatcher.find()) {
             return "Macintosh " + macMatcher.group(1).replace('_', '.');
         }
-
+        Matcher linuxMatcher = Pattern.compile(linuxPattern).matcher(userAgent);
         // 检查 Linux
-        if (userAgent.contains("Linux")) {
+        if (linuxMatcher.find()) {
             return "Linux";
         }
 

@@ -29,7 +29,6 @@ public class CacheAspect {
 
     @Around("cacheablePointcut()")
     public Result cacheableAround(ProceedingJoinPoint joinPoint) throws Throwable {
-        long start = System.currentTimeMillis();
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Cacheable cacheable = signature.getMethod().getAnnotation(Cacheable.class);
         Object[] args = joinPoint.getArgs();

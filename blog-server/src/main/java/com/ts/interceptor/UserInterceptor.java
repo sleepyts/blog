@@ -3,8 +3,6 @@ package com.ts.interceptor;
 
 import com.ts.Model.Entity.Visitor;
 import com.ts.Utils.Holder;
-
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;

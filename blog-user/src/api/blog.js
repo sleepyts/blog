@@ -84,6 +84,7 @@ export function getBlogDetail(id) {
         },
     })
 }
+
 export function getRandomBlog() {
     return axios({
         method: "GET",

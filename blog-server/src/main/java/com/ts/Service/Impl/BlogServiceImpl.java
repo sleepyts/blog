@@ -17,6 +17,7 @@ import com.ts.Service.IBlogService;
 import com.ts.Service.ICommentService;
 import com.ts.Service.IRecordService;
 import com.ts.Service.RedisService;
+import com.ts.Utils.CozeAiUtil;
 import com.ts.Utils.LocalDateUtil;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -24,7 +25,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -48,7 +48,8 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
     private BlogMapper blogMapper;
     @Autowired
     private RedissonClient redissonClient;
-
+    @Autowired
+    private CozeAiUtil cozeAiUtil;
     /*
      * 查询博客列表
      * return Result<List<BlogVO>>
@@ -260,9 +261,9 @@ class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogServ
         return Result.success();
     }
 
-    /*
+    /**
      * 分页查询博客列表
-     * @param page 页码
+     * @param current 页码
      * @param size 页容量
      * @return Result<List<BlogVO>>
      */

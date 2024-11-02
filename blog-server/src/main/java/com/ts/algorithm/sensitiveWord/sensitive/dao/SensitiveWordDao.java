@@ -2,8 +2,8 @@ package com.ts.algorithm.sensitiveWord.sensitive.dao;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ts.algorithm.sensitiveWord.sensitive.domain.SensitiveWord;
 import com.ts.Mapper.SensitiveWordMapper;
+import com.ts.algorithm.sensitiveWord.sensitive.domain.SensitiveWord;
 import org.springframework.stereotype.Service;
 
 /**

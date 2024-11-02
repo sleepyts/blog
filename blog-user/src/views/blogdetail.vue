@@ -14,7 +14,6 @@ onMounted(() => {
     <blog-header></blog-header>
     <div class="mt-5 cont page-main-container">
       <Detail></Detail>
-
     </div>
     <Guest :blog-id=Number(store().state.blogId)></Guest>
     <Comments :blog-id=Number(store().state.blogId) class="mt-5"></Comments>

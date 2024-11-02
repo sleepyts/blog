@@ -1,8 +1,8 @@
 package com.ts.algorithm.sensitiveWord.sensitive;
 
-import com.ts.algorithm.sensitiveWord.sensitive.domain.SensitiveWord;
 import com.ts.algorithm.sensitiveWord.IWordFactory;
 import com.ts.algorithm.sensitiveWord.sensitive.dao.SensitiveWordDao;
+import com.ts.algorithm.sensitiveWord.sensitive.domain.SensitiveWord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

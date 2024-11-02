@@ -18,6 +18,7 @@ public class BlogDetailVO implements java.io.Serializable{
     private String title;
     private String content;
     private String categoryName;
+    private String Abbreviation;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }
