@@ -30,7 +30,6 @@ ADD ${JAR_FILE} ./bili.jar
 # -Dspring.profiles.active=online 启动时激活的配置文件，这里是online模式
 # -Dspring.config.location=/usr/local/java/application.yaml,
 # /usr/local/java/application-online.yaml 指定配置文件的路径，这里是application.yaml和application-online.yaml
-# -jar /usr/local/java/bili.jar 启动的jar包路径
-ENTRYPOINT ["nohup", "java", "-Dspring.profiles.active=online", "-Dspring.config.location=/root/java/application.yaml,/root/java/application-online.yaml", "-jar", "/root/java/bili.jar"]
+ENTRYPOINT ["nohup", "java", "-Dspring.profiles.active=online", "-Dspring.config.location=/root/java/application.yaml,/root/java/application-online.yaml", "-jar", "/root/java/server.jar"]
 
 

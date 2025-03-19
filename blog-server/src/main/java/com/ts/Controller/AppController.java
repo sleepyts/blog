@@ -16,17 +16,17 @@ public class AppController {
     private IAppService appService;
 
     @GetMapping("/app")
-    public Result getApps(){
+    public Result getApps() {
         return appService.getApps();
     }
 
     @PostMapping("/admin/app")
-    public Result addApps(@RequestBody App app){
+    public Result addApps(@RequestBody App app) {
         return appService.addApp(app);
     }
 
     @DeleteMapping("/admin/app/{id}")
-    public Result deleteApp(@PathVariable("id") Long id){
+    public Result deleteApp(@PathVariable("id") Long id) {
         return appService.deleteApp(id);
     }
 

@@ -1,8 +1,10 @@
 package com.ts.Service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ts.Annotation.RequestLog;
 import com.ts.Mapper.VisitorMapper;
 import com.ts.Model.Entity.Result;
+import com.ts.Model.Entity.Visitor;
 import com.ts.Service.VisitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,9 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Override
     public Result getVisitor() {
-        return Result.success(visitorMapper.selectList(null));
+        LambdaQueryWrapper<Visitor> visitorLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        visitorLambdaQueryWrapper.orderBy(true, false, Visitor::getLastVisitTime);
+        return Result.success(visitorMapper.selectList(visitorLambdaQueryWrapper));
     }
 
     @Override

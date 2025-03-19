@@ -41,6 +41,7 @@ public class Log {
         return null;
     }
 
+
     // 异常通知：在目标方法抛出异常后执行
     @AfterThrowing(pointcut = "execution(* com.ts.Controller..*.*(..))", throwing = "error")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable error) {

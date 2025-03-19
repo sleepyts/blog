@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 @EnableScheduling
-public class test1111Application {
+public class Main {
 
     public static void main(String[] args) {
-        SpringApplication.run(test1111Application.class, args);
+        SpringApplication.run(Main.class, args);
     }
 }
