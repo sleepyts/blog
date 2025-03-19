@@ -152,34 +152,13 @@
 
     </dependencies>
     <build>
-        <finalName>bili</finalName>
+        <finalName>server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.ts.test1111Application</mainClass>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <configuration>
-                    <!-- 远程Docker的地址 -->
-                    <dockerHost>http://101.201.29.70:2375</dockerHost>
-                    <!-- 镜像名称、前缀、项目名 -->
-                    <imageName>bili:latest</imageName>
-                    <!-- Dockerfile的位置 -->
-                    <dockerDirectory>usr/local/java/</dockerDirectory>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <!-- 表示的target文件夹 -->
-                            <directory>${project.build.directory}</directory>
-                            <!-- 表示打出来的JAR包-->
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
+                    <mainClass>com.ts.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>

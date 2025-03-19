@@ -1,0 +1,43 @@
+server.port: 8080
+spring:
+  application:
+    name: ${INDEX_NAME}
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}//blog?useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    default-property-inclusion: non_null # JSON处理时忽略非空字段
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+# mybatis-plus:
+#   configuration:
+#     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# 自定义配置
+
+config:
+  redis:
+    redisDeleteDelay: ${REDIS_DELETE_DELAY}
+  ipXbd:
+    path: ${IP_XBD_PATH}
+  log:
+    path: ${LOG_PATH}
+  global:
+    env: ${ENV}
+    index-name: ${INDEX_NAME}
+    index-url: ${INDEX_URL}
+  jwt:
+    secret: ${JWT_SECRET}
+  github:
+    secret: ${GITHUB_SECRET}
+  coze:
+    token: ${COZE_TOKEN}
+    aiId: ${COZE_AI_ID}

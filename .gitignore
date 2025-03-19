@@ -22,3 +22,4 @@ blog-admin/volar.config.js
 blog-admin/jsconfig.json
 blog-admin/.eslintrc.js
 blog-server/blog-server.jar
+/blog-server/src/main/resources/application.yaml
